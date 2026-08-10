@@ -5,13 +5,15 @@ const { Sequelize } = require("sequelize");
 // const jwt = require("jsonwebtoken");
 // const bcrypt = require("bcrypt");
 require("dotenv").config();
+const sequelize = require("./connection.js");
 
 //creates a signed cookie that prevents client-side tampering; if the value is changed, the server will detect the signature mismatch and reject it.
 // const cookieParser = require("cookie-parser");
 const app = express();
 const PORT = process.env.PORT; // Define a port number
+const menuItems = require("./models/menuItem.js");
 // var refreshTokensArr = getRefreshTokens();
-// const userRoutes = require("./public/routes/userRoutes.js");
+ const userRoutes = require("./routes/userRoutes.js");
 // const menuItems = require("./public/models/menuItems.js");
 // const {
 //   attribute,
@@ -26,25 +28,12 @@ app.use(express.json());
 // app.use(express.json());
 // app.use(cookieParser());
 
-// app.use("/users", userRoutes);
+ app.use("/api", userRoutes);
 
 // app.use((req, res) => {
 //   res.status(404).sendFile(path.join(__dirname, "public/views/404.html"));
 // });
 
-const sequelize = new Sequelize({
-  dialect: "mssql",
-  // Directs Sequelize to use msnodesqlv8 instead of tedious
-  dialectModule: require("msnodesqlv8/lib/sequelize"),
-  host: "localhost",
-  database: process.env.DB_NAME,
-  dialectOptions: {
-    options: {
-      instanceName: "SQLEXPRESS", // Targets the \SQLEXPRESS instance
-      encrypt: false, // Disables encryption for the connection
-    },
-  },
-});
 
 app.get("/api/test", (req, res) => {
   res.json({ message: "Node and Sequelize are connected!" });
