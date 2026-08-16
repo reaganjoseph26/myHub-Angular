@@ -1,7 +1,7 @@
 <div class="login-wrapper">
+  <h1>DevHub</h1>
   <form [formGroup]="loginForm" (submit)="submitLoginForm()">
     <div class="form-control-wrapper">
-      <label for="username">Username</label>
       <input
         type="text"
         id="username"
@@ -16,7 +16,6 @@
     </div>
 
     <div class="form-control-wrapper">
-      <label for="password">Password</label>
       <input
         type="text"
         id="password"
@@ -29,16 +28,25 @@
       <span class="error">Field is required.</span>
       }
     </div>
-    <!-- 
-        <div class="options">
-              <label><input type="checkbox" name="remember" /> Remember me</label>
-              <a href="#">Forgot password?</a>
-            </div> -->
+
+    <div class="options">
+      <div class="rememberMe-wrapper">
+        <input
+          type="checkbox"
+          id="rememberMe"
+          [checked]="isChecked"
+          (change)="isChecked = $event.target.checked"
+        />
+        Remember Me
+      </div>
+
+      <a href="#">Forgot password?</a>
+    </div>
 
     <div class="guest-link">
       <a href="#">Continue as guest</a>
     </div>
 
-    <button type="submit" [disabled]="loginForm.invalid">Log In</button>
+    <button class="submit-btn" type="submit" [disabled]="loginForm.invalid">Log In</button>
   </form>
 </div>

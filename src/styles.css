@@ -4,3 +4,10 @@
     --color: #000000;
     --activeColor: #0aca4a;
 }
+
+body {
+    height: 100dvh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

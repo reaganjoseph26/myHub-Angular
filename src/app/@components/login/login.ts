@@ -14,11 +14,13 @@ import {
   styleUrl: './login.css',
 })
 export class Login {
+  isChecked:Boolean = false;
   //old way constructor(private fb: FormBuilder) {}. New way is Inject
   private fb = inject(FormBuilder);
   loginForm = this.fb.nonNullable.group({
     username: ['', Validators.required],
-    password: ['',  Validators.required],
+    password: ['', Validators.required],
+   
   });
 
   ngOnInit() {
@@ -26,7 +28,10 @@ export class Login {
   }
 
   submitLoginForm() {
-    console.log(this.loginForm.value)
-    console.log('submitting')
+    const loginObj = this.loginForm.value;
+
+    console.log(loginObj);
+    console.log(this.isChecked);
+    console.log('submitting');
   }
 }
