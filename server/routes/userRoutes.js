@@ -2,7 +2,15 @@ const express = require("express");
 const router = require("express").Router();
 const User = require("../models/user.js");
 
-router.get("/getActiveUsers", (req, res) => {
+router.get("users/:userId", (req, res) => {
+  User.findOne({ where: { id: req.params.userId } })
+    .then((users) => res.json(users))
+    .catch((err) => {
+      console.log("Error fetching all users. Error: ", error);
+    });
+});
+
+router.get("getActiveUsers", (req, res) => {
   User.findAll({ attributes: { exclude: ["password"] } })
     .then((users) => res.json(users))
     .catch((err) => {
