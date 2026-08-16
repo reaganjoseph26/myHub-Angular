@@ -3,6 +3,7 @@
     --backgroundColor: #ffffff;
     --color: #000000;
     --activeColor: #0aca4a;
+    --errorMsg: rgb(214, 37, 37); 
 }
 
 body {
@@ -10,4 +11,5 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }

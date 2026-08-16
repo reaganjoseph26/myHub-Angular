@@ -10,14 +10,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* height: 100vh; */
     width: 100vh;
-
     max-width: 600px;
-
     margin: 0 auto;
     background-color: var(--backgroundColor);
-    /* optional background */
     border: 2px solid rgba(131, 156, 175, 0.5);
     background: transparent;
     backdrop-filter: blur(20px);
@@ -37,7 +33,7 @@ form {
 
 .form-control-wrapper {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
     width: 100%;
 }
 
@@ -71,6 +67,10 @@ input {
 
 input[type="checkbox"] {
     max-width: 20px !important;
+}
+
+input[type="checkbox"]:hover{
+    cursor: pointer;
 }
 
 input:focus {
@@ -132,4 +132,8 @@ input::placeholder {
 
 .submit-btn:hover {
     background: rgb(40, 42, 44);
+}
+
+.error-msg {
+    color: var(--errorMsg)
 }
