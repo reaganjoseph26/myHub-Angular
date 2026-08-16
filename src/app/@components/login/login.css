@@ -1,0 +1,66 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Indie Flower', cursive;
+}
+
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: var(--backgroundColor);
+    /* optional background */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-control-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+
+label {
+    width: 75px;
+    /* Sets your precise fixed width */
+    flex-shrink: 0;
+    /* Prevents the label from squishing on small screens */
+}
+
+input {
+    width: 100%;
+    box-sizing: border-box;
+    /* Ensures padding doesn't affect width */
+    margin-bottom: 10px;
+    height: 100%;
+    outline: none;
+    background: transparent;
+    border: 2px solid rgba(131, 156, 175, 0.5);
+    border-radius: 10px;
+    color: var(--color);
+    transition: all 0.4s;
+    padding: 10px;
+    flex-grow: 1;
+}
+
+input[type="checkbox"] {
+    max-width: 20px !important;
+}
+
+input:focus {
+    border: 2px solid rgba(131, 156, 175);
+}
+
+input::placeholder {
+    color: rgba(131, 156, 175, 0.5);
+    margin-left: 10px;
+}
