@@ -1,5 +1,8 @@
 <div class="login-wrapper">
   <h1>DevHub</h1>
+  @if (errMsg) {
+  <span class="error-msg"> {{ errMsg }} </span>
+  }
   <form [formGroup]="loginForm" (submit)="submitLoginForm()">
     <div class="form-control-wrapper">
       <input
@@ -47,6 +50,10 @@
       <a href="#">Continue as guest</a>
     </div>
 
-    <button class="submit-btn" type="submit" [disabled]="loginForm.invalid">Log In</button>
+    <button class="submit-btn" type="submit" [disabled]="loginForm.invalid || isSubmitting ">
+      Log In
+    </button>
   </form>
 </div>
+
+<!-- <button type="button" (click)="changeColor()">Change Color</button> -->

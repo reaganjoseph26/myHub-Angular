@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "wait-on http://localhost:3000 && ng serve",
-    "build": "ng build",
+    "start":  "concurrently \"npm run build:ssr:watch\" \"npm run server:watch\"",
+    "build:ssr:watch": "ng build --watch",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "server": "node server/server.js",
@@ -19,7 +19,9 @@
     "@angular/platform-browser": "^20.0.0",
     "@angular/router": "^20.0.0",
     "rxjs": "~7.8.0",
+    "three": "^0.185.1",
     "tslib": "^2.3.0",
+    "vanta": "^0.5.24",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
@@ -27,6 +29,7 @@
     "@angular/cli": "^20.0.3",
     "@angular/compiler-cli": "^20.0.0",
     "@types/jasmine": "~5.1.0",
+    "@types/three": "^0.185.4",
     "concurrently": "^10.0.5",
     "jasmine-core": "~5.7.0",
     "karma": "~6.4.0",

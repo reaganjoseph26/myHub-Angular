@@ -1,0 +1,34 @@
+/* main {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  
+} */
+
+main {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  box-sizing: inherit;
+  position: relative;
+  z-index: 1;
+  position: relative;
+}
+
+#vanta-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  /* Keeps it behind all routing views */
+  pointer-events: auto;
+  /* Allow mouse interaction if desired */
+}
