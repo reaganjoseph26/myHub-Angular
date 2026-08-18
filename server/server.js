@@ -43,7 +43,7 @@ function generateToken(user, res) {
   return token;
 }
 
-app.post("/api/sign-up", async (req, res) => {
+app.post("/api/signup", async (req, res) => {
   try {
     //Hash password for new user
     //const salt = await bcrypt.genSalt(); // default has to 10  which is good in length
@@ -100,9 +100,7 @@ app.post("/api/login", async (req, res) => {
   });
 
   if (!foundUser) {
-    return res
-      .status(400)
-      .json({ message: "User does not exist" });
+    return res.status(400).json({ message: "User does not exist" });
   }
 
   //If user exist compare password
@@ -157,26 +155,35 @@ app.get("api/profile/:username", (req, res) => {
     });
 });
 
-app.get("/api/getDefaultTheme", (req, res) => {
-  console.log("getting here in call ");
-  const defaultTheme = {};
-  defaultTheme.style = "NET";
-  defaultTheme.options = {
-    mouseControls: true,
-    touchControls: true,
-    gyroControls: false,
-    minHeight: 200.0,
-    minWidth: 200.0,
-    scale: 0.5,
-    scaleMobile: 1.0,
-    color: "#1b22f1",
-    backgroundColor: "#000000",
-    activeColor: "#ffffff",
-    // points: 17.00,
-    // maxDistance: 21.00,
-    // spacing: 18.00
-  };
-  res.json(defaultTheme);
+app.get("/api/getDefaultTheme", async (req, res) => {
+  try {
+    const defaultTheme = {};
+    const queryData = await sequelize.query(
+      `
+     SELECT style, options FROM themes WHERE [default] = 1
+    `,
+      { plain: true },
+    );
+
+    //console.log(queryData, " query data");
+
+    defaultTheme.style = queryData.style;
+    defaultTheme.options = {
+      ...JSON.parse(queryData.options),
+      color: Number(JSON.parse(queryData.options).color),
+      color1: Number(JSON.parse(queryData.options)?.color1),
+      color2: Number(JSON.parse(queryData.options)?.color2),
+      backgroundColor: Number(JSON.parse(queryData.options)?.backgroundColor),
+      activeColor: Number(JSON.parse(queryData.options)?.activeColor),
+    };
+
+    console.log(queryData.options, " prased");
+
+    res.json(defaultTheme);
+  } catch (error) {
+    console.log("Error: ", error);
+    return res.status(500).json({ error: "Theme not found" });
+  }
 });
 
 app.get("/api/getActiveUsers", (req, res) => {

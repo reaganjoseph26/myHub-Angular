@@ -1,7 +1,7 @@
 import { Injectable, Inject, signal, effect, inject } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { LoggedInUser, User } from './interfaces/user';
+import { LoggedInUser, NewUser, User } from './interfaces/user';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +15,15 @@ export class AuthService {
     return this.http.post<any>(this.apiUrl + 'login', credentials ).pipe(
       tap((data) => {
         console.log('LoggedIn User Data:', data);
+      }),
+    );
+  }
+
+  signup(credentials: NewUser): Observable<any> {
+    console.log('credentials: ', credentials);
+    return this.http.post<any>(this.apiUrl + 'signup', credentials ).pipe(
+      tap((data) => {
+        console.log('New User Data:', data);
       }),
     );
   }

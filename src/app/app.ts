@@ -33,11 +33,11 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
 
   private async loadVantaEffect(effectName: string) {
     try {
+      console.log(effectName, ' effectname');
       // Pass a partial static path so the bundler can split chunks correctly
       await import(
         `../../node_modules/vanta/dist/vanta.${effectName.toLowerCase()}.min.js`
       );
-      //const effectConstructor = vantaModule.default || vantaModule;
       const globalVanta = (window as any).VANTA;
       const effectKey = effectName.toUpperCase();
 
@@ -47,22 +47,12 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
         THREE: THREE,
         ...this.defaultTheme.options,
       });
-
-      // this.vantaEffect = effectConstructor({
-      //   el: this.vantaRef.nativeElement,
-      //   mouseControls: true,
-      //   touchControls: true,
-      //   gyroControls: false,
-      //   minHeight: 200.0,
-      //   minWidth: 200.0
-      // });
     } catch (error) {
       console.error(`Failed to load Vanta effect: ${effectName}`, error);
     }
   }
 
   async ngAfterViewInit() {
-    console.log('####: ', this.defaultTheme.style);
     await this.loadVantaEffect(this.defaultTheme.style);
   }
 
@@ -70,10 +60,28 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
     this.defaultThemeSub = this.themeService.defaultTheme$.subscribe({
       next: (data) => {
         this.defaultTheme = data;
-        this.changeColor(data.options.color, data.options.backgroundColor, data.options.activeColor);
+        const color =
+          '#' +
+          Number(data.options.color)
+            .toString(16)
+            .padStart(6, '0')
+            .toUpperCase();
+        const backgroundColor =
+          '#' +
+          Number(data.options.backgroundColor)
+            .toString(16)
+            .padStart(6, '0')
+            .toUpperCase();
+        const activeColor =
+          '#' +
+          Number(data.options.activeColor)
+            .toString(16)
+            .padStart(6, '0')
+            .toUpperCase();
+
+        this.changeColor(color, backgroundColor, activeColor);
         console.log('this is the current default theme: ', this.defaultTheme);
 
-        //const style: string = this.defaultTheme.style
         //this.ngZone.runOutsideAngular(() => {
         // this.vantaEffect = NET({
         //   el: '#vanta-background',
@@ -91,8 +99,7 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  
-  changeColor(color:string, bg:string, active:string) {
+  changeColor(color: string, bg: string, active: string) {
     this.themeService.setColors(color, bg, active); // Updates across the app
   }
 

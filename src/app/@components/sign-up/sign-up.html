@@ -1,0 +1,91 @@
+<div class="signup-wrapper">
+  <h1>DevHub</h1>
+  @if (errMsg) {
+  <span class="error-msg"> {{ errMsg }} </span>
+  }
+  <form [formGroup]="signupForm" (submit)="submitSignupForm()">
+    <div class="form-control-wrapper">
+      <input
+        type="text"
+        id="firstname"
+        formControlName="firstname"
+        placeholder="Enter FirstName"
+      />
+
+      @if (signupForm.get('firstname')?.invalid) {
+      <span class="error-msg">Field is required.</span>
+      }
+    </div>
+    <div class="form-control-wrapper">
+      <input
+        type="text"
+        id="lastname"
+        formControlName="lastname"
+        placeholder="Enter Lastname"
+      />
+
+      @if (signupForm.get('lastname')?.invalid) {
+      <span class="error-msg">Field is required.</span>
+      }
+    </div>
+
+    <div class="form-control-wrapper">
+      <input
+        type="text"
+        id="username"
+        formControlName="username"
+        placeholder="Enter Username"
+      />
+
+      @if (signupForm.get('username')?.invalid) {
+      <span class="error-msg">Field is required.</span>
+      }
+    </div>
+
+    <div class="form-control-wrapper">
+      <input
+        type="text"
+        id="email"
+        formControlName="email"
+        placeholder="Enter Email"
+      />
+    </div>
+
+    <div class="form-control-wrapper">
+      <input
+        type="text"
+        id="password"
+        formControlName="password"
+        placeholder="Enter Password"
+      />
+
+      @if (signupForm.get('password')?.invalid) {
+      <span class="error-msg">Field is required.</span>
+      }
+    </div>
+
+    <div class="form-control-wrapper">
+      <input
+        type="text"
+        id="confirmPassword"
+        formControlName="confirmPassword"
+        placeholder="Confirm Password"
+      />
+
+      @if (signupForm.get('confirmPassword')?.invalid &&
+      signupForm.get('password')?.touched) {
+      <span class="error-msg">Field is required.</span>
+      }
+    </div>
+
+    <button
+      class="submit-btn"
+      type="submit"
+      [disabled]="signupForm.invalid || isSubmitting "
+    >
+      Sign Up
+    </button>
+  </form>
+</div>
+
+<!-- <button type="button" (click)="changeColor()">Change Color</button> -->

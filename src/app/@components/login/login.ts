@@ -8,14 +8,14 @@ import {
 } from '@angular/forms'; //
 import { ThemeService } from '../../services/ThemeService';
 import { error } from 'three';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize, map, Observable } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { LoggedInUser } from '../../services/interfaces/user';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

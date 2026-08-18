@@ -6,6 +6,7 @@ import { ThemeService } from './services/ThemeService';
 import { inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { UserService } from './services/UsersService';
+import { SignUp } from './@components/sign-up/sign-up';
 
 export const themeResolver: ResolveFn<Observable<any>> = (route) => {
   const themeService = inject(ThemeService);
@@ -24,6 +25,7 @@ export const loggedInUserResolver: ResolveFn<Observable<any>> = (route) => {
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: Login },
+  { path: 'sign-up', component: SignUp },
   {
     path: 'home',
     component: Home,

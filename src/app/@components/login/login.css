@@ -127,9 +127,14 @@ input::placeholder {
     outline: none;
 }
 
-.guest-link a {
+.signup-link {
+    padding: 15px;
+}
+
+.signup-link a {
     text-decoration: underline;
     color: var(--app-activeColor);
+    cursor: pointer;
 }
 
 .submit-btn:hover {
