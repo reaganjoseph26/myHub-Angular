@@ -10,9 +10,18 @@ export class AuthService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:4200/api/';
 
+  hasAccess(): boolean {
+    //return this.currentUser() !== null;
+    return true;
+  }
+
+  isLoggedIn():boolean {
+    return true;
+  }
+
   login(credentials: LoggedInUser): Observable<any> {
     console.log('credentials: ', credentials);
-    return this.http.post<any>(this.apiUrl + 'login', credentials ).pipe(
+    return this.http.post<any>(this.apiUrl + 'login', credentials).pipe(
       tap((data) => {
         console.log('LoggedIn User Data:', data);
       }),
@@ -21,7 +30,7 @@ export class AuthService {
 
   signup(credentials: NewUser): Observable<any> {
     console.log('credentials: ', credentials);
-    return this.http.post<any>(this.apiUrl + 'signup', credentials ).pipe(
+    return this.http.post<any>(this.apiUrl + 'signup', credentials).pipe(
       tap((data) => {
         console.log('New User Data:', data);
       }),
