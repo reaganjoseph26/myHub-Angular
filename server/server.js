@@ -45,48 +45,38 @@ function generateToken(user, res) {
 
 app.post("/api/signup", async (req, res) => {
   try {
-    //Hash password for new user
-    //const salt = await bcrypt.genSalt(); // default has to 10  which is good in length
-    //line above combined as one liner below
     console.log("### ", req.body);
 
-    return;
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const newUser = await User.create(req.body);
 
-    var newUser = req.body;
-    newUser.password = hashedPassword;
+    // var currentUsers = await getAllUsers();
+    // var updatedUsers = currentUsers.concat(newUser);
 
-    const filePath = path.join(__dirname, "/public/configs/userData.json");
-
-    var currentUsers = await getAllUsers();
-    var updatedUsers = currentUsers.concat(newUser);
-
-    const token = generateToken(newUser, res);
+    // const token = generateToken(newUser, res);
     //const refreshToken = jwt.sign(newUser, process.env.REFRESH_TOKEN_SECRET);
     //refreshTokensArr.push(refreshToken);
 
-    // 3. Write the updated JSON back to the file
-    fs.writeFile(filePath, JSON.stringify(updatedUsers, null, 2), (err) => {
-      if (err) {
-        console.log("Error: ", err);
+    res.status(201).json(newUser);
+  } catch (error) {
+    // console.log("Error ValidationErrorItem: ", error?.errors[0].message);
+    // console.log("Error: ", error?.name);
+    console.log("Error: ", error);
 
-        return res
-          .status(401)
-          .json({ message: "We can not create your account at this time" });
-      }
-      return res.status(200).json({
-        status: "success",
-        message: "Congratulations! Your account has been created",
-        redirectTo: "/home",
-        data: {
-          user: { username: newUser.username, userId: newUser.id },
-        },
-        accessToken: token,
-        //refreshToken: refreshToken,
-      });
-    });
-  } catch {
-    return res.status(500).send("We cannot create your profile at this time.");
+    if (
+      error?.name === "SequelizeUniqueConstraintError" &&
+      error?.errors[0].message === "UQ_Users_username must be unique"
+    ) {
+      return res.status(409).send("Username is already taken.");
+    } else if (
+      error?.name === "SequelizeUniqueConstraintError" &&
+      error?.errors[0].message === "UQ_email must be unique"
+    ) {
+      return res.status(409).send("Email is already taken.");
+    } else {
+      return res
+        .status(500)
+        .send("Your profile cannot be created at this time.");
+    }
   }
 });
 
@@ -176,8 +166,6 @@ app.get("/api/getDefaultTheme", async (req, res) => {
       backgroundColor: Number(JSON.parse(queryData.options)?.backgroundColor),
       activeColor: Number(JSON.parse(queryData.options)?.activeColor),
     };
-
-    console.log(queryData.options, " prased");
 
     res.json(defaultTheme);
   } catch (error) {

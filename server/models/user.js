@@ -1,6 +1,7 @@
 // 1. Initialize connection
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
+const bcrypt = require("bcrypt");
 
 // 2. Define User model
 const User = sequelize.define(
@@ -15,11 +16,50 @@ const User = sequelize.define(
     username: {
       type: DataTypes.CHAR(20),
       allowNull: false,
+      unique: true,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     firstname: { type: DataTypes.CHAR(20) },
     lastname: { type: DataTypes.CHAR(20) },
-    email: { type: DataTypes.CHAR(40) },
+    email: {
+      type: DataTypes.CHAR(40),
+      allowNull: true,
+      unique: true,
+      validate: {
+        isEmailTrueOrEmpty(value) {
+          if (value !== null && value !== "" && value !== undefined) {
+            const validator = require("validator");
+            if (!validator.isEmail(value.trim())) {
+              throw new Error("Must be a valid email address");
+            }
+          }
+        },
+      },
+    },
   },
+  {
+    // 1. Automatically hide password when querying users
+    defaultScope: {
+      attributes: { exclude: ["password"] },
+    },
+    hooks: {
+      // 2. Hash the password before saving a new user
+      beforeCreate: async (user) => {
+        if (user.password) {
+          user.password = await bcrypt.hash(user.password, 10);
+        }
+      },
+      beforeUpdate: async (user) => {
+        if (user.changed("password")) {
+          user.password = await bcrypt.hash(user.password, 10);
+        }
+      },
+    },
+  },
+
   {
     tableName: "Users",
     timestamps: true,

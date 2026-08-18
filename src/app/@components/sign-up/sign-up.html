@@ -72,9 +72,11 @@
         placeholder="Confirm Password"
       />
 
-      @if (signupForm.get('confirmPassword')?.invalid &&
-      signupForm.get('password')?.touched) {
+      @if (signupForm.get('confirmPassword')?.invalid) {
       <span class="error-msg">Field is required.</span>
+      } @if (signupForm.get('confirmPassword')?.touched &&
+      signupForm.hasError('passwordMismatch')) {
+      <span class="error-msg">Password do not match.</span>
       }
     </div>
 
