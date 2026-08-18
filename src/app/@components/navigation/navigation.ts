@@ -24,7 +24,7 @@ export class Navigation implements OnInit {
     // this.route.paramMap.subscribe((params) => {
     //   this.username = params.get('username');
     // });
-    console.log('nav is working');
+
     this.userSub = this.userService.userData$.subscribe({
       next: (data) => {
         this.userData = data;

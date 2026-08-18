@@ -25,16 +25,22 @@ export class UserService {
     );
   }
 
-  getUserData(userId: number): Observable<any> {
-    return this.http.get<any>(this.apiUrl + `:${userId}`);
-  }
-
-  getTestData(): Observable<User> {
-    return this.http.get<User>(this.apiUrl + 'home').pipe(
+  getUserData(username: string): Observable<any> {
+    console.log(username, ' username')
+    return this.http.get<any>(this.apiUrl + `getUserData/${username}`).pipe(
       tap((data) => {
         this.userDataSubject.next(data);
         console.log('Data passing through service:', data);
       }),
     );
   }
+
+  // getTestData(): Observable<any> {
+  //   return this.http.get<any>(this.apiUrl + 'profile').pipe(
+  //     tap((data) => {
+  //       this.userDataSubject.next(data);
+  //       console.log('Data passing through service:', data);
+  //     }),
+  //   );
+  // }
 }

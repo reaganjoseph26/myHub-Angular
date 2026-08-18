@@ -1,4 +1,26 @@
-<nav>
-  <a routerLink="/home">Home</a>
-  <a [routerLink]="['/profile/', username]">Profile</a>
-</nav>
+<div class="menu-container">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="user-avatar"></div>
+      <div class="user-info">
+        <span class="user-name">DevHub User</span>
+        <span class="user-email">user@devhub.com</span>
+      </div>
+    </div>
+    <nav>
+      <a routerLink="/home" class="menu-item">Home</a>
+      <a [routerLink]="['/profile/', username]" class="menu-item">Hub</a>
+
+      <a class="menu-item">Network</a>
+      <a class="menu-item">Projects</a>
+      <a [routerLink]="['/profile/', username]" class="menu-item">Profile</a>
+      <a class="menu-item">Favorites</a>
+    </nav>
+
+    <div class="user-options">
+      <a id="settings" href="#" onclick="setMainView('settings')">Settings</a>
+
+      <a href="#"> Logout</a>
+    </div>
+  </aside>
+</div>

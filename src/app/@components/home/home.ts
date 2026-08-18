@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
-  imports: [Navigation],
+  imports: [],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })

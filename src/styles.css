@@ -3,13 +3,15 @@
     --app-background-color: #ffffff;
     --app-color: #000000;
     --app-activeColor: #0aca4a;
-    --app-errorMsg: rgb(214, 37, 37); 
+    --app-errorMsg: rgb(214, 37, 37);
 }
 
-body {
+html, body, app-root {
     height: 100dvh;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
 }
+

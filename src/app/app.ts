@@ -17,7 +17,7 @@ import { ThemeService } from './services/ThemeService';
 import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, Navigation],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

@@ -43,7 +43,7 @@ const User = sequelize.define(
   {
     // 1. Automatically hide password when querying users
     defaultScope: {
-      attributes: { exclude: ["password"] },
+      attributes: { exclude: ["password", "createdAt", "updatedAt"] },
     },
     hooks: {
       // 2. Hash the password before saving a new user

@@ -19,6 +19,8 @@ export const guestGuard: CanActivateFn = (route, state) => {
   // If the user is logged in, redirect them away from the login page
   if (authService.isLoggedIn()) {
     return router.parseUrl('/home');
+     // router.parseUrl('/home');
+     //return router.navigateByUrl('home')
   }
 
   // Allow access to the login page if not logged in

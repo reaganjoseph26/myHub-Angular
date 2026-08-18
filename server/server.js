@@ -136,9 +136,9 @@ app.get("/api/home", (req, res) => {
   res.json(testData);
 });
 
-app.get("api/profile/:username", (req, res) => {
-  console.log("%%%", req.body);
-  User.findOne({ where: { username: req.body.user.username } })
+app.get("/api/getUserData/:username", (req, res) => {
+  console.log("%%%", req.params);
+  User.findOne({ where: { username: req.params.username } })
     .then((user) => res.json(user))
     .catch((err) => {
       console.log("Error fetching user profile data. Error: ", error);

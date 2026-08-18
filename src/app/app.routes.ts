@@ -19,9 +19,10 @@ export const themeResolver: ResolveFn<Observable<any>> = (route) => {
 };
 
 export const loggedInUserResolver: ResolveFn<Observable<any>> = (route) => {
+  console.log('pop corn')
   const userService = inject(UserService);
   return userService
-    .getTestData()
+    .getUserData('testuser')
     .pipe(
       tap((data) =>
         console.log('Resolved loggedInUserResolver HTTP data:', data),
@@ -32,12 +33,12 @@ export const loggedInUserResolver: ResolveFn<Observable<any>> = (route) => {
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: Login, canActivate: [guestGuard] },
-  { path: 'sign-up', component: SignUp,    canActivate: [guestGuard] },
+  { path: 'sign-up', component: SignUp, canActivate: [guestGuard] },
   {
     path: 'home',
     component: Home,
-    resolve: { themeData: themeResolver },
-    canActivate: [authGuard],
+    resolve: { userData: loggedInUserResolver },
+     canActivate: [authGuard],
     // children: [
     //   {
     //     path: 'profile/:username',
@@ -46,4 +47,9 @@ export const routes: Routes = [
     // ],
   },
   { path: 'profile/:username', component: Profile },
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
 ];
