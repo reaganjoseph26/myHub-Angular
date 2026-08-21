@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/UsersService';
 import { ActivatedRoute, Router } from '@angular/router';
+import { User } from '../../services/interfaces/user';
 
 @Component({
   selector: 'app-profile',
@@ -15,32 +16,20 @@ export class Profile implements OnInit {
     private router: Router,
   ) {}
 
-  username: string | null = null;
+  userData:User = {} as User;
 
   ngOnInit(): void {
-    console.log('profile');
-
-    this.route.paramMap.subscribe((params) => {
-      this.username = params.get('username');
-    });
-
-    const user = {
-      username: 'testuser',
-      firstname: 'Test',
-      lastname: 'User',
-      email: 'testuser@test.com',
-    };
+     this.userData = this.userService.userData()();
+    // this.userService.getProfileData(`profile/${user.username}`).subscribe({
+    //   next: (data) => {
+    //     console.log('Data received in nav component successfully:', data);
+    //   },
+    //   error: (error) => {
+    //     console.error(
+    //       'Error fetching data from server in nav component:',
+    //       error,
+    //     );
+    //   },
     // });
-    this.userService.getProfileData(`profile/${user.username}`).subscribe({
-      next: (data) => {
-        console.log('Data received in nav component successfully:', data);
-      },
-      error: (error) => {
-        console.error(
-          'Error fetching data from server in nav component:',
-          error,
-        );
-      },
-    });
   }
 }

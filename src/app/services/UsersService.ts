@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 // import { menuItem } from '../../../server/models/menuItem.js'
@@ -10,8 +10,11 @@ import { User } from './interfaces/user';
 })
 export class UserService {
   private apiUrl = 'http://localhost:4200/api/';
-  private userDataSubject = new BehaviorSubject<User | null>(null);
-  public userData$ = this.userDataSubject.asObservable();
+  // private userDataSubject = new BehaviorSubject<User | null>(null);
+  // public userData$ = this.userDataSubject.asObservable();
+
+  private userDataSignal = signal<User>({} as User);
+  readonly userData =  computed(() => this.userDataSignal.asReadonly());
   private http = inject(HttpClient);
 
   getProfileData(endpoint: string): Observable<any> {
@@ -22,11 +25,10 @@ export class UserService {
     );
   }
 
-  getUserData(username: string): Observable<any> {
-    console.log(username, ' username');
+  getUserData(): Observable<any> {
     return this.http
-      .get<any>(this.apiUrl + `getUserData/${username}`, {
-        params: { username: username },
+      .get<any>(this.apiUrl + `getUserData`, {
+        withCredentials: true,
       })
       .pipe(
         tap((data) => {
@@ -40,7 +42,7 @@ export class UserService {
       'the user being set in Global Subject setUserData Call: ',
       newValue,
     );
-    this.userDataSubject.next(newValue);
-
+    this.userDataSignal.set(newValue);
+    //this.userDataSubject.next(newValue);
   }
 }

@@ -9,11 +9,11 @@
     </div>
     <nav>
       <a routerLink="/home" class="menu-item">Home</a>
-      <a [routerLink]="['/profile/', username]" class="menu-item">Hub</a>
+      <a [routerLink]="['/hub/', userData?.username?.trim()]" class="menu-item">Hub</a>
 
       <a class="menu-item">Network</a>
       <a class="menu-item">Projects</a>
-      <a [routerLink]="['/profile/', username]" class="menu-item">Profile</a>
+      <a [routerLink]="['/profile/', userData?.username?.trim()]" class="menu-item">Profile</a>
       <a class="menu-item">Favorites</a>
     </nav>
 

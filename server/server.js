@@ -200,19 +200,8 @@ app.post("/api/logOut", async (req, res) => {
   }
 });
 
-app.get("/api/home", (req, res) => {
-  const testData = {
-    id: 1,
-    username: "testuser",
-    firstname: "Test",
-    lastname: "User",
-    email: "testuser@test.com",
-  };
-  res.json(testData);
-});
-
-app.get("/api/getUserData/:username", authenticateToken, (req, res) => {
-  User.findOne({ where: { username: req.params.username }, raw: true })
+app.get("/api/getUserData", authenticateToken, (req, res) => {
+  User.findOne({ where: { username: req.user.username.trim() }, raw: true })
     .then((user) => res.json(user))
     .catch((err) => {
       console.log("Error fetching user profile data. Error: ", error);

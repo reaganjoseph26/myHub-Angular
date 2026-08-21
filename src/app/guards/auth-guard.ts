@@ -29,6 +29,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
           isHandling400Code = true;
           //authService.logOut();
           console.log('navigating to login');
+          authService.setIsLoggedIn('false');
           router.navigate(['/login']).then(() => {
             isHandling400Code = false;
           });
@@ -42,7 +43,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
-  console.log('in here');
+  console.log('hitting authGUARD');
   return authService.verifyToken().pipe(
     map((isValid) => {
       if (isValid) {
@@ -59,13 +60,18 @@ export const authGuard: CanActivateFn = (route, state) => {
   );
 };
 
-// export const isLoggedInGuard: CanActivateFn = (route, state) => {
-//   const authService = inject(AuthService);
-//   const router = inject(Router);
+export const isLoggedInGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-//   if (authService.isLoggedIn() == 'true') {
-//     return router.createUrlTree(['/home']);
-//   }
+  if (authService.isLoggedIn() === 'true') {
+    return router.createUrlTree(['/home']);
+    // router.navigate(['/home']);
+  }
 
-//   return true;
-// };
+  // if (authService.isLoggedIn() == 'true') {
+  //   return router.createUrlTree(['/home']);
+  // }
+
+  return true;
+};

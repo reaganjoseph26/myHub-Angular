@@ -36,14 +36,12 @@ export class Login {
     password: ['', Validators.required],
   });
 
-  ngOnInit() {
-    console.log(this.authservice.isLoggedIn());
-    if (this.authservice.isLoggedIn()) {
-      this.zone.run(() => {
-        this.router.navigate(['/home']);
-      });
-    }
-  }
+  // constructor() {
+  //   // 1. This runs FIRST
+  //   if (this.authservice.isLoggedIn()) {
+  //     this.router.navigate(['/home']);
+  //   }
+  // }
 
   submitLoginForm() {
     this.isChecked = true;

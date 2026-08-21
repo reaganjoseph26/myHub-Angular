@@ -35,14 +35,10 @@ export class AuthService {
     sessionStorage.getItem('isLoggedIn') ?? 'false',
   );
   public readonly isLoggedIn = computed(() => this._isLoggedIn());
-  private platformId = inject(PLATFORM_ID);
-  private TOKEN_KEY!: string;
 
   verifyToken(): Observable<boolean> {
-    
     return this.http
       .get<any>(this.apiUrl + 'validateToken', {
-        //headers: { Authorization: `Bearer ${token}` }
         withCredentials: true,
       })
       .pipe(
@@ -54,19 +50,12 @@ export class AuthService {
         catchError(() => {
           this.setIsLoggedIn('false');
           // Token is invalid or expired
-          this.setIsLoggedIn('true');
         
 
           return of(false); // Return true or false, but don't crash the app initializer
         }),
       );
   }
-
- 
-
-  
-
- 
 
   login(credentials: LoggedInUser): Observable<any> {
     //console.log('credentials: ', credentials);
@@ -75,11 +64,8 @@ export class AuthService {
         // this._isLoggedIn.set(true);
         console.log('LoggedIn User Data:', data);
         this.setIsLoggedIn('true');
-        
-        this.userservice.setUserData(data.user);
 
-        console.log(this.userservice.userData$);
-        // this._isLoggedIn.set(true);
+        this.userservice.setUserData(data.user);
       }),
     );
   }
@@ -89,7 +75,7 @@ export class AuthService {
     return this.http.post<any>(this.apiUrl + 'signup', credentials).pipe(
       tap((data) => {
         console.log('New User Data:', data);
-      
+
         this.userservice.setUserData(data);
         // this._isLoggedIn.set(true);
       }),
@@ -100,8 +86,6 @@ export class AuthService {
     return this.http.post<any>(this.apiUrl + 'logOut', {}).pipe(
       tap({
         next: (data) => {
-         
-         
           this.setIsLoggedIn('false');
           this.router.navigate(['/login']);
         },

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/UsersService';
 import { Navigation } from '../navigation/navigation';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../services/interfaces/user';
 import { Subscription } from 'rxjs';
 
@@ -17,26 +17,31 @@ export class Home implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
-    this.userSub = this.userService.userData$.subscribe({
-      next: (data) => {
-        console.log('data coming in on home component: ', data);
-        this.userData = data;
-      },
-      error: (err) => {
-        console.log(
-          'An error has occurred subscribing to user data in home component. Error: ',
-          err,
-        );
-      },
+    this.route.data.subscribe(({ userData }) => {
+      
+      this.userService.setUserData(userData);
+      this.userData = userData;
     });
-    console.log(this.userData, ' userData');
-  }
+    //this.userData = this.userService.userData();
 
-  goToProfile(userId: string) {
-    this.router.navigate(['/profile', userId]);
+    console.log(this.userData, ' this.userData');
+    // this.userSub = this.userService.userData$.subscribe({
+    //   next: (data) => {
+    //     console.log('data coming in on home component: ', data);
+    //     this.userData = data;
+    //   },
+    //   error: (err) => {
+    //     console.log(
+    //       'An error has occurred subscribing to user data in home component. Error: ',
+    //       err,
+    //     );
+    //   },
+    // });
+    console.log(this.userData, ' userData');
   }
 
   ngOnDestroy() {
