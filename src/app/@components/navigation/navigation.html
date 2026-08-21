@@ -3,17 +3,26 @@
     <div class="sidebar-header">
       <div class="user-avatar"></div>
       <div class="user-info">
-        <span class="user-name">DevHub User</span>
-        <span class="user-email">user@devhub.com</span>
+        <span class="user-name">{{userData.username}}</span>
+        @if(userData.email != '') {
+
+        <span class="user-email">{{userData.email}}</span>
+        }
       </div>
     </div>
     <nav>
       <a routerLink="/home" class="menu-item">Home</a>
-      <a [routerLink]="['/hub/', userData?.username?.trim()]" class="menu-item">Hub</a>
+      <a [routerLink]="['/hub/', userData.username.trim()]" class="menu-item"
+        >Hub</a
+      >
 
       <a class="menu-item">Network</a>
       <a class="menu-item">Projects</a>
-      <a [routerLink]="['/profile/', userData?.username?.trim()]" class="menu-item">Profile</a>
+      <a
+        [routerLink]="['/profile/', userData.username.trim()]"
+        class="menu-item"
+        >Profile</a
+      >
       <a class="menu-item">Favorites</a>
     </nav>
 
