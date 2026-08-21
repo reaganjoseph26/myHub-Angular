@@ -22,8 +22,8 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    firstname: { type: DataTypes.CHAR(20), allowNull:false },
-    lastname: { type: DataTypes.CHAR(20), allowNull:false },
+    firstname: { type: DataTypes.CHAR(20), allowNull: false },
+    lastname: { type: DataTypes.CHAR(20), allowNull: false },
     email: {
       type: DataTypes.CHAR(40),
       allowNull: true,
@@ -38,6 +38,11 @@ const User = sequelize.define(
           }
         },
       },
+    },
+    top_developer: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
     },
   },
   {

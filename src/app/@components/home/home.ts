@@ -37,19 +37,25 @@ export class Home implements OnInit {
     this.dataService.getHomeData().subscribe({
       next: (data) => {
         console.log('data coming in on home component: ', data);
-        if (data.length > 0) {
-          for (const l of data) {
-            const slide: CarouselSlide = {
-              title: l.title,
-              url: this.extractVideoId(l.url),
-            };
+        this.homeSlides.update((slides) =>
+          data.lessons.map((slide: CarouselSlide) => ({
+            ...slide,
+            url: this.extractVideoId(slide.url), // Replace property for all items
+          })),
+        );
+        // if (data.lessons.length > 0) {
+        //   for (const l of data.lessons) {
+        //     const slide: CarouselSlide = {
+        //       title: l.title,
+        //       url: this.extractVideoId(l.url),
+        //     };
 
-            this.homeSlides.update((currentSlides) => [
-              ...currentSlides,
-              slide,
-            ]);
-          }
-        }
+        //     this.homeSlides.update((currentSlides) => [
+        //       ...currentSlides,
+        //       slide,
+        //     ]);
+        //   }
+        // }
       },
       error: (err) => {
         console.log('An error has occurred getting home data. Error: ', err);
@@ -57,13 +63,18 @@ export class Home implements OnInit {
     });
   }
 
-    extractVideoId(url: string): string  {
+  // displayLessons(lessons: Array<[]>) {
+
+  // }
+
+  extractVideoId(url: string): string {
     // Regex matches standard, short, embed, and shorts YouTube links
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
+    const regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|shorts\/)([^#\&\?]*).*/;
     const match = url.match(regExp);
 
     // YouTube IDs are always 11 characters long
-    return (match && match[2].length === 11) ? match[2] : '';
+    return match && match[2].length === 11 ? match[2] : '';
   }
 
   ngOnDestroy() {

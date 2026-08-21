@@ -5,7 +5,7 @@ import { YouTubePlayer } from '@angular/youtube-player';
 export interface CarouselSlide {
   title: string;
   img?: string;
-  url?: string; // If present, displays <youtube-player>
+  url: string; // If present, displays <youtube-player>
 }
 
 @Component({

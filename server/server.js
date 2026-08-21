@@ -206,15 +206,31 @@ app.get("/api/getUserData", authenticateToken, (req, res) => {
     .then((user) => res.json(user))
     .catch((err) => {
       console.log("Error fetching user profile data. Error: ", err);
+      res.status(500).json({ error: "Failed to fetch userdata" });
     });
 });
 
-app.get("/api/getHomeData", authenticateToken, (req, res) => {
-  SpotlightLesson.findAll({ where: { active: true }, raw: true })
-    .then((lessons) => res.json(lessons))
-    .catch((err) => {
-      console.log("Error querying SpotlightLesson. Error: ", err);
+app.get("/api/getHomeData", authenticateToken, async (req, res) => {
+  try {
+    const [lessons, topDevs] = await Promise.all([
+      SpotlightLesson.findAll({ where: { active: true }, raw: true }),
+      User.findAll({ where: { top_developer: true }, raw: true }),
+    ]);
+
+    res.json({
+      lessons,
+      topDevs,
     });
+  } catch (error) {
+    console.log("Error querying SpotlightLesson. Error: ", err);
+    res.status(500).json({ error: "Failed to fetch home data" });
+  }
+
+  // SpotlightLesson.findAll({ where: { active: true }, raw: true })
+  //   .then((lessons) => res.json(lessons))
+  //   .catch((err) => {
+  //     console.log("Error querying SpotlightLesson. Error: ", err);
+  //   });
 });
 
 app.get("/api/getDefaultTheme", async (req, res) => {

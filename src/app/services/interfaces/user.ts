@@ -5,6 +5,7 @@ export interface User {
   firstname: string;
   lastname: string;
   email: string;
+  top_developer?: boolean;
 }
 
 export interface LoggedInUser {
