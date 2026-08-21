@@ -22,8 +22,8 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    firstname: { type: DataTypes.CHAR(20) },
-    lastname: { type: DataTypes.CHAR(20) },
+    firstname: { type: DataTypes.CHAR(20), allowNull:false },
+    lastname: { type: DataTypes.CHAR(20), allowNull:false },
     email: {
       type: DataTypes.CHAR(40),
       allowNull: true,
@@ -44,6 +44,11 @@ const User = sequelize.define(
     // 1. Automatically hide password when querying users
     defaultScope: {
       attributes: { exclude: ["password", "createdAt", "updatedAt"] },
+    },
+    scopes: {
+      withPassword: {
+        attributes: { include: ["password"] },
+      },
     },
     hooks: {
       // 2. Hash the password before saving a new user

@@ -5,6 +5,11 @@
     font-family: 'Indie Flower', cursive;
 }
 
+mat-icon {
+    font-family: 'Material Icons' !important;
+    font-feature-settings: 'liga' !important;
+}
+
 .login-wrapper {
     display: flex;
     flex-direction: column;
@@ -35,12 +40,14 @@ form {
     display: flex;
     flex-direction: column;
     width: 100%;
+    position:relative;
 }
 
 h1 {
     font-size: 36px;
     text-align: center;
     color: var(--app-color);
+    padding:10px;
 }
 
 label {
@@ -85,7 +92,8 @@ input::placeholder {
 
 .options {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    justify-content: center;
     flex-wrap: nowrap;
     width: 100%;
     padding: 20px;
@@ -103,7 +111,12 @@ input::placeholder {
     color: var(--app-color);
     text-decoration: none;
     width: 100%;
-    text-align: end;
+    /* text-align: end; */
+    text-align:center;
+}
+
+.options a:hover{
+    text-decoration: underline;
 }
 
 .rememberMe-wrapper {
@@ -143,4 +156,13 @@ input::placeholder {
 
 .error-msg {
     color: var(--app-errorMsg)
+}
+
+.pwdIcon {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 40%;
+    transform: translateY(-50%);
+    color:var(--app-color);
 }

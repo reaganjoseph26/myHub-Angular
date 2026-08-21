@@ -1,10 +1,12 @@
 <div #vantaBg id="vanta-background"></div>
+@if  (showNavigation()) {
 <div class="sidebar">
   <app-navigation></app-navigation>
 </div>
+}
 
 
-<main class="main-content">
+<main [class.main-content]="showNavigation()">
   <div>
     <div class="right-side">
       <router-outlet />

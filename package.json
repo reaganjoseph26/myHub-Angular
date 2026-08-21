@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start":  "concurrently \"npm run build:ssr:watch\" \"npm run server:watch\"",
+    "start": "concurrently \"npm run build:ssr:watch\" \"npm run server:watch\"",
     "build:ssr:watch": "ng build --watch",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
@@ -12,10 +12,12 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/cdk": "^20.2.14",
     "@angular/common": "^20.0.0",
     "@angular/compiler": "^20.0.0",
     "@angular/core": "^20.0.0",
     "@angular/forms": "^20.0.0",
+    "@angular/material": "^20.2.14",
     "@angular/platform-browser": "^20.0.0",
     "@angular/router": "^20.0.0",
     "rxjs": "~7.8.0",

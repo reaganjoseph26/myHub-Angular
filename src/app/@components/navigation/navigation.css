@@ -67,7 +67,7 @@ aside {
     font-weight: 500;
     border-radius: 8px;
     transition: all 0.2s ease;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 .menu-item:hover {
@@ -86,7 +86,7 @@ aside {
 .user-options a {
     color: var(--app-activeColor);
     text-decoration: none;
-
+    cursor: pointer;
     padding: 10px 12px;
     font-size: 14px;
     border-radius: 10px;

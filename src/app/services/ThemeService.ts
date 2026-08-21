@@ -28,7 +28,7 @@ export class ThemeService {
     return this.http.get<any>(this.apiUrl + 'getDefaultTheme').pipe(
       tap((data) => {
         this.defaultThemeSubject.next(data);
-        console.log('Default Theme Data Log in Service:', data);
+        
       }),
     );
   }

@@ -12,6 +12,7 @@ import {
 import { AuthService } from '../../services/auth.service';
 import { finalize } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 const pwdMatchValidator: ValidatorFn = (
   control: AbstractControl,
@@ -35,7 +36,7 @@ const pwdMatchValidator: ValidatorFn = (
 
 @Component({
   selector: 'app-sign-up',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatIconModule],
   templateUrl: './sign-up.html',
   styleUrl: './sign-up.css',
 })
@@ -46,6 +47,8 @@ export class SignUp implements OnInit {
 
   isSubmitting: Boolean = false;
   errMsg: string = '';
+  showPwd: Boolean = false;
+  showConfirmPwd: Boolean = false;
 
   signupForm = this.fb.nonNullable.group(
     {
@@ -62,7 +65,9 @@ export class SignUp implements OnInit {
   );
 
   ngOnInit(): void {
-    console.log('sign up working');
+    if (this.authservice.isLoggedIn() == 'true') {
+      this.router.navigate(['/home']);
+    }
   }
 
   submitSignupForm() {
@@ -89,9 +94,8 @@ export class SignUp implements OnInit {
             err.error?.message === 'User does not exist'
           ) {
             this.errMsg = 'Invalid username or password';
-          } else if(err.status === 409) {
-            this.errMsg = err.error
-
+          } else if (err.status === 409) {
+            this.errMsg = err.error;
           } else {
             this.errMsg = 'Your profile cannot be created at this time.';
           }

@@ -28,7 +28,8 @@ app.use(cookieParser());
 
 //app.use("/api", userRoutes);
 function generateToken(user, res) {
-  var payload = user;
+  var payload = user.dataValues;
+  console.log(payload, " user in generate token ");
 
   const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN || "7m",
@@ -38,10 +39,67 @@ function generateToken(user, res) {
     httpOnly: true, // ensure users browser or others cant use javascript to access it
     secure: true,
     sameSite: "strict", // stops browsers from sending cross browser cookie to prevent attack
-    maxAge: 2 * 60 * 60 * 1000, //420000,
+    maxAge: 420000,
   });
   return token;
 }
+
+function authenticateToken(req, res, next) {
+  //console.log(req.headers);
+  console.log(req.query, "#####");
+  const authHeader = req.headers["cookie"];
+  const token = authHeader && authHeader.split("jwt=")[1];
+
+  if (!token) {
+    return res.status(401).json({ message: "No token found." }); //do not have token and not authorized
+  }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, user) => {
+    const currentUser = await User.findOne({
+      where: { username: user.username },
+    });
+
+    if (err || !currentUser) {
+      //attempt to give user refresh token TBD
+
+      if (err?.name === "TokenExpiredError") {
+        console.log("expired");
+        // const response = await fetch("http://localhost:3000/api/token", {
+        //   method: "GET",
+        //   headers: { "Content-Type": "application/json" },
+        //   body: { token: user.token },
+        // });
+
+        // const newToken = await response.json();
+        // //res.json(data); // Send data back to the client
+        // console.log(newToken, " newToken");
+      }
+
+      return res.status(403).json({ message: " Token has expired." }); // have token but expired
+    }
+
+    res.set(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate",
+    );
+    res.set("Pragma", "no-cache");
+    res.set("Expires", "0");
+    res.set("Surrogate-Control", "no-store");
+    req.user = user;
+    next();
+  });
+}
+
+app.get("/api/validateToken", authenticateToken, async (req, res) => {
+  try {
+    res.status(200).json(true);
+  } catch (error) {
+    console.log("Error: ", error);
+    return res
+      .status(500)
+      .send("Error attempting to validate user token. Error: ", error);
+  }
+});
 
 app.post("/api/signup", async (req, res) => {
   try {
@@ -52,7 +110,8 @@ app.post("/api/signup", async (req, res) => {
     // var currentUsers = await getAllUsers();
     // var updatedUsers = currentUsers.concat(newUser);
 
-    // const token = generateToken(newUser, res);
+    const token = generateToken(newUser, res);
+    newUser.token = token;
     //const refreshToken = jwt.sign(newUser, process.env.REFRESH_TOKEN_SECRET);
     //refreshTokensArr.push(refreshToken);
 
@@ -81,23 +140,27 @@ app.post("/api/signup", async (req, res) => {
 });
 
 app.post("/api/login", async (req, res) => {
-  console.log("### bodyy", req.body);
-  console.log("### username", req.body.username);
-  console.log("### password", req.body.password);
+  console.log("### body", req.body);
 
   const foundUser = await User.findOne({
     where: { username: req.body.username },
+    attributes: { include: ["password"] },
   });
 
   if (!foundUser) {
-    return res.status(400).json({ message: "User does not exist" });
+    return res.status(400).json({ message: "Incorrect username or password." });
   }
 
-  //If user exist compare password
   try {
-    //if password is the same
     if (await bcrypt.compare(req.body.password, foundUser.password)) {
       const token = generateToken(foundUser, res);
+
+      console.log(foundUser.dataValues, " foundUser");
+
+      var userObj = foundUser.dataValues;
+      // userObj.token = token;
+      delete userObj["password"];
+      //console.log(userObj, " userObj");
       // const refreshToken = jwt.sign(
       //   foundUser,
       //   process.env.REFRESH_TOKEN_SECRET,
@@ -105,20 +168,32 @@ app.post("/api/login", async (req, res) => {
 
       //refreshTokensArr.push(refreshToken);
 
-      return res.status(200).json({
-        status: "success",
-        message: "Login Successful",
-        redirectTo: "/home",
-        data: {
-          user: { username: foundUser.username, userId: foundUser.id },
-        },
-        accessToken: token,
-        //refreshToken: refreshToken,
-      });
-      //res.redirect("/home");
+      return res.status(200).json({ user: userObj, token: token });
     } else {
-      return res.status(401).json({ message: "Invalid Credentials" });
+      return res.status(401).json({ message: "Invalid username or password" });
     }
+  } catch (error) {
+    console.log("Error: ", error);
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/api/logOut", async (req, res) => {
+  try {
+    //remove refreshToken
+    //console.log(refreshTokensArr, " refreshTokensArr ");
+    //refreshTokensArr = refreshTokensArr.filter(token !== req.body.token);
+
+    res.cookie("jwt", "", {
+      httpOnly: true,
+      expires: new Date(0), // expire the cookie immediately/current time
+      sameSite: "strict",
+    });
+
+    return res.status(200).json({
+      status: "success",
+      message: "SuccessfullyLoggedOut",
+    });
   } catch (error) {
     console.log("Error: ", error);
     return res.status(500).send();
@@ -136,9 +211,8 @@ app.get("/api/home", (req, res) => {
   res.json(testData);
 });
 
-app.get("/api/getUserData/:username", (req, res) => {
-  console.log("%%%", req.params);
-  User.findOne({ where: { username: req.params.username } })
+app.get("/api/getUserData/:username", authenticateToken, (req, res) => {
+  User.findOne({ where: { username: req.params.username }, raw: true })
     .then((user) => res.json(user))
     .catch((err) => {
       console.log("Error fetching user profile data. Error: ", error);
@@ -175,7 +249,7 @@ app.get("/api/getDefaultTheme", async (req, res) => {
 });
 
 app.get("/api/getActiveUsers", (req, res) => {
-  User.findAll({ attributes: { exclude: ["password"] } })
+  User.findAll({ attributes: { exclude: ["password"] }, raw: true })
     .then((users) => res.json(users))
     .catch((err) => {
       console.log("Error fetching all users. Error: ", error);

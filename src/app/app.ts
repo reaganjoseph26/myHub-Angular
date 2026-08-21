@@ -8,13 +8,15 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Navigation } from '../app/@components/navigation/navigation';
 import * as THREE from 'three';
 // import NET from 'vanta/dist/vanta.net.min';
 // import VANTA from 'vanta/dist/vanta.net.min';
 import { ThemeService } from './services/ThemeService';
-import { Subscription } from 'rxjs';
+import { filter, map, Subscription } from 'rxjs';
+import { AuthService } from './services/auth.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, Navigation],
@@ -26,15 +28,23 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
   protected title = 'DevHub';
   private vantaEffect: any;
   private ngZone = inject(NgZone);
+  private router = inject(Router);
   readonly themeService = inject(ThemeService);
+  public authService = inject(AuthService);
 
   defaultThemeSub!: Subscription;
   defaultTheme!: any | null;
 
+  private currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map((event) => event.urlAfterRedirects || event.url),
+    ),
+    { initialValue: this.router.url },
+  );
+
   private async loadVantaEffect(effectName: string) {
     try {
-      console.log(effectName, ' effectname');
-      // Pass a partial static path so the bundler can split chunks correctly
       await import(
         `../../node_modules/vanta/dist/vanta.${effectName.toLowerCase()}.min.js`
       );
@@ -80,7 +90,6 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
             .toUpperCase();
 
         this.changeColor(color, backgroundColor, activeColor);
-        console.log('this is the current default theme: ', this.defaultTheme);
 
         //this.ngZone.runOutsideAngular(() => {
         // this.vantaEffect = NET({
@@ -102,6 +111,8 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
   changeColor(color: string, bg: string, active: string) {
     this.themeService.setColors(color, bg, active); // Updates across the app
   }
+
+  showNavigation = () => this.currentUrl() !== '/login';
 
   // initVanta() {
   //   if (typeof VANTA !== 'undefined' && this.vantaBg) {

@@ -53,11 +53,15 @@
 
     <div class="form-control-wrapper">
       <input
-        type="text"
+        [type]="showPwd ? 'text'  :'password'"
         id="password"
         formControlName="password"
         placeholder="Enter Password"
       />
+
+      <mat-icon (click)="showPwd = !showPwd" class="material-icons pwdIcon">
+        {{showPwd ? 'visibility' : 'visibility_off' }}
+      </mat-icon>
 
       @if (signupForm.get('password')?.invalid) {
       <span class="error-msg">Field is required.</span>
@@ -66,11 +70,17 @@
 
     <div class="form-control-wrapper">
       <input
-        type="text"
+        [type]="showConfirmPwd ? 'text'  :'password'"
         id="confirmPassword"
         formControlName="confirmPassword"
         placeholder="Confirm Password"
       />
+      <mat-icon
+        (click)="showConfirmPwd = !showConfirmPwd"
+        class="material-icons pwdIcon"
+      >
+        {{showConfirmPwd ? 'visibility' : 'visibility_off' }}
+      </mat-icon>
 
       @if (signupForm.get('confirmPassword')?.invalid) {
       <span class="error-msg">Field is required.</span>

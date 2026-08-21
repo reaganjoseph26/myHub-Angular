@@ -1,8 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/UsersService';
-import { Subscription } from 'rxjs';
+import { finalize, Subscription } from 'rxjs';
 import { User } from '../../services/interfaces/user';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navigation',
@@ -16,6 +17,7 @@ export class Navigation implements OnInit {
   username!: string | undefined;
   constructor(
     private userService: UserService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
   ) {}
@@ -39,9 +41,26 @@ export class Navigation implements OnInit {
     });
   }
 
-  goToUser(user: string) {
-    // Navigates to absolute path: /home/user/username
-    this.router.navigate(['/home', 'user', user]);
+  // goToUser(user: string) {
+  //   // Navigates to absolute path: /home/user/username
+  //   this.router.navigate(['/home', 'user', user]);
+  // }
+
+  logOut() {
+    this.authService
+      .logOut()
+      .pipe(finalize(() => this.router.navigate(['login'])))
+      .subscribe({
+        next: (res: any) => {
+          console.log(res, ' res');
+        },
+        error: (err: any) => {
+          console.log(
+            'An error has occurred attempting to log you out. Error: ',
+            err,
+          );
+        },
+      });
   }
 
   ngOnDestroy() {

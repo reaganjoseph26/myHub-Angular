@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, NgZone } from '@angular/core';
 import {
   FormBuilder,
   ReactiveFormsModule,
@@ -12,10 +12,11 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize, map, Observable } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { LoggedInUser } from '../../services/interfaces/user';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, MatIconModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -23,46 +24,42 @@ export class Login {
   //old way constructor(private fb: FormBuilder) {}. New way is Inject
   private fb = inject(FormBuilder);
   private authservice = inject(AuthService);
+  private router = inject(Router);
+  private zone = inject(NgZone);
 
   isSubmitting: Boolean = false;
   errMsg: string = '';
   isChecked: Boolean = false;
+  showPwd: Boolean = false;
   loginForm = this.fb.nonNullable.group({
     username: ['', Validators.required],
     password: ['', Validators.required],
   });
 
   ngOnInit() {
-    console.log('login is working');
+    console.log(this.authservice.isLoggedIn());
+    if (this.authservice.isLoggedIn()) {
+      this.zone.run(() => {
+        this.router.navigate(['/home']);
+      });
+    }
   }
-
-  // changeColor() {
-  //   this.theme.setColors('orange', 'pink', 'pink'); // Updates across the app
-  // }
 
   submitLoginForm() {
     this.isChecked = true;
     const loginObj = this.loginForm.getRawValue();
-    console.log(loginObj, ' loginObj');
-    console.log(this.isChecked);
 
     this.authservice
       .login(loginObj)
       .pipe(finalize(() => (this.isSubmitting = false)))
       .subscribe({
         next: (res) => {
-          console.log('Response after logging in: ', res);
+          this.router.navigate(['home']);
         },
         error: (err) => {
           console.log('An error has occurred logging you in. Error: ', err);
-          if (
-            err.status === 400 ||
-            err.error?.message === 'User does not exist'
-          ) {
-            this.errMsg = 'Invalid username or password';
-          } else {
-            this.errMsg = 'An unexpected error has occurred. Please try again.';
-          }
+
+          this.errMsg = 'Invalid username or password';
         },
       });
   }

@@ -20,9 +20,9 @@ export class Home implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('home component');
     this.userSub = this.userService.userData$.subscribe({
       next: (data) => {
+        console.log('data coming in on home component: ', data);
         this.userData = data;
       },
       error: (err) => {
