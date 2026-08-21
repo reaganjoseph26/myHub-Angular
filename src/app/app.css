@@ -80,3 +80,8 @@
   overflow-y: hidden;
   /* Adds a scrollbar if content is too long */
 }
+
+.right-side-wrapper, .right-side {
+  width: 100%;
+  height: 100%;
+}

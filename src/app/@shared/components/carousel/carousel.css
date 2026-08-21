@@ -1,0 +1,56 @@
+.carousel-wrapper {
+    display: flex;
+    padding: 0px 20px 0px 20px;
+    overflow-x: hidden;
+    gap: 12px;
+    scroll-behavior: smooth;
+}
+
+.carousel-controls {
+    display: flex;
+    gap: 12px;
+    padding: 0px 20px 0px 20px;
+    justify-content: flex-end;
+}
+
+.carousel-item {
+    flex: 1 1 calc(33.333% - 11px);
+    /* min-width: calc(33.333% - 11px); */
+    /* Show 3 items at a time */
+    /* box-sizing: border-box; */
+}
+
+.carousel-btn {
+    background-color: #333;
+    color: var(--app-color);
+    border-radius: 20px;
+    font-size: 22px;
+    border: 2px solid var(--app-activeColor);
+    width: 60px;
+    cursor: pointer;
+
+}
+
+.carousel-item>h3 {
+    color: var(--app-color);
+}
+
+::ng-deep youtube-player button {
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .carousel-controls {
+        display: none;
+        /* Mobile users use native swipe gestures */
+    }
+
+    /* .carousel-card {
+        flex: 0 0 240px;
+       
+    }
+
+    .carousel-title {
+        font-size: 14px;
+    } */
+}

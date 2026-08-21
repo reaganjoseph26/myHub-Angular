@@ -1,0 +1,30 @@
+<div class="carousel-controls">
+ 
+  <button class="carousel-btn " aria-label="Scroll Left" (click)="scrollPrev()">
+    &#10094;
+  </button>
+  <button class="carousel-btn"  aria-label="Scroll Right" (click)="scrollNext()">
+    &#10095;
+  </button>
+
+</div>
+<div #carouselWrapper class="carousel-wrapper">
+  @for (slide of slides(); track slide.title) {
+    @let hasVideo = slide.url;
+
+    <div class="carousel-item">
+      <h3>{{ slide.title }}</h3>
+
+      <!-- Conditional logic applies to each item individually -->
+      @if (hasVideo) {
+        <div class="video-wrapper">
+          <youtube-player [videoId]="slide.url" width="560" height="315" />
+        </div>
+      } @else if (slide.img) {
+        <img [src]="slide.img" [alt]="slide.title" />
+      }
+    </div>
+  } @empty {
+    <p>No slides available to display.</p>
+  }
+</div>

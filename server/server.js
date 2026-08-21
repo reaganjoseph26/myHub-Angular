@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 require("dotenv").config();
 const sequelize = require("./connection.js");
 const User = require("./models/user.js");
+const SpotlightLesson = require("./models/spotlightLesson.js");
 
 //creates a signed cookie that prevents client-side tampering; if the value is changed, the server will detect the signature mismatch and reject it.
 const cookieParser = require("cookie-parser");
@@ -204,7 +205,15 @@ app.get("/api/getUserData", authenticateToken, (req, res) => {
   User.findOne({ where: { username: req.user.username.trim() }, raw: true })
     .then((user) => res.json(user))
     .catch((err) => {
-      console.log("Error fetching user profile data. Error: ", error);
+      console.log("Error fetching user profile data. Error: ", err);
+    });
+});
+
+app.get("/api/getHomeData", authenticateToken, (req, res) => {
+  SpotlightLesson.findAll({ where: { active: true }, raw: true })
+    .then((lessons) => res.json(lessons))
+    .catch((err) => {
+      console.log("Error querying SpotlightLesson. Error: ", err);
     });
 });
 
