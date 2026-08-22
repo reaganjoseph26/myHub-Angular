@@ -8,6 +8,7 @@ import { Observable, tap } from 'rxjs';
 import { UserService } from './services/UsersService';
 import { SignUp } from './@components/sign-up/sign-up';
 import { authGuard, isLoggedInGuard } from './guards/auth-guard';
+import { Unauthorized } from './@components/unauthorized/unauthorized';
 
 export const themeResolver: ResolveFn<Observable<any>> = (route) => {
   const themeService = inject(ThemeService);
@@ -25,7 +26,7 @@ export const homeDataResolver: ResolveFn<Observable<any>> = (route) => {
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: Login, canActivate:[isLoggedInGuard] },
+  { path: 'login', component: Login, canActivate: [isLoggedInGuard] },
   { path: 'sign-up', component: SignUp },
   {
     path: 'home',
@@ -41,11 +42,8 @@ export const routes: Routes = [
   },
   { path: 'profile/:username', component: Profile, canActivate: [authGuard] },
   { path: 'hub/:username', component: Profile },
-  {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
-  },
+  { path: 'unauthorized', component: Unauthorized },
+
   {
     path: '**',
     redirectTo: 'home',

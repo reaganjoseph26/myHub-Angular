@@ -107,10 +107,6 @@ app.post("/api/signup", async (req, res) => {
     console.log("### ", req.body);
 
     const newUser = await User.create(req.body);
-
-    // var currentUsers = await getAllUsers();
-    // var updatedUsers = currentUsers.concat(newUser);
-
     const token = generateToken(newUser, res);
     newUser.token = token;
     //const refreshToken = jwt.sign(newUser, process.env.REFRESH_TOKEN_SECRET);
@@ -118,8 +114,6 @@ app.post("/api/signup", async (req, res) => {
 
     res.status(201).json(newUser);
   } catch (error) {
-    // console.log("Error ValidationErrorItem: ", error?.errors[0].message);
-    // console.log("Error: ", error?.name);
     console.log("Error: ", error);
 
     if (
@@ -143,16 +137,18 @@ app.post("/api/signup", async (req, res) => {
 app.post("/api/login", async (req, res) => {
   console.log("### body", req.body);
 
-  const foundUser = await User.findOne({
-    where: { username: req.body.username },
-    attributes: { include: ["password"] },
-  });
-
-  if (!foundUser) {
-    return res.status(400).json({ message: "Incorrect username or password." });
-  }
-
   try {
+    const foundUser = await User.findOne({
+      where: { username: req.body.username },
+      attributes: { include: ["password"] },
+    });
+
+    if (!foundUser) {
+      return res
+        .status(400)
+        .json({ message: "Incorrect username or password." });
+    }
+
     if (await bcrypt.compare(req.body.password, foundUser.password)) {
       const token = generateToken(foundUser, res);
 

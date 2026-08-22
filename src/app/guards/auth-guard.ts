@@ -24,16 +24,16 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       if (error.status === 401 || error.status === 403) {
-        console.log('bacon');
-        if (!isHandling400Code) {
-          isHandling400Code = true;
-          //authService.logOut();
-          console.log('navigating to login');
-          authService.setIsLoggedIn('false');
-          router.navigate(['/login']).then(() => {
-            isHandling400Code = false;
-          });
-        }
+        //if (!isHandling400Code) {
+        //isHandling400Code = true;
+        //authService.logOut();
+
+        authService.setIsLoggedIn('false');
+        router.navigate(['/unauthorized']);
+        // router.navigate(['/login']).then(() => {
+        //   isHandling400Code = false;
+        // });
+        //}
       }
       return throwError(() => error);
     }),

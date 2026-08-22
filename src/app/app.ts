@@ -28,13 +28,14 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('vantaBg', { static: false }) vantaBg!: ElementRef;
   protected title = 'DevHub';
   private vantaEffect: any;
-  private ngZone = inject(NgZone);
   private router = inject(Router);
   readonly themeService = inject(ThemeService);
   public authService = inject(AuthService);
 
   defaultThemeSub!: Subscription;
   defaultTheme!: any | null;
+
+  isUserLoggedIn = this.authService.isLoggedIn()
 
   private currentUrl = toSignal(
     this.router.events.pipe(

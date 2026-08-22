@@ -1,3 +1,8 @@
 {
-  "cSpell.words": ["userservice", "vanta"]
+  "cSpell.words": ["userservice", "vanta"],
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/.git/**": true
+  }
 }
