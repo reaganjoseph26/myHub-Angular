@@ -35,6 +35,59 @@
     color: var(--app-color);
 }
 
+.topDev-card {
+    /* flex: 0 0 calc(16.666% - 10px);  */
+    /* Displays 4 cards at a time on desktop screens */
+    min-width: 260px;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.carousel-topDev-card {
+    position: relative;
+    display: flex;
+    /* align-items: flex-end; */
+    /* width: 220px; */
+    height: 250px;
+    flex-direction: column;
+}
+
+.thumbnail-wrapper {
+    background: transparent;
+    box-shadow: none;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.number-card {
+    position: absolute;
+    /* left: -20px; */
+    /* top: -20px; */
+    font-size: 120px;
+    font-weight: 900;
+    line-height: 0.8;
+    color: rgb(124 118 118 / 72%);
+    z-index: 1000;
+    user-select: none;
+}
+
+.topDev-img {
+
+    object-fit: scale-down;
+    transition: filter 0.3s ease;
+    width: 140px;
+    height: 140px;
+    border-radius: 220%;
+ 
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+}
+
 ::ng-deep youtube-player button {
     cursor: pointer;
 }

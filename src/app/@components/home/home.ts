@@ -19,7 +19,8 @@ import {
 export class Home implements OnInit {
   userSub!: Subscription;
   userData!: User | null;
-  public homeSlides = signal<CarouselSlide[]>([]);
+  public lessonsSlides = signal<CarouselSlide[]>([]);
+  public topDevsSlides = signal<CarouselSlide[]>([]);
   constructor(
     private userService: UserService,
     private router: Router,
@@ -33,29 +34,17 @@ export class Home implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.userData, ' this.userData');
+    //console.log(this.userData, ' this.userData');
     this.dataService.getHomeData().subscribe({
       next: (data) => {
         console.log('data coming in on home component: ', data);
-        this.homeSlides.update((slides) =>
+        this.lessonsSlides.update((slides) =>
           data.lessons.map((slide: CarouselSlide) => ({
             ...slide,
             url: this.extractVideoId(slide.url), // Replace property for all items
           })),
         );
-        // if (data.lessons.length > 0) {
-        //   for (const l of data.lessons) {
-        //     const slide: CarouselSlide = {
-        //       title: l.title,
-        //       url: this.extractVideoId(l.url),
-        //     };
-
-        //     this.homeSlides.update((currentSlides) => [
-        //       ...currentSlides,
-        //       slide,
-        //     ]);
-        //   }
-        // }
+        this.topDevsSlides.set(data.topDevs);
       },
       error: (err) => {
         console.log('An error has occurred getting home data. Error: ', err);

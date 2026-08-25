@@ -1,12 +1,12 @@
 <div #vantaBg id="vanta-background"></div>
-@if  (showNavigation() && isUserLoggedIn === 'true') {
+@if  (showNavigation() && this.authService.isLoggedIn() === 'true') {
 <div class="sidebar">
   <app-navigation></app-navigation>
 </div>
 }
 
 
-<main [class.main-content]="showNavigation() && isUserLoggedIn === 'true' ">
+<main [class.main-content]="showNavigation() && this.authService.isLoggedIn() == 'true' ">
   <div class="right-side-wrapper">
     <div class="right-side">
       <router-outlet />

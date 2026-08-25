@@ -1,11 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, ElementRef, input, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  effect,
+  ElementRef,
+  input,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { YouTubePlayer } from '@angular/youtube-player';
 
 export interface CarouselSlide {
-  title: string;
+  id?: number;
+  sys_id?: number;
   img?: string;
-  url: string; // If present, displays <youtube-player>
+  firstname?: string;
+  lastname?: string;
+  title: string;
+  url: string;
 }
 
 @Component({
@@ -18,19 +29,6 @@ export interface CarouselSlide {
 export class Carousel {
   @ViewChild('carouselWrapper', { read: ElementRef }) track!: ElementRef;
   public slides = input.required<CarouselSlide[]>();
-  public currentIndex = signal(0);
-
-  public nextSlide(): void {
-    this.currentIndex.update((i) => (i + 1) % this.slides().length);
-  }
-
-  public prevSlide(): void {
-    this.currentIndex.update(
-      (i) => (i - 1 + this.slides().length) % this.slides().length,
-    );
-  }
-
-    
 
   scrollNext() {
     const el = this.track.nativeElement;
@@ -38,7 +36,7 @@ export class Carousel {
     el.scrollBy({ left: el.clientWidth, behavior: 'smooth' });
   }
 
-    scrollPrev() {
+  scrollPrev() {
     const el = this.track.nativeElement;
     // Negative clientWidth scrolls back to the previous hidden set
     el.scrollBy({ left: -el.clientWidth, behavior: 'smooth' });

@@ -7,6 +7,7 @@ import {
   NgZone,
   OnDestroy,
   OnInit,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
@@ -34,8 +35,6 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
 
   defaultThemeSub!: Subscription;
   defaultTheme!: any | null;
-
-  isUserLoggedIn = this.authService.isLoggedIn()
 
   private currentUrl = toSignal(
     this.router.events.pipe(
@@ -67,6 +66,14 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
   async ngAfterViewInit() {
     await this.loadVantaEffect(this.defaultTheme.style);
   }
+
+  // constructor() {
+  //   effect(() => {
+  //     const isUserLoggedIn = this.authService.isLoggedIn();
+  //     console.log('####', isUserLoggedIn);
+      
+  //   });
+  // }
 
   ngOnInit() {
     this.defaultThemeSub = this.themeService.defaultTheme$.subscribe({

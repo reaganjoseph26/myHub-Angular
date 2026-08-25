@@ -7,7 +7,6 @@ const SpotlightLesson = sequelize.define(
     sys_id: {
       type: DataTypes.UUID,
       primaryKey: true,
-
       allowNull: false,
     },
     active: {
@@ -28,9 +27,9 @@ const SpotlightLesson = sequelize.define(
     tableName: "spotlightLessons",
     timestamps: false,
     // 1. Automatically hide sys_id when querying lessons
-    defaultScope: {
-      attributes: { exclude: ["sys_id"] },
-    },
+    // defaultScope: {
+    //   attributes: { exclude: ["sys_id"] },
+    // },
   },
 );
 

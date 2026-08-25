@@ -1,19 +1,32 @@
-<section>
-  <div class="section-header">
-    <h1 class="section-title">Spotlight: Lessons of The Week</h1>
-    <!-- <div class="carousel-controls">
-      <button class="ctrl-btn prev-btn" id="prevBtn" aria-label="Scroll Left">
-        &#10094;
-      </button>
-      <button class="ctrl-btn next-btn" id="nextBtn" aria-label="Scroll Right">
-        &#10095;
-      </button>
-    </div> -->
-  </div>
-
-  
-    <div class="carousel">
-      <app-carousel [slides]="homeSlides()" />
+<div class="container">
+  <section>
+    <div class="section-header">
+      <h1 class="section-title">Spotlight: Lessons of The Week</h1>
+      <!-- <div class="carousel-controls">
+        <button class="ctrl-btn prev-btn" id="prevBtn" aria-label="Scroll Left">
+          &#10094;
+        </button>
+        <button class="ctrl-btn next-btn" id="nextBtn" aria-label="Scroll Right">
+          &#10095;
+        </button>
+      </div> -->
     </div>
- 
-</section>
+
+    <div class="carousel">
+      <app-carousel [slides]="lessonsSlides()" />
+    </div>
+  </section>
+
+  <section>
+    <div class="section-header">
+      <h1 class="section-title">Top Developers of the Week</h1>
+    </div>
+   <div class="section-sub-text">
+        <p>Get to know these spotlight developers</p>
+      </div>
+
+    <div class="carousel">
+      <app-carousel [slides]="topDevsSlides()" />
+    </div>
+  </section>
+</div>

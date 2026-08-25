@@ -239,8 +239,6 @@ app.get("/api/getDefaultTheme", async (req, res) => {
       { plain: true },
     );
 
-    //console.log(queryData, " query data");
-
     defaultTheme.style = queryData.style;
     defaultTheme.options = {
       ...JSON.parse(queryData.options),
@@ -266,19 +264,10 @@ app.get("/api/getActiveUsers", (req, res) => {
     });
 });
 
-// app.listen(PORT, () => console.log('Now listening'));
 sequelize.sync({ force: false }).then(async () => {
   try {
     await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
 
-    // const activeMenuItems = await menuItems.findAll({
-    //   attributes: { exclude: ["sys_id"] },
-    // });
-    // console.log(
-    //   activeMenuItems.map((item) => item.toJSON()),
-    //   " activeMenuItems",
-    // );
     // Start the server
     app.listen(PORT, () => {
       console.log(`Server is running on http://localhost:${PORT}`);
