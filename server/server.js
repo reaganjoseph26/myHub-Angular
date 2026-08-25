@@ -1,5 +1,5 @@
 const express = require("express");
-const { Sequelize } = require("sequelize");
+const { Sequelize, QueryTypes  } = require("sequelize");
 const path = require("path");
 // const fs = require("fs");
 const jwt = require("jsonwebtoken");
@@ -210,7 +210,15 @@ app.get("/api/getHomeData", authenticateToken, async (req, res) => {
   try {
     const [lessons, topDevs] = await Promise.all([
       SpotlightLesson.findAll({ where: { active: true }, raw: true }),
-      User.findAll({ where: { top_developer: true }, raw: true }),
+      sequelize.query(
+        `
+        SELECT u.id, u.username, u.firstname, u.lastname, u.email, u.top_developer, wd.votes
+        FROM Users u
+        LEFT JOIN weeklyTopDevelopers wd ON u.id = wd.userId
+        WHERE top_developer = 1
+        ORDER BY votes DESC;`,
+        { type: QueryTypes.SELECT },
+      ),
     ]);
 
     res.json({
@@ -218,7 +226,7 @@ app.get("/api/getHomeData", authenticateToken, async (req, res) => {
       topDevs,
     });
   } catch (error) {
-    console.log("Error querying SpotlightLesson. Error: ", err);
+    console.log("Error querying SpotlightLesson. Error: ", error);
     res.status(500).json({ error: "Failed to fetch home data" });
   }
 

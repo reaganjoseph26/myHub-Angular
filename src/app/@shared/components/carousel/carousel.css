@@ -32,7 +32,7 @@
 }
 
 .carousel-item>h3 {
-    color: var(--app-color);
+    color: white;
 }
 
 .topDev-card {
@@ -69,9 +69,23 @@
     font-size: 120px;
     font-weight: 900;
     line-height: 0.8;
-    color: rgb(124 118 118 / 72%);
+    /* color: rgb(124 118 118 / 72%); */
+
+    /* background: linear-gradient(90deg, rgba(128, 175, 210, 1) 0%, rgba(0, 0, 0, 1) 90%, rgba(128, 175, 210, 1) 100%); */
     z-index: 1000;
     user-select: none;
+    font-weight: bold;
+
+    /* Create the gradient background */
+    background: linear-gradient(90deg, rgba(128, 175, 210, 1) 0%, rgba(0, 0, 0, 1) 90%, rgba(128, 175, 210, 1) 100%);
+
+    /* Clip the background to the text glyphs */
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    /* Make the original text color invisible to show the background */
+    -webkit-text-fill-color: transparent;
+    color: transparent;
 }
 
 .topDev-img {
@@ -81,7 +95,7 @@
     width: 140px;
     height: 140px;
     border-radius: 220%;
- 
+
     position: absolute;
     top: 50%;
     left: 40%;
