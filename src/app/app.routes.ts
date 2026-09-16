@@ -9,6 +9,8 @@ import { UserService } from './services/UsersService';
 import { SignUp } from './@components/sign-up/sign-up';
 import { authGuard, isLoggedInGuard } from './guards/auth-guard';
 import { Unauthorized } from './@components/unauthorized/unauthorized';
+import { UserSettings } from './@components/user-settings/user-settings';
+import { UserFavorites } from './@components/user-favorites/user-favorites';
 
 export const themeResolver: ResolveFn<Observable<any>> = (route) => {
   const themeService = inject(ThemeService);
@@ -40,8 +42,10 @@ export const routes: Routes = [
     //   },
     // ],
   },
-  { path: 'profile/:username', component: Profile, canActivate: [authGuard] },
   { path: 'hub/:username', component: Profile },
+  { path: 'profile/:username', component: Profile, canActivate: [authGuard] },
+  { path: 'favorites/:username', component: UserFavorites},
+  { path: 'settings/:username', component: UserSettings },
   { path: 'unauthorized', component: Unauthorized },
 
   {

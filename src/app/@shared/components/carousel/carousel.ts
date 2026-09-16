@@ -43,10 +43,10 @@ export class Carousel {
     el.scrollBy({ left: -el.clientWidth, behavior: 'smooth' });
   }
 
-  constructor() {
-    effect(() => {
-      // Call the signal like a function to read its current value
-      console.log('Slides updated:', this.slides());
-    });
-  }
+  // constructor() {
+  //   effect(() => {
+  //     // Call the signal like a function to read its current value
+  //     console.log('Slides updated:', this.slides());
+  //   });
+  // }
 }

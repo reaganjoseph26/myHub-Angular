@@ -21,6 +21,7 @@ export class Home implements OnInit {
   userData!: User | null;
   public lessonsSlides = signal<CarouselSlide[]>([]);
   public topDevsSlides = signal<CarouselSlide[]>([]);
+  public topProjectsSlides = signal<CarouselSlide[]>([]);
   constructor(
     private userService: UserService,
     private router: Router,
@@ -45,6 +46,7 @@ export class Home implements OnInit {
           })),
         );
         this.topDevsSlides.set(data.topDevs);
+        this.topProjectsSlides.set(data.topDevs);
       },
       error: (err) => {
         console.log('An error has occurred getting home data. Error: ', err);
