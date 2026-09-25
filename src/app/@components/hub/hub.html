@@ -96,9 +96,8 @@
       <div class="post-wrapper">
         <div class="post-content">
           <div class="post-title">{{ post.createdAt }}</div>
+          <div class="post-info">{{post.post}}</div>
         </div>
-
-        <div class="post-info">{{post.post}}</div>
 
         <button class="action-delete-btn" type="button" (click)="replyToPost()">
           Reply
@@ -123,9 +122,8 @@
       <div class="post-wrapper">
         <div class="post-content">
           <div class="post-title">{{ post.createdAt }}</div>
+          <div class="post-info">{{post.post}}</div>
         </div>
-
-        <div class="post-info">{{post.post}}</div>
 
         <button class="action-delete-btn" type="button" (click)="removePost(i)">
           Delete

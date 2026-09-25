@@ -30,6 +30,10 @@ export class Hub implements OnInit {
   hubbiesPosts: Post[] = [];
 
   ngOnInit() {
+    this.getUserPosts();
+  }
+
+  getUserPosts() {
     this.userservice.getUserPosts().subscribe({
       next: (res) => {
         this.userPosts = res;
@@ -44,11 +48,11 @@ export class Hub implements OnInit {
   }
 
   replyToPost() {
-    console.log('replying to post')
+    console.log('replying to post');
   }
 
   removePost(index: number) {
-    console.log('remove post index: ', index)
+    console.log('remove post index: ', index);
   }
 
   submitHubForm() {
@@ -57,10 +61,10 @@ export class Hub implements OnInit {
 
     this.userservice
       .createPost(postObj.post)
-      .pipe(finalize(() => (this.isSubmitting = false)))
+      .pipe(finalize(() => ((this.isSubmitting = false), this.getUserPosts())))
       .subscribe({
         next: (res) => {
-          console.log(res, res);
+          this.hubForm.controls.post.reset();
           this.errMsg = '';
         },
         error: (err) => {

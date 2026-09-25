@@ -1,11 +1,11 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 // import { menuItem } from '../../../server/models/menuItem.js'
 import { BehaviorSubject } from 'rxjs';
 import { User } from './interfaces/user';
 import { Post } from './interfaces/post';
-
+import { convertDateTime } from '../@shared/utils/dateHelper';
 @Injectable({
   providedIn: 'root',
 })
@@ -13,7 +13,6 @@ export class UserService {
   private apiUrl = 'http://localhost:4200/api/';
   // private userDataSubject = new BehaviorSubject<User | null>(null);
   // public userData$ = this.userDataSubject.asObservable();
-
   private userDataSignal = signal<User>({} as User);
   readonly userData = computed(() => this.userDataSignal.asReadonly());
   private http = inject(HttpClient);
@@ -48,14 +47,27 @@ export class UserService {
   }
 
   getUserPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(this.apiUrl + `getUserPosts`, {
-      withCredentials: true,
-    });
+    return this.http
+      .get<Post[]>(this.apiUrl + `getUserPosts`, {
+        withCredentials: true,
+      })
+      .pipe(
+        map((posts) =>
+          posts.map((post) => ({
+            ...post,
+            createdAt: convertDateTime(post.createdAt),
+          })),
+        ),
+      );
   }
 
   createPost(post: string): Observable<Post> {
-    return this.http.post<Post>(this.apiUrl + `post`, {body:post}, {
-      withCredentials: true,
-    });
+    return this.http.post<Post>(
+      this.apiUrl + `post`,
+      { body: post },
+      {
+        withCredentials: true,
+      },
+    );
   }
 }
