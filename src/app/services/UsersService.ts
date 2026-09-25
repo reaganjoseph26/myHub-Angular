@@ -4,6 +4,7 @@ import { Observable, tap } from 'rxjs';
 // import { menuItem } from '../../../server/models/menuItem.js'
 import { BehaviorSubject } from 'rxjs';
 import { User } from './interfaces/user';
+import { Post } from './interfaces/post';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class UserService {
   // public userData$ = this.userDataSubject.asObservable();
 
   private userDataSignal = signal<User>({} as User);
-  readonly userData =  computed(() => this.userDataSignal.asReadonly());
+  readonly userData = computed(() => this.userDataSignal.asReadonly());
   private http = inject(HttpClient);
 
   getProfileData(endpoint: string): Observable<any> {
@@ -44,5 +45,17 @@ export class UserService {
     );
     this.userDataSignal.set(newValue);
     //this.userDataSubject.next(newValue);
+  }
+
+  getUserPosts(): Observable<Post[]> {
+    return this.http.get<Post[]>(this.apiUrl + `getUserPosts`, {
+      withCredentials: true,
+    });
+  }
+
+  createPost(post: string): Observable<Post> {
+    return this.http.post<Post>(this.apiUrl + `post`, {body:post}, {
+      withCredentials: true,
+    });
   }
 }

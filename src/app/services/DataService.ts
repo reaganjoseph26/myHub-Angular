@@ -10,6 +10,6 @@ export class DataService {
   private apiUrl = 'http://localhost:4200/api/';
 
   getHomeData(): Observable<any> {
-    return this.http.get<any>(this.apiUrl + 'getHomeData')
+    return this.http.get<any>(this.apiUrl + 'getHomeData');
   }
 }

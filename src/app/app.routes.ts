@@ -11,6 +11,7 @@ import { authGuard, isLoggedInGuard } from './guards/auth-guard';
 import { Unauthorized } from './@components/unauthorized/unauthorized';
 import { UserSettings } from './@components/user-settings/user-settings';
 import { UserFavorites } from './@components/user-favorites/user-favorites';
+import { Hub } from './@components/hub/hub';
 
 export const themeResolver: ResolveFn<Observable<any>> = (route) => {
   const themeService = inject(ThemeService);
@@ -42,7 +43,7 @@ export const routes: Routes = [
     //   },
     // ],
   },
-  { path: 'hub/:username', component: Profile },
+  { path: 'hub/:username', component: Hub, canActivate: [authGuard] },
   { path: 'profile/:username', component: Profile, canActivate: [authGuard] },
   { path: 'favorites/:username', component: UserFavorites},
   { path: 'settings/:username', component: UserSettings },

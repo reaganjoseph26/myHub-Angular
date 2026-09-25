@@ -1,5 +1,5 @@
 const express = require("express");
-const { Sequelize, QueryTypes  } = require("sequelize");
+const { Sequelize, QueryTypes } = require("sequelize");
 const path = require("path");
 // const fs = require("fs");
 const jwt = require("jsonwebtoken");
@@ -14,6 +14,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const PORT = process.env.PORT; // Define a port number
 const menuItems = require("./models/menuItem.js");
+const Posts = require("./models/posts.js");
 // var refreshTokensArr = getRefreshTokens();
 const userRoutes = require("./routes/userRoutes.js");
 const cors = require("cors");
@@ -47,48 +48,53 @@ function generateToken(user, res) {
 
 function authenticateToken(req, res, next) {
   //console.log(req.headers);
-  console.log(req.query, "#####");
-  const authHeader = req.headers["cookie"];
-  const token = authHeader && authHeader.split("jwt=")[1];
+  try {
+    console.log(req.query, "#####");
+    const authHeader = req.headers["cookie"];
+    const token = authHeader && authHeader.split("jwt=")[1];
 
-  if (!token) {
-    return res.status(401).json({ message: "No token found." }); //do not have token and not authorized
-  }
-
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, user) => {
-    const currentUser = await User.findOne({
-      where: { username: user.username },
-    });
-
-    if (err || !currentUser) {
-      //attempt to give user refresh token TBD
-
-      if (err?.name === "TokenExpiredError") {
-        console.log("expired");
-        // const response = await fetch("http://localhost:3000/api/token", {
-        //   method: "GET",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: { token: user.token },
-        // });
-
-        // const newToken = await response.json();
-        // //res.json(data); // Send data back to the client
-        // console.log(newToken, " newToken");
-      }
-
-      return res.status(403).json({ message: " Token has expired." }); // have token but expired
+    if (!token) {
+      return res.status(401).json({ message: "No token found." }); //do not have token and not authorized
     }
 
-    res.set(
-      "Cache-Control",
-      "no-store, no-cache, must-revalidate, proxy-revalidate",
-    );
-    res.set("Pragma", "no-cache");
-    res.set("Expires", "0");
-    res.set("Surrogate-Control", "no-store");
-    req.user = user;
-    next();
-  });
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, user) => {
+      const currentUser = await User.findOne({
+        where: { username: user.username },
+      });
+
+      if (err || !currentUser) {
+        //attempt to give user refresh token TBD
+
+        if (err?.name === "TokenExpiredError") {
+          console.log("expired");
+          // const response = await fetch("http://localhost:3000/api/token", {
+          //   method: "GET",
+          //   headers: { "Content-Type": "application/json" },
+          //   body: { token: user.token },
+          // });
+
+          // const newToken = await response.json();
+          // //res.json(data); // Send data back to the client
+          // console.log(newToken, " newToken");
+        }
+
+        return res.status(403).json({ message: " Token has expired." }); // have token but expired
+      }
+
+      res.set(
+        "Cache-Control",
+        "no-store, no-cache, must-revalidate, proxy-revalidate",
+      );
+      res.set("Pragma", "no-cache");
+      res.set("Expires", "0");
+      res.set("Surrogate-Control", "no-store");
+      req.user = user;
+      next();
+    });
+  } catch (error) {
+    console.log("Error: ", error);
+    res.status(500).send("Authentication failure", error);
+  }
 }
 
 app.get("/api/validateToken", authenticateToken, async (req, res) => {
@@ -270,6 +276,29 @@ app.get("/api/getActiveUsers", (req, res) => {
     .catch((err) => {
       console.log("Error fetching all users. Error: ", error);
     });
+});
+
+app.get("/api/getUserPosts", authenticateToken, async (req, res) => {
+  Posts.findAll({
+    where: { user: req.user.id },
+    order: [["createdAt", "DESC"]],
+    raw: true,
+  })
+    .then((posts) => res.status(200).json(posts))
+    .catch((error) => {
+      console.log("Error fetching all users. Error: ", error);
+      res.status(400).json({ error: "Error getting user posts" });
+    });
+});
+
+app.post("/api/post", authenticateToken, async (req, res) => {
+  try {
+    const post = await Posts.create({ user: req.user.id, post: req.body.body });
+    res.status(201).json(post);
+  } catch (error) {
+    console.log("Error creating post record. Error: ", error);
+    res.status(400).json({ error: "Error posting post" });
+  }
 });
 
 sequelize.sync({ force: false }).then(async () => {

@@ -1,0 +1,151 @@
+<div class="hub-wrapper">
+  <section class="user-section">
+    <div class="user-profile-panel">
+      <div class="avatar-container">
+        <img
+          src="../images/placeholder-user-img.png"
+          alt="User Avatar"
+          class="user-avatar"
+        />
+        <span id="nominate-span" class="nominate-span" onclick="nominate()"
+          ><i class="fa fa-star" title="nominate"></i
+        ></span>
+      </div>
+      <div class="user-info">
+        <h2 class="user-fullName" id="fullName"></h2>
+        <p class="user-name" id="username"></p>
+        <p class="user-role" id="role"></p>
+        <p class="user-location" id="location"></p>
+      </div>
+      <hr />
+      <div id="user-followers-wrapper" class="user-followers-wrapper">
+        <p>
+          <i class="fa fa-users" aria-hidden="true"></i>8 followers ~ following
+          0
+        </p>
+      </div>
+
+      <div id="user-about" class="user-about-wrapper">
+        <h4 class="about-header">About</h4>
+        <p>
+          Lorem ipsum dolor , nihil eum sequi iure amet itaque reiciendis
+          consectetur reprehenderit quam illum unde voluptates.
+        </p>
+        <p>Email : jsjsjsj@email.com</p>
+      </div>
+      <div id="user-socials" class="user-socials-wrapper">
+        <h4 class="socials-header">Socials</h4>
+        <p>Portfolio: click here</p>
+        <p>Facebook: click here</p>
+      </div>
+      <div id="user-achievements" class="user-achievements-wrapper">
+        <h4 class="achievements-header">Achievements</h4>
+        <p>Number of Top Projects: 0</p>
+        <p>Weeks As Top Developer : 1</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="posts-section">
+    @if (errMsg) {
+    <span class="error-msg"> {{ errMsg }} </span>
+    }
+    <form [formGroup]="hubForm" (submit)="submitHubForm()">
+      <div class="form-control-wrapper">
+        <div class="prompt-box">
+          <textarea
+            id="postInput"
+            formControlName="post"
+            placeholder="Post anything..."
+          ></textarea>
+          <div class="prompt-footer">
+            <button type="button" class="btn-add">
+              <span class="icon">+</span> Add files and images
+            </button>
+            <div class="footer-actions">
+              <button
+                type="submit"
+                id="postBtn"
+                class="icon-btn"
+                [disabled]="hubForm.invalid || hubForm.pristine || isSubmitting"
+              >
+                post
+              </button>
+            </div>
+          </div>
+        </div>
+
+        @if (hubForm.get('post')?.invalid && hubForm.get('post')?.touched) {
+        <span class="error-msg">Field is required.</span>
+        }
+      </div>
+    </form>
+
+    <div class="posts-container" id="hubbies-container">
+      <div class="posts-header">
+        <h3>hubbies Posts</h3>
+        <div class="header-links">
+          <a href="#">View all</a>
+          <button class="filter-btn" type="button" onclick="filterPosts()">
+            <i class="fa fa-filter" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
+      @for (post of hubbiesPosts; track $index ;let i = $index) {
+      <div class="post-wrapper">
+        <div class="post-content">
+          <div class="post-title">{{ post.createdAt }}</div>
+        </div>
+
+        <div class="post-info">{{post.post}}</div>
+
+        <button class="action-delete-btn" type="button" (click)="replyToPost()">
+          Reply
+        </button>
+      </div>
+      } @empty {
+      <p>No hubbies posts.</p>
+      }
+    </div>
+
+    <div id="posts-container" class="posts-container">
+      <div class="posts-header">
+        <h3>Your Hub Posts</h3>
+        <div class="header-links">
+          <a href="#">View all</a>
+          <button class="filter-btn" type="button" onclick="filterPosts()">
+            <i class="fa fa-filter" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+      @for (post of userPosts; track $index ;let i = $index) {
+      <div class="post-wrapper">
+        <div class="post-content">
+          <div class="post-title">{{ post.createdAt }}</div>
+        </div>
+
+        <div class="post-info">{{post.post}}</div>
+
+        <button class="action-delete-btn" type="button" (click)="removePost(i)">
+          Delete
+        </button>
+      </div>
+      } @empty {
+      <p>You currently have no posts.</p>
+      }
+    </div>
+
+    <!-- <div class="posts-container" id="posts-container">
+      <div class="posts-header">
+        <h3>Your Hub Posts</h3>
+        <div class="header-links">
+          <a href="#">View all</a>
+          <button class="filter-btn" type="button" onclick="filterPosts()">
+            <i class="fa fa-filter" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div> -->
+  </section>
+</div>
