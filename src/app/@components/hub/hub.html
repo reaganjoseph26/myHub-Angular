@@ -83,11 +83,11 @@
 
     <div class="posts-container" id="hubbies-container">
       <div class="posts-header">
-        <h3>hubbies Posts</h3>
+        <h3>Hubbies Posts</h3>
         <div class="header-links">
           <a href="#">View all</a>
           <button class="filter-btn" type="button" onclick="filterPosts()">
-            <i class="fa fa-filter" aria-hidden="true"></i>
+            <i class="fas fa-filter"></i>
           </button>
         </div>
       </div>
@@ -104,7 +104,7 @@
         </button>
       </div>
       } @empty {
-      <p>No hubbies posts.</p>
+      <p class="empty-posts">No hubbies posts.</p>
       }
     </div>
 
@@ -114,7 +114,7 @@
         <div class="header-links">
           <a href="#">View all</a>
           <button class="filter-btn" type="button" onclick="filterPosts()">
-            <i class="fa fa-filter" aria-hidden="true"></i>
+            <i class="fas fa-filter"></i>
           </button>
         </div>
       </div>
@@ -130,20 +130,8 @@
         </button>
       </div>
       } @empty {
-      <p>You currently have no posts.</p>
+      <p class="empty-posts">You currently have no posts.</p>
       }
     </div>
-
-    <!-- <div class="posts-container" id="posts-container">
-      <div class="posts-header">
-        <h3>Your Hub Posts</h3>
-        <div class="header-links">
-          <a href="#">View all</a>
-          <button class="filter-btn" type="button" onclick="filterPosts()">
-            <i class="fa fa-filter" aria-hidden="true"></i>
-          </button>
-        </div>
-      </div>
-    </div> -->
   </section>
 </div>

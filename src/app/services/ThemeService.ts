@@ -18,7 +18,7 @@ export class ThemeService {
     effect(() => {
       const root = document.documentElement;
       root.style.setProperty('--app-background-color', this.backgroundColor());
-      root.style.setProperty('--app-color', this.backgroundColor());
+      root.style.setProperty('--app-color', this.color());
       root.style.setProperty('--app-activeColor', this.activeColor());
     });
   }
@@ -34,8 +34,8 @@ export class ThemeService {
   }
 
   setColors(color: string, bg: string, active: string) {
-    this.backgroundColor.set(color);
-    this.color.set(bg);
+    this.backgroundColor.set(bg);
+    this.color.set(color);
     this.activeColor.set(active);
   }
 }

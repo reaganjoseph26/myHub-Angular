@@ -20,6 +20,17 @@ mat-icon {
   font-feature-settings: "liga" !important;
 }
 
+.hub-wrapper {
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  color: var(--app-color);
+  /* scrollbar-color: var(--app-color2) var(--app-background-color);
+  scrollbar-width: thin;
+  overflow: auto; */
+}
+
 /*user section */
 .user-section {
   width: 100%;
@@ -42,7 +53,7 @@ mat-icon {
   text-align: center;
   gap: 10px;
   height: 100%;
-  color: var(--color);
+  color: var(--app-color);
 }
 
 /* Avatar centering and shape wrapper */
@@ -55,7 +66,7 @@ mat-icon {
   margin-bottom: 16px;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid var(--border-color);
+  border: 3px solid var(--app-activeColor);
 }
 
 /* Ensures the user photo fills the circle gracefully */
@@ -81,7 +92,7 @@ mat-icon {
 .user-fullName {
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--color2);
+  color: var(--app-activeColor);
   margin: 0 0 4px 0;
 }
 
@@ -94,7 +105,7 @@ mat-icon {
 
 .user-location {
   font-size: 0.8rem;
-  color: var(--color);
+  color: var(--app-color);
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -109,38 +120,34 @@ mat-icon {
   align-items: center;
   width: 100%;
   gap: 5px;
-  color: var(--color);
+  color: var(--app-color);
   font-size: 14px;
 }
 
 .user-followers-wrapper > p > i {
   margin-right: 5px;
-  color: var(--color2);
+  color: var(--app-activeColor);
 }
 
 /*posts section */
-
-.posts-container {
-  margin-top: 50px;
-}
 .posts-section {
+  display: flex;
+  flex-direction: column;
   z-index: 1;
   width: 100%;
   padding: 10px;
-  /* Stretches full length of parent */
-  overflow-y: auto;
-  /* Adds a scrollbar if content is too long */
-  scrollbar-width: thin;
 }
 
-.hub-wrapper {
-  height: 100dvh;
-  width: 100%;
-  display: flex;
-  color: var(--app-color);
-  scrollbar-color: var(--app-color2) var(--app-background-color);
+.posts-container {
+  overflow-y: auto;
+  flex-grow: 1;
   scrollbar-width: thin;
-  overflow: auto;
+  scrollbar-color: var(--app-activeColor) var(--app-background-color);
+}
+
+.empty-posts {
+  font-size: 14px;
+  color: var(--app-activeColor);
 }
 
 form {
@@ -208,7 +215,7 @@ form {
   padding: 6px 12px;
   border-radius: 6px;
   border: none;
-  color: var(--color);
+  color: var(--app-color);
   font-size: 16px;
 }
 
@@ -292,12 +299,13 @@ input::placeholder {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+  margin-top: 10px;
 }
 
 .posts-header h3 {
   font-size: 14px;
   font-weight: 600;
-  color: var(--color2);
+  color: var(--app-activeColor);
   margin: 0;
 }
 
@@ -310,7 +318,7 @@ input::placeholder {
 .header-links a {
   font-size: 12px;
   text-decoration: none;
-  color: var(--color2);
+  color: var(--app-activeColor);
 }
 
 .post-wrapper {
@@ -336,7 +344,7 @@ input::placeholder {
 .post-title {
   font-size: 14px;
   font-weight: 600;
-  color: var(--color);
+  color: var(--app-color);
   margin-bottom: 4px;
 }
 
@@ -362,7 +370,7 @@ input::placeholder {
 }
 
 .reply-btn:hover {
-  color: var(--color2);
+  color: var(--app-activeColor);
 }
 
 hr {
@@ -377,7 +385,7 @@ hr {
   align-self: center;
   /* background-color: #21262d; */
   /* border: 1px solid #30363d; */
-  color: var(--color2);
+  color: var(--app-activeColor);
   padding: 6px 12px;
   border-radius: 6px;
   background-color: rgba(22, 27, 34, 0.5);

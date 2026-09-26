@@ -93,7 +93,7 @@ function authenticateToken(req, res, next) {
     });
   } catch (error) {
     console.log("Error: ", error);
-    res.status(500).send("Authentication failure", error);
+    res.status(401).send("Authentication failure", error);
   }
 }
 
