@@ -3,6 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { catchError, map, throwError } from 'rxjs';
+import { UserService } from '../services/UsersService';
 
 let isHandling400Code = false;
 
@@ -42,6 +43,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
+  const userservice = inject(UserService);
   const router = inject(Router);
   console.log('hitting authGUARD');
   return authService.verifyToken().pipe(
@@ -49,6 +51,10 @@ export const authGuard: CanActivateFn = (route, state) => {
       if (isValid) {
         console.log(isValid, ' isValid');
         //this.userservice.setUserData(data);
+        userservice.getUserData().subscribe({
+          next: (data) => userservice.setUserData(data),
+          error: (err) => console.error(err),
+        });
         authService.setIsLoggedIn('true');
 
         return true;

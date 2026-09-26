@@ -58,7 +58,9 @@ export class Hub implements OnInit {
   submitHubForm() {
     this.isSubmitting = true;
     const postObj = this.hubForm.getRawValue();
+    console.log(postObj.post.length)
 
+    return;
     this.userservice
       .createPost(postObj.post)
       .pipe(finalize(() => ((this.isSubmitting = false), this.getUserPosts())))

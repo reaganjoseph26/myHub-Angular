@@ -1,7 +1,14 @@
-import { Component, effect, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  Input,
+  OnInit,
+  Signal,
+} from '@angular/core';
 import { RouterLink, ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../services/UsersService';
-import { finalize, Subscription } from 'rxjs';
+import { finalize, Observable, Subscription } from 'rxjs';
 import { User } from '../../services/interfaces/user';
 import { AuthService } from '../../services/auth.service';
 
@@ -13,39 +20,21 @@ import { AuthService } from '../../services/auth.service';
 })
 export class Navigation implements OnInit {
   userSub!: Subscription;
-  userData: User  = {} as User;
+  userData: User = {} as User;
   constructor(
     private userService: UserService,
     private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
   ) {
-      effect(() => {
-        this.userData = this.userService.userData()();
+    effect(() => {
+      this.userData = this.userService.userData()();
     });
   }
 
   ngOnInit() {
-
     //this.userData =  this.userService.userData();
-
-    console.log(this.userData, ' this.userData')
-    // this.route.paramMap.subscribe((params) => {
-    //   this.username = params.get('username');
-    // });
-
-    // this.userSub = this.userService.userData$.subscribe({
-    //   next: (data) => {
-    //     console.log(data, ' data');
-    //     this.userData = data;
-    //   },
-    //   error: (err) => {
-    //     console.log(
-    //       'An error has occurred subscribing to user data in navigation component. Error: ',
-    //       err,
-    //     );
-    //   },
-    // });
+    console.log(this.userData, ' this.userData');
   }
 
   // goToUser(user: string) {
@@ -76,15 +65,4 @@ export class Navigation implements OnInit {
       this.userSub.unsubscribe();
     }
   }
-
-  // fetchData(): void {
-  //   this.userService.getServerData().subscribe({
-  //     next: (data) => {
-  //       console.log('Data received successfully:', data);
-  //     },
-  //     error: (error) => {
-  //       console.error('Error fetching data from server:', error);
-  //     },
-  //   });
-  // }
 }
