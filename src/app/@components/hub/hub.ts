@@ -24,7 +24,10 @@ export class Hub implements OnInit {
   isChecked: Boolean = false;
   showPwd: Boolean = false;
   hubForm = this.fb.nonNullable.group({
-    post: ['', Validators.required],
+    post: [
+      '',
+      [Validators.required, Validators.maxLength(525), Validators.minLength(1)],
+    ],
   });
   userPosts: Post[] = [];
   hubbiesPosts: Post[] = [];
@@ -58,9 +61,7 @@ export class Hub implements OnInit {
   submitHubForm() {
     this.isSubmitting = true;
     const postObj = this.hubForm.getRawValue();
-    console.log(postObj.post.length)
 
-    return;
     this.userservice
       .createPost(postObj.post)
       .pipe(finalize(() => ((this.isSubmitting = false), this.getUserPosts())))

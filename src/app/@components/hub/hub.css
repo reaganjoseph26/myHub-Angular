@@ -176,6 +176,8 @@ form {
   resize: none;
   outline: none;
   min-height: 40px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--app-activeColor) #161b22;
 }
 
 .prompt-footer {

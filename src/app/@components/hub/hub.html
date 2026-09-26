@@ -77,7 +77,11 @@
         </div>
 
         @if (hubForm.get('post')?.invalid && hubForm.get('post')?.touched) {
-        <span class="error-msg">Field is required.</span>
+        <div class="error-msg">
+          @if (hubForm.get('post')?.hasError('required')) { This field is
+          required. } @if (hubForm.get('post')?.hasError('maxlength')) { This
+          field is too long. Max character length is 525 }
+        </div>
         }
       </div>
     </form>
