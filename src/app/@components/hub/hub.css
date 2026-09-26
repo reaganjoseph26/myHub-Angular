@@ -5,19 +5,10 @@
   font-family: "Indie Flower", cursive;
 }
 
-/* body {
-    height: 100dvh;
-    width: 100%;
-    display: flex;
-    color: var(--app-color);
-    scrollbar-color: var(--app-color2) var(--app-background-color);
-    scrollbar-width: thin;
-    overflow: auto;
-} */
-
-mat-icon {
-  font-family: "Material Icons" !important;
-  font-feature-settings: "liga" !important;
+.fas,
+.fab,
+.far {
+  font-family: "Font Awesome 5 Free" !important; /* Use 5 if you installed v5 */
 }
 
 .hub-wrapper {
@@ -139,6 +130,7 @@ mat-icon {
 }
 
 .posts-container {
+  min-height: 90px;
   overflow-y: auto;
   flex-grow: 1;
   scrollbar-width: thin;
@@ -401,4 +393,15 @@ hr {
   border-radius: 50%;
   padding: 2px;
   cursor: pointer;
+}
+
+.filter-btn {
+  background: transparent;
+  border: none;
+  color: #848d97;
+  cursor: pointer;
+}
+
+.filter-btn > i {
+  color: var(--app-activeColor);
 }

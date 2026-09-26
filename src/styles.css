@@ -25,3 +25,7 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+.fas, .fab, .far {
+  font-family: "Font Awesome 5 Free" !important; /* Use 5 if you installed v5 */
+}
