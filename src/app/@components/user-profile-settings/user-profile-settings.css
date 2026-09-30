@@ -1,0 +1,81 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Indie Flower", cursive;
+}
+
+.fas,
+.fab,
+.far {
+  font-family: "Font Awesome 5 Free" !important; /* Use 5 if you installed v5 */
+}
+
+/* Main Content Styling */
+.content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  height: stretch;
+}
+
+.content-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--app-activeColor);
+}
+
+.content-header p {
+  font-size: 14px;
+  color: var(--app-color);
+}
+
+/* --- Input Fields Styles --- */
+label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--app-color);
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 10px 12px;
+  border: 1px solid var(--app-activeColor);
+  border-radius: 6px;
+  outline: none;
+  color: var(--app-color);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) inset;
+  background-color: rgba(22, 27, 34, 0.5);
+}
+
+input:focus {
+  border-color: var(--input-focus);
+}
+
+/* Section Layouts */
+.settings-section-container {
+    margin-top: 32px;
+}
+
+.settings-section-container h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color);
+    margin-bottom: 4px;
+}
+
+.profile-section-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--color2);
+    margin-bottom: 24px;
+}

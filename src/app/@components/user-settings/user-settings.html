@@ -1,14 +1,29 @@
-   <div class="settings-container">
-      <aside class="sidebar">
-        <!-- Relative paths are automatically resolved under /settings/ -->
+<section class="setting_nav">
+  <div class="menu-container">
+    <aside class="sidebar">
+      <div class="menu-item">
+        <i class="fas fa-users" aria-hidden="true"></i>
         <a routerLink="profile" routerLinkActive="active-tab">Profile</a>
+      </div>
+      <div class="menu-item">
+        <i class="fas fa-users" aria-hidden="true"></i>
         <a routerLink="preferences" routerLinkActive="active-tab">Preferences</a>
+      </div>
+      <div class="menu-item">
+        <i class="fas fa-users" aria-hidden="true"></i>
         <a routerLink="privacy" routerLinkActive="active-tab">Privacy & Security</a>
+      </div>
+      <div class="menu-item">
+        <i class="fas fa-users" aria-hidden="true"></i>
         <a routerLink="customization" routerLinkActive="active-tab">Customization</a>
-      </aside>
+      </div>
+    </aside>
+  </div>
+</section>
 
-      <main class="content-area">
-        <!-- This is where ProfileComponent or SecurityComponent renders -->
-        <router-outlet />
-      </main>
-    </div>
+<section class="settings-active-view">
+  <div class="active-view-container">
+    <!-- This is where ProfileComponent or SecurityComponent renders -->
+    <router-outlet />
+  </div>
+</section>

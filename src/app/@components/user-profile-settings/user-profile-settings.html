@@ -1,89 +1,103 @@
-<form [formGroup]="profileForm" (submit)="submitProfileForm()">
-  <div class="form-control-wrapper">
-    <div formGroupName="personalInfo">
-      <!--FULL NAME-->
-      <fieldset class="form-group row-group">
-        <legend class="group-title">Full name</legend>
-        <div class="input-field">
-          <label for="firstName">First name</label>
-          <input type="text" formControlName="firstname" />
-        </div>
-        <div class="input-field">
-          <label for="lastName">Last name</label>
-          <input type="text" formControlName="lastname" />
-        </div>
-      </fieldset>
-      <!--  USERNAME & EMAIL-->
-      <fieldset class="form-group row-group">
-        <legend class="group-title">User & Email</legend>
-        <div class="input-field">
-          <label for="username">Username</label>
-          <input type="text" formControlName="username" />
-        </div>
-        <div class="input-field">
-          <label for="email">Email</label>
-          <input type="email" formControlName="email" />
-        </div>
-      </fieldset>
-      <!-- Demographics -->
-      <fieldset class="form-group row-group">
-        <legend class="group-title">Demographics</legend>
-        <div class="input-field">
-          <label for="gender">Gender</label>
-
-          <select formControlName="gender">
-            <option value="">Please select</option>
-            <option value="man">Man</option>
-            <option value="woman">Woman</option>
-            <option value="non-binary">Non-binary</option>
-            <option value="prefer-not-to-say">Prefer not to say</option>
-          </select>
-        </div>
-
-        <div class="input-field">
-          <label for="race-ethnicity">Race and Ethnicity</label>
-          <select formControlName="race-ethnicity">
-            <option value="">Please select</option>
-            <option value="indian-native">
-              American Indian or Alaska Native
-            </option>
-            <option value="asian">Asian</option>
-            <option value="black">Black or African American</option>
-            <option value="hispanic">Hispanic or Latino</option>
-            <option value="white">White</option>
-            <option value="prefer-not-to-say">Prefer not to say</option>
-          </select>
-        </div>
-      </fieldset>
-
-      <!-- Location -->
-      <fieldset class="form-group row-group">
-        <legend class="group-title">Location</legend>
-        <div class="input-field">
-          <label for="country">Country</label>
-          <input type="text" formControlName="country" />
-        </div>
-        <div class="input-field">
-          <label for="city">City</label>
-          <input type="text" formControlName="city" />
-        </div>
-        <div class="input-field">
-          <label for="state">State</label>
-          <input type="text" formControlName="state" />
-        </div>
-        <div class="input-field">
-          <label for="zip">Zip</label>
-          <input type="text" formControlName="zip" />
-        </div>
-      </fieldset>
-    </div>
-
-    @if (profileForm.get('post')?.invalid && profileForm.get('post')?.touched) {
-    <div class="error-msg">
-      @if (profileForm.get('post')?.hasError('required')) { This field is
-      required. } @if (profileForm.get('post')?.hasError('maxlength')) { This
-      field is too long. Max character length is 525 }
-    </div>
-    }
+<main class="content">
+  <div class="content-header">
+    <h1>Profile</h1>
+    <p>Update your information</p>
   </div>
-</form>
+
+  <section class="form-section-container">
+    <div class="fprofile-section-wrapper">
+      <form [formGroup]="profileForm" (submit)="submitProfileForm()">
+        <div class="form-control-wrapper">
+          <div formGroupName="personalInfo">
+            <!--FULL NAME-->
+            <fieldset class="form-group row-group">
+              <legend class="group-title">Full name</legend>
+              <div class="input-field">
+                <label for="firstName">First name</label>
+                <input type="text" formControlName="firstname" />
+              </div>
+              <div class="input-field">
+                <label for="lastName">Last name</label>
+                <input type="text" formControlName="lastname" />
+              </div>
+            </fieldset>
+            <!--  USERNAME & EMAIL-->
+            <fieldset class="form-group row-group">
+              <legend class="group-title">User & Email</legend>
+              <div class="input-field">
+                <label for="username">Username</label>
+                <input type="text" formControlName="username" />
+              </div>
+              <div class="input-field">
+                <label for="email">Email</label>
+                <input type="email" formControlName="email" />
+              </div>
+            </fieldset>
+            <!-- Demographics -->
+            <fieldset class="form-group row-group">
+              <legend class="group-title">Demographics</legend>
+              <div class="input-field">
+                <label for="gender">Gender</label>
+
+                <select formControlName="gender">
+                  <option value="">Please select</option>
+                  <option value="man">Man</option>
+                  <option value="woman">Woman</option>
+                  <option value="non-binary">Non-binary</option>
+                  <option value="prefer-not-to-say">Prefer not to say</option>
+                </select>
+              </div>
+
+              <div class="input-field">
+                <label for="race_ethnicity">Race and Ethnicity</label>
+                <select formControlName="race_ethnicity">
+                  <option value="">Please select</option>
+                  <option value="indian-native">
+                    American Indian or Alaska Native
+                  </option>
+                  <option value="asian">Asian</option>
+                  <option value="black">Black or African American</option>
+                  <option value="hispanic">Hispanic or Latino</option>
+                  <option value="white">White</option>
+                  <option value="prefer-not-to-say">Prefer not to say</option>
+                </select>
+              </div>
+            </fieldset>
+          </div>
+
+          <div formGroupName="locationInfo">
+            <!-- Location -->
+            <fieldset class="form-group row-group">
+              <legend class="group-title">Location</legend>
+              <div class="input-field">
+                <label for="country">Country</label>
+                <input type="text" formControlName="country" />
+              </div>
+              <div class="input-field">
+                <label for="city">City</label>
+                <input type="text" formControlName="city" />
+              </div>
+              <div class="input-field">
+                <label for="state">State</label>
+                <input type="text" formControlName="state" />
+              </div>
+              <div class="input-field">
+                <label for="zip_code">Zip</label>
+                <input type="text" formControlName="zip_code" />
+              </div>
+            </fieldset>
+          </div>
+
+          @if (profileForm.get('post')?.invalid &&
+          profileForm.get('post')?.touched) {
+          <div class="error-msg">
+            @if (profileForm.get('post')?.hasError('required')) { This field is
+            required. } @if (profileForm.get('post')?.hasError('maxlength')) {
+            This field is too long. Max character length is 525 }
+          </div>
+          }
+        </div>
+      </form>
+    </div>
+  </section>
+</main>

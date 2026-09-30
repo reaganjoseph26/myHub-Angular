@@ -24,7 +24,9 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
+      console.log(error, 'error in authInterceptor');
       if (error.status === 401 || error.status === 403) {
+        console.log('BABY BABAY')
         //if (!isHandling400Code) {
         //isHandling400Code = true;
         //authService.logOut();

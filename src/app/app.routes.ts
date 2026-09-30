@@ -45,35 +45,52 @@ export const routes: Routes = [
   },
   { path: 'hub/:username', component: Hub, canActivate: [authGuard] },
   { path: 'profile/:username', component: Profile, canActivate: [authGuard] },
-  { path: 'favorites/:username', component: UserFavorites},
-    {
+  { path: 'favorites/:username', component: UserFavorites },
+  {
     path: 'settings/:username',
-    loadComponent: () => import('./@components/user-settings/user-settings').then(m => m.UserSettings),
+    loadComponent: () =>
+      import('./@components/user-settings/user-settings').then(
+        (m) => m.UserSettings,
+      ),
+    canActivate: [authGuard],
+    canActivateChild: [authGuard],
     children: [
       {
-        path: '', 
-        redirectTo: 'profile', 
-        pathMatch: 'full' 
+        path: '',
+        redirectTo: 'profile',
+        pathMatch: 'full',
       },
       {
         path: 'profile',
-        loadComponent: () => import('./@components/user-profile-settings/user-profile-settings').then(m => m.UserProfileSettings)
+        loadComponent: () =>
+          import('./@components/user-profile-settings/user-profile-settings').then(
+            (m) => m.UserProfileSettings,
+          ),
       },
       {
         path: 'preferences',
-        loadComponent: () => import('./@components/user-preferences-settings/user-preferences-settings').then(m => m.UserPreferencesSettings)
+        loadComponent: () =>
+          import('./@components/user-preferences-settings/user-preferences-settings').then(
+            (m) => m.UserPreferencesSettings,
+          ),
       },
       {
         path: 'privacy',
-        loadComponent: () => import('./@components/user-privacy-settings/user-privacy-settings').then(m => m.UserPrivacySettings)
+        loadComponent: () =>
+          import('./@components/user-privacy-settings/user-privacy-settings').then(
+            (m) => m.UserPrivacySettings,
+          ),
       },
       {
         path: 'customization',
-        loadComponent: () => import('./@components/user-customization-settings/user-customization-settings').then(m => m.UserCustomizationSettings)
-      }
-    ]
+        loadComponent: () =>
+          import('./@components/user-customization-settings/user-customization-settings').then(
+            (m) => m.UserCustomizationSettings,
+          ),
+      },
+    ],
   },
-  // { path: 'settings/:username', component: UserSettings, children: [] 
+  // { path: 'settings/:username', component: UserSettings, children: []
   // },
   { path: 'unauthorized', component: Unauthorized },
 
