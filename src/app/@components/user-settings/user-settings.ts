@@ -1,9 +1,9 @@
 import { Component, effect, Input, OnInit } from '@angular/core';
-import { RouterLink, ActivatedRoute, Router } from '@angular/router';
+import { RouterLink, ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-user-settings',
-  imports: [],
+  imports: [RouterLink, RouterOutlet],
   templateUrl: './user-settings.html',
   styleUrl: './user-settings.css',
 })

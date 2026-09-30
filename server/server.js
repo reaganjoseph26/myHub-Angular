@@ -58,38 +58,43 @@ function authenticateToken(req, res, next) {
     }
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, user) => {
-      const currentUser = await User.findOne({
-        where: { username: user.username },
-      });
+      try {
+        const currentUser = await User.findOne({
+          where: { username: user.username },
+        });
 
-      if (err || !currentUser) {
-        //attempt to give user refresh token TBD
+        if (err || !currentUser) {
+          //attempt to give user refresh token TBD
 
-        if (err?.name === "TokenExpiredError") {
-          console.log("expired");
-          // const response = await fetch("http://localhost:3000/api/token", {
-          //   method: "GET",
-          //   headers: { "Content-Type": "application/json" },
-          //   body: { token: user.token },
-          // });
+          if (err?.name === "TokenExpiredError") {
+            console.log("expired");
+            // const response = await fetch("http://localhost:3000/api/token", {
+            //   method: "GET",
+            //   headers: { "Content-Type": "application/json" },
+            //   body: { token: user.token },
+            // });
 
-          // const newToken = await response.json();
-          // //res.json(data); // Send data back to the client
-          // console.log(newToken, " newToken");
+            // const newToken = await response.json();
+            // //res.json(data); // Send data back to the client
+            // console.log(newToken, " newToken");
+          }
+
+          return res.status(403).json({ message: " Token has expired." }); // have token but expired
         }
 
-        return res.status(403).json({ message: " Token has expired." }); // have token but expired
+        res.set(
+          "Cache-Control",
+          "no-store, no-cache, must-revalidate, proxy-revalidate",
+        );
+        res.set("Pragma", "no-cache");
+        res.set("Expires", "0");
+        res.set("Surrogate-Control", "no-store");
+        req.user = user;
+        next();
+      } catch (error) {
+        console.error("Error occurred while verifying token:", error);
+        res.status(401).send("Authentication failure", error);
       }
-
-      res.set(
-        "Cache-Control",
-        "no-store, no-cache, must-revalidate, proxy-revalidate",
-      );
-      res.set("Pragma", "no-cache");
-      res.set("Expires", "0");
-      res.set("Surrogate-Control", "no-store");
-      req.user = user;
-      next();
     });
   } catch (error) {
     console.log("Error: ", error);
