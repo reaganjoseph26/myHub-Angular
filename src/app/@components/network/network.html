@@ -1,1 +1,63 @@
-<p style="color:blue;">network works!</p>
+<div class="network-container">
+  <header>
+    <div class="header-title">Network</div>
+    <i
+      id="filterIcon"
+      class="fas fa-filter"
+      aria-hidden="true"
+      title="filter"
+      (click)="toggleFilters()"
+    ></i>
+  </header>
+
+  @if (showFilters()) {
+
+  <div id="filtersDisplay">
+    <h3>Filter Options</h3>
+    <div class="filter-options">
+      @for (filter of filters(); track filter.value) {
+      <label
+        ><input
+          type="checkbox"
+          [(ngModel)]="filter.checked"
+          (change)="applyFilters()"
+        />Weeks Top Developer</label
+      >
+
+      }
+    </div>
+  </div>
+  }
+
+  <div class="search-container">
+    <input
+      type="text"
+      [value]="searchVal()"
+      (input)="searchVal.set($event.target.value)"
+      placeholder="Search..."
+    />
+  </div>
+  <div class="users-container">
+    @for (item of filteredItems(); track item) {
+    <div class="user-wrapper">
+      <div class="user-content">
+        <div class="user-info">
+          <p class="user-name">{{item.name}}</p>
+          @if(1===1) {
+          <i
+          id="trophyIcon"
+            class="fas fa-trophy"
+            aria-hidden="true"
+            title="This weeks top developer"
+          ></i>
+          }
+        </div>
+        <p class="user-role">{{item.role}}</p>
+        <a href="">View Profile</a>
+      </div>
+      <button class="btn-secondary" (click)="sendNetworkRequest()">Send Request</button>
+    </div>
+
+    }
+  </div>
+</div>

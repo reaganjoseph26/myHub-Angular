@@ -41,7 +41,7 @@ function generateToken(user, res) {
     httpOnly: true, // ensure users browser or others cant use javascript to access it
     secure: true,
     sameSite: "strict", // stops browsers from sending cross browser cookie to prevent attack
-    maxAge: 3600000, //420000,
+    maxAge: 2 * 60 * 60 * 1000 //420000,
   });
   return token;
 }
