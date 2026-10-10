@@ -16,15 +16,9 @@
       <a [routerLink]="['/hub/',userData.username.trim()]" class="menu-item"
         >My Hub</a
       >
+      <a [routerLink]="['/network']" class="menu-item">Network</a>
+      <a [routerLink]="['/projects']" class="menu-item">Projects</a>
 
-      <a
-        [routerLink]="['/profile/', userData.username.trim()]"
-        class="menu-item"
-        >Profile</a
-      >
-
-      <a class="menu-item">Network</a>
-      <a class="menu-item">Projects</a>
       <a
         id="favorites"
         class="menu-item"

@@ -1,6 +1,5 @@
 import { ResolveFn, Routes } from '@angular/router';
 import { Home } from './@components/home/home';
-import { Profile } from './@components/profile/profile';
 import { Login } from './@components/login/login';
 import { ThemeService } from './services/ThemeService';
 import { inject } from '@angular/core';
@@ -12,6 +11,8 @@ import { Unauthorized } from './@components/unauthorized/unauthorized';
 import { UserSettings } from './@components/user-settings/user-settings';
 import { UserFavorites } from './@components/user-favorites/user-favorites';
 import { Hub } from './@components/hub/hub';
+import { Network } from './@components/network/network';
+import { Projects } from './@components/projects/projects';
 
 export const themeResolver: ResolveFn<Observable<any>> = (route) => {
   const themeService = inject(ThemeService);
@@ -44,7 +45,8 @@ export const routes: Routes = [
     // ],
   },
   { path: 'hub/:username', component: Hub, canActivate: [authGuard] },
-  { path: 'profile/:username', component: Profile, canActivate: [authGuard] },
+  { path: 'network', component: Network, canActivate: [authGuard] },
+  { path: 'projects', component: Projects, canActivate: [authGuard] },
   { path: 'favorites/:username', component: UserFavorites },
   {
     path: 'settings/:username',
