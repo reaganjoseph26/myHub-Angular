@@ -70,4 +70,10 @@ export class UserService {
       },
     );
   }
+
+  deletePost(postId: string): Observable<any> {
+    return this.http.delete(this.apiUrl + `deletePost/${postId}`, {
+      withCredentials: true,
+    });
+  }
 }

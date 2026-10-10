@@ -41,7 +41,7 @@ function generateToken(user, res) {
     httpOnly: true, // ensure users browser or others cant use javascript to access it
     secure: true,
     sameSite: "strict", // stops browsers from sending cross browser cookie to prevent attack
-    maxAge: 420000,
+    maxAge: 3600000, //420000,
   });
   return token;
 }
@@ -303,6 +303,18 @@ app.post("/api/post", authenticateToken, async (req, res) => {
   } catch (error) {
     console.log("Error creating post record. Error: ", error);
     res.status(400).json({ error: "Error posting post" });
+  }
+});
+
+app.delete("/api/deletePost/:id", authenticateToken, async (req, res) => {
+  try {
+    await Posts.destroy({ where: { id: req.params.id } });
+    res
+      .status(200)
+      .json({ message: "Your post has successfully been deleted." });
+  } catch (error) {
+    console.log("Error deleting post record. Error: ", error);
+    res.status(400).json({ error: "Error deleting post" });
   }
 });
 

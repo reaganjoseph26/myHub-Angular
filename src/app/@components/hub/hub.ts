@@ -55,7 +55,21 @@ export class Hub implements OnInit {
   }
 
   removePost(index: number) {
-    console.log('remove post index: ', index);
+    const postToRemove = this.userPosts[index];
+
+    this.userservice
+      .deletePost(postToRemove.id)
+      .pipe(finalize(() => this.getUserPosts()))
+      .subscribe({
+        next: (res) => {
+          this.hubForm.controls.post.reset();
+          this.errMsg = '';
+        },
+        error: (err) => {
+          console.log('An error has occurred deleting post. Error: ', err);
+          this.errMsg = 'Error deleting your post.Please try again.';
+        },
+      });
   }
 
   submitHubForm() {
