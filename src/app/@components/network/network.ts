@@ -29,8 +29,6 @@ export class Network {
   showFilters = signal(false);
   toggleFilters() {
     this.showFilters.update((open) => !open);
-
-    console.log(this.showFilters());
   }
 
   applyFilters() {
@@ -41,7 +39,7 @@ export class Network {
     // Add your filtering logic for your data array here
   }
 
-  sendNetworkRequest() {
-    console.log('hehe');
+  sendNetworkRequest(user: any) {
+    console.log('sending a request for: ', user);
   }
 }

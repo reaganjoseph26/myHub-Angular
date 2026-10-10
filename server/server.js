@@ -7,6 +7,8 @@ const bcrypt = require("bcrypt");
 require("dotenv").config();
 const sequelize = require("./connection.js");
 const User = require("./models/user.js");
+const userSettings = require("./models/userSettings.js");
+
 const SpotlightLesson = require("./models/spotlightLesson.js");
 
 //creates a signed cookie that prevents client-side tampering; if the value is changed, the server will detect the signature mismatch and reject it.
@@ -41,7 +43,7 @@ function generateToken(user, res) {
     httpOnly: true, // ensure users browser or others cant use javascript to access it
     secure: true,
     sameSite: "strict", // stops browsers from sending cross browser cookie to prevent attack
-    maxAge: 2 * 60 * 60 * 1000 //420000,
+    maxAge: 2 * 60 * 60 * 1000, //420000,
   });
   return token;
 }
@@ -117,7 +119,9 @@ app.post("/api/signup", async (req, res) => {
   try {
     console.log("### ", req.body);
 
-    const newUser = await User.create(req.body);
+    const newUser = await User.create(req.body, {
+      include: [userSettings],
+    });
     const token = generateToken(newUser, res);
     newUser.token = token;
     //const refreshToken = jwt.sign(newUser, process.env.REFRESH_TOKEN_SECRET);
@@ -209,7 +213,14 @@ app.post("/api/logOut", async (req, res) => {
 });
 
 app.get("/api/getUserData", authenticateToken, (req, res) => {
-  User.findOne({ where: { username: req.user.username.trim() }, raw: true })
+  User.findOne({
+    where: { username: req.user.username.trim() },
+    include: [{
+    model: userSettings,
+    attributes: { exclude: ['sys_id'] }
+  }] ,
+    raw: true,
+  })
     .then((user) => res.json(user))
     .catch((err) => {
       console.log("Error fetching user profile data. Error: ", err);
@@ -316,6 +327,14 @@ app.delete("/api/deletePost/:id", authenticateToken, async (req, res) => {
     console.log("Error deleting post record. Error: ", error);
     res.status(400).json({ error: "Error deleting post" });
   }
+});
+
+app.get("/api/getUserSettings", (req, res) => {
+  userSettings.findAll({ attributes: { exclude: ["password"] }, raw: true })
+    .then((users) => res.json(users))
+    .catch((err) => {
+      console.log("Error fetching all users. Error: ", error);
+    });
 });
 
 sequelize.sync({ force: false }).then(async () => {

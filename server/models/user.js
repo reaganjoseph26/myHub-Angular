@@ -2,6 +2,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
 const bcrypt = require("bcrypt");
+const userSettings = require("./userSettings.js");
 
 // 2. Define User model
 const User = sequelize.define(
@@ -76,13 +77,11 @@ const User = sequelize.define(
   },
 );
 
-// // 3. Define Car model
-// const Car = sequelize.define('Car', {
-//   make: DataTypes.STRING,
-//   model: DataTypes.STRING
-// });
+User.hasOne(userSettings, {
+  onDelete: "CASCADE", // Deletes settings automatically if user is deleted
+  onUpdate: "CASCADE",
+});
 
-// // 4. Set up associations
-// User.hasMany(Car, { foreignKey: 'userId' });
+userSettings.belongsTo(User);
 
 module.exports = User;
