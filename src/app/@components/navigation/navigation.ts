@@ -18,7 +18,7 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './navigation.html',
   styleUrl: './navigation.css',
 })
-export class Navigation implements OnInit {
+export class Navigation {
   userSub!: Subscription;
   userData: User = {} as User;
   constructor(
@@ -30,11 +30,6 @@ export class Navigation implements OnInit {
     effect(() => {
       this.userData = this.userService.userData();
     });
-  }
-
-  ngOnInit() {
-    //this.userData =  this.userService.userData();
-    console.log(this.userData, ' this.userData');
   }
 
   // goToUser(user: string) {

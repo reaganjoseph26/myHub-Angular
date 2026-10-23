@@ -34,15 +34,13 @@ export class UserService {
       })
       .pipe(
         tap((data) => {
-          console.log(data, ' pineapple');
+          //console.log(data, ' data');
 
           if (data && data.followers.length > 0) {
-            console.log(data.followers, '#####');
             this.setFollowerCount(data.followers.length);
           }
 
           if (data && data.following.length > 0) {
-            console.log(data.following, '#####');
             this.setFollowingCount(data.following.length);
           }
 
@@ -52,10 +50,10 @@ export class UserService {
   }
 
   setUserData(newValue: User) {
-    console.log(
-      'the user being set in Global Subject setUserData Call: ',
-      newValue,
-    );
+    // console.log(
+    //   'the user being set in Global Subject setUserData Call: ',
+    //   newValue,
+    // );
     this.userDataSignal.set(newValue);
     //this.userDataSubject.next(newValue);
   }

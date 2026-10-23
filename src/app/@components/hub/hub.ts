@@ -40,6 +40,7 @@ export class Hub implements OnInit {
     effect(() => {
       this.userData = this.userservice.userData();
       this.followers = this.userservice.userFollowerCount();
+      this.following = this.userservice.userFollowingCount();
       console.log(this.userData, ' this.displayData()');
     });
   }
