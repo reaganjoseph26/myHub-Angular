@@ -16,6 +16,8 @@ export class UserService {
   private userDataSignal = signal<User>({} as User);
   readonly userData = this.userDataSignal.asReadonly();
   private http = inject(HttpClient);
+  readonly userFollowerCount = signal(0);
+  readonly userFollowingCount = signal(0);
 
   getProfileData(endpoint: string): Observable<any> {
     return this.http.get<User>(this.apiUrl + endpoint).pipe(
@@ -32,6 +34,18 @@ export class UserService {
       })
       .pipe(
         tap((data) => {
+          console.log(data, ' pineapple');
+
+          if (data && data.followers.length > 0) {
+            console.log(data.followers, '#####');
+            this.setFollowerCount(data.followers.length);
+          }
+
+          if (data && data.following.length > 0) {
+            console.log(data.following, '#####');
+            this.setFollowingCount(data.following.length);
+          }
+
           this.setUserData(data);
         }),
       );
@@ -44,6 +58,14 @@ export class UserService {
     );
     this.userDataSignal.set(newValue);
     //this.userDataSubject.next(newValue);
+  }
+
+  setFollowerCount(count: number) {
+    this.userFollowerCount.set(count);
+  }
+
+  setFollowingCount(count: number) {
+    this.userFollowingCount.set(count);
   }
 
   getUserPosts(): Observable<Post[]> {

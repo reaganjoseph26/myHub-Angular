@@ -33,12 +33,13 @@ export class Hub implements OnInit {
   userPosts: Post[] = [];
   hubbiesPosts: Post[] = [];
   userData: User = {} as User;
-  //profileData: any;
+  followers: number = 0;
+  following: number = 0;
 
   constructor() {
     effect(() => {
       this.userData = this.userservice.userData();
-
+      this.followers = this.userservice.userFollowerCount();
       console.log(this.userData, ' this.displayData()');
     });
   }

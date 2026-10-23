@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
-const User = require("./user.js");
-const Roles = require("./roles.js");
-const Follows = require("./follows.js");
+//const User = require("./user.js");
+//const Roles = require("./roles.js");
+//const Follows = require("./follows.js");
 
 const userProfile = sequelize.define(
   "user_profile",
@@ -34,7 +34,7 @@ const userProfile = sequelize.define(
       type: DataTypes.UUID, // or INTEGER / UNIQUEIDENTIFIER depending on your MSSQL setup
       allowNull: true,
       references: {
-        model: 'roles', // matches the table name of the role model
+        model: "roles", // matches the table name of the role model
         key: "sys_id",
       },
     },
@@ -57,20 +57,6 @@ userProfile.associate = (models) => {
   userProfile.belongsTo(models.roles, {
     foreignKey: "role",
     targetKey: "sys_id",
-  });
-
-  userProfile.belongsToMany(userProfile, {
-    as: "Followers",
-    through: Follows,
-    foreignKey: "following_id",
-    otherKey: "follower_id",
-  });
-
-  userProfile.belongsToMany(userProfile, {
-    as: "Following",
-    through: Follows,
-    foreignKey: "follower_id",
-    otherKey: "following_id",
   });
 };
 

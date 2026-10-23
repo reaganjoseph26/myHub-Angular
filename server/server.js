@@ -22,6 +22,7 @@ const Posts = require("./models/posts.js");
 // var refreshTokensArr = getRefreshTokens();
 const userRoutes = require("./routes/userRoutes.js");
 const cors = require("cors");
+const follows = require("./models/follows.js");
 // const menuItems = require("./public/models/menuItems.js");
 // const {
 //   attribute,
@@ -227,21 +228,76 @@ app.get("/api/getUserData", authenticateToken, (req, res) => {
         model: userProfile,
         attributes: { exclude: ["sys_id", "createdAt", "updatedAt"] },
       },
+      // {
+      //   model: User,
+      //   as: "Followers",
+      //   attributes: ["id", "username", "firstname", "lastname"],
+      //   through: { attributes: [] },
+      // },
+      // {
+      //   model: User,
+      //   as: "Following",
+      //   attributes: ["id", "username", "firstname", "lastname"],
+      //   through: { attributes: [] },
+      // },
     ],
     raw: true,
     nest: true,
   })
     .then(async (user) => {
+      //user.followers = [];
+      //user.following = [];
+
       const userRole = await Roles.findOne({
         where: { sys_id: user.user_profile.role },
         raw: true,
       });
 
       if (userRole) {
-        // console.log(userRole.title, ' #####');
-
         user.user_profile.role = userRole.title;
       }
+
+      // const followers = await follows.findAll({
+      //   attributes: ["follower_id", "firstname", "lastname", "username"],
+      //   where: {
+      //     following_id: user.id,
+      //   },
+      //   raw: true,
+      // });
+
+      const followers = await sequelize.query(
+        `SELECT u.firstname, u.lastname, u.username, u.id AS follower_id 
+         FROM follows f
+         JOIN users u ON f.follower_id = u.id 
+         WHERE f.following_id = ${user.id}`,
+        {
+          type: QueryTypes.SELECT,
+        },
+      );
+
+      const following = await sequelize.query(
+        `SELECT u.firstname, u.lastname, u.username
+         FROM follows f
+         JOIN users u ON f.following_id = u.id 
+         WHERE f.follower_id = ${user.id}`,
+        {
+          type: QueryTypes.SELECT,
+        },
+      );
+
+      // const following = await follows.findAll({
+      //   attributes: ["following_id", "firstname", "lastname", "username"],
+      //   where: {
+      //     follower_id: user.id,
+      //   },
+      //   raw: true,
+      // });
+
+      user.followers = followers;
+      user.following = following;
+
+      //console.log(followers, " followers");
+      //console.log(following, " following");
 
       res.json(user);
     })

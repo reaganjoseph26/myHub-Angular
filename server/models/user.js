@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const userSettings = require("./userSettings.js");
 const userProfile = require("./userProfile.js");
 //const Roles = require("./roles.js");
+const Follows = require("./follows.js");
 
 // 2. Define User model
 const User = sequelize.define(
@@ -85,7 +86,21 @@ User.hasOne(userSettings, {
 });
 
 User.hasOne(userProfile, { foreignKey: "userId" });
-// User.hasOne(Roles, { through: Roles, foreignKey: "userId" });
+User.belongsToMany(User, {
+  as: "Followers",
+  through: Follows,
+  foreignKey: "following_id",
+  otherKey: "follower_id",
+  onDelete: "NO ACTION",
+});
+
+User.belongsToMany(User, {
+  as: "Following",
+  through: Follows,
+  foreignKey: "follower_id",
+  otherKey: "following_id",
+  onDelete: "CASCADE",
+});
 
 userSettings.belongsTo(User);
 userProfile.belongsTo(User);
