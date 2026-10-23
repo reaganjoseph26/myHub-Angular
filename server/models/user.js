@@ -3,6 +3,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
 const bcrypt = require("bcrypt");
 const userSettings = require("./userSettings.js");
+const userProfile = require("./userProfile.js");
 
 // 2. Define User model
 const User = sequelize.define(
@@ -82,6 +83,9 @@ User.hasOne(userSettings, {
   onUpdate: "CASCADE",
 });
 
+User.hasOne(userProfile, { foreignKey: "userId" });
+
 userSettings.belongsTo(User);
+userProfile.belongsTo(User);
 
 module.exports = User;

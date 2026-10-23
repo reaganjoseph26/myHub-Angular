@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, effect, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
@@ -6,6 +6,7 @@ import { finalize } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/UsersService';
 import { Post } from '../../services/interfaces/post';
+import { User, UserProfile } from '../../services/interfaces/user';
 
 @Component({
   selector: 'app-hub',
@@ -31,6 +32,16 @@ export class Hub implements OnInit {
   });
   userPosts: Post[] = [];
   hubbiesPosts: Post[] = [];
+  userData: User = {} as User;
+  //profileData: any;
+
+  constructor() {
+    effect(() => {
+      this.userData = this.userservice.userData();
+
+      console.log(this.userData, ' this.displayData()');
+    });
+  }
 
   ngOnInit() {
     this.getUserPosts();

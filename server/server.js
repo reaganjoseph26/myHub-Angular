@@ -8,8 +8,9 @@ require("dotenv").config();
 const sequelize = require("./connection.js");
 const User = require("./models/user.js");
 const userSettings = require("./models/userSettings.js");
-
+const userProfile = require("./models/userProfile.js");
 const SpotlightLesson = require("./models/spotlightLesson.js");
+const Follows = require("./models/follows.js");
 
 //creates a signed cookie that prevents client-side tampering; if the value is changed, the server will detect the signature mismatch and reject it.
 const cookieParser = require("cookie-parser");
@@ -121,6 +122,7 @@ app.post("/api/signup", async (req, res) => {
 
     const newUser = await User.create(req.body, {
       include: [userSettings],
+      include: [userProfile],
     });
     const token = generateToken(newUser, res);
     newUser.token = token;
@@ -215,11 +217,18 @@ app.post("/api/logOut", async (req, res) => {
 app.get("/api/getUserData", authenticateToken, (req, res) => {
   User.findOne({
     where: { username: req.user.username.trim() },
-    include: [{
-    model: userSettings,
-    attributes: { exclude: ['sys_id'] }
-  }] ,
+    include: [
+      {
+        model: userSettings,
+        attributes: { exclude: ["sys_id"] },
+      },
+      {
+        model: userProfile,
+        attributes: { exclude: ["sys_id", "createdAt", "updatedAt"] },
+      },
+    ],
     raw: true,
+    nest: true
   })
     .then((user) => res.json(user))
     .catch((err) => {
@@ -317,6 +326,35 @@ app.post("/api/post", authenticateToken, async (req, res) => {
   }
 });
 
+app.post("/api/follow", authenticateToken, async (req, res) => {
+  try {
+    await Follows.create({
+      follower_id: req.body.follower,
+      following_id: req.user.id,
+    });
+    res
+      .status(201)
+      .json({ message: "You have successfully followed  this user." });
+  } catch (error) {
+    console.log("Error attempting to follow. Error: ", error);
+    res.status(400).json({ error: "Error following user" });
+  }
+});
+
+app.delete("/api/unfollow", authenticateToken, async (req, res) => {
+  try {
+    await Follows.destroy({
+      where: { follower_id: req.body.follower, following_id: req.user.id },
+    });
+    res
+      .status(200)
+      .json({ message: "You have successfully unfollowed this user." });
+  } catch (error) {
+    console.log("Error attempting to unfollow user. Error: ", error);
+    res.status(400).json({ error: "Error unfollowing user" });
+  }
+});
+
 app.delete("/api/deletePost/:id", authenticateToken, async (req, res) => {
   try {
     await Posts.destroy({ where: { id: req.params.id } });
@@ -330,7 +368,8 @@ app.delete("/api/deletePost/:id", authenticateToken, async (req, res) => {
 });
 
 app.get("/api/getUserSettings", (req, res) => {
-  userSettings.findAll({ attributes: { exclude: ["password"] }, raw: true })
+  userSettings
+    .findAll({ attributes: { exclude: ["password"] }, raw: true })
     .then((users) => res.json(users))
     .catch((err) => {
       console.log("Error fetching all users. Error: ", error);

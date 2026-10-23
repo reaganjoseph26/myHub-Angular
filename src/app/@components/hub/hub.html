@@ -12,10 +12,13 @@
         ></span>
       </div>
       <div class="user-info">
-        <h2 class="user-fullName" id="fullName"></h2>
-        <p class="user-name" id="username"></p>
-        <p class="user-role" id="role"></p>
-        <p class="user-location" id="location"></p>
+        <h2 class="user-fullName" id="fullName">
+          {{userData.firstname}} {{userData.lastname}}
+        </h2>
+        <p class="email">{{userData.email}}</p>
+
+        <p class="user-role" id="role">Software Developer</p>
+        <p class="user-location" id="location">Lake Mary, FL</p>
       </div>
       <hr />
       <div id="user-followers-wrapper" class="user-followers-wrapper">
@@ -28,16 +31,22 @@
       <div id="user-about" class="user-about-wrapper">
         <h4 class="about-header">About</h4>
 
-        <p>
-          Lorem ipsum dolor , nihil eum sequi iure amet itaque reiciendis
-          consectetur reprehenderit quam illum unde voluptates.
-        </p>
-        <p>Email : jsjsjsj@email.com</p>
+        <p>{{userData.user_profile?.bio}}</p>
       </div>
       <div id="user-socials" class="user-socials-wrapper">
         <h4 class="socials-header">Socials</h4>
-        <p>Portfolio: click here</p>
-        <p>Facebook: click here</p>
+        <p>
+          Portfolio:
+          <a [href]="userData.user_profile?.portfolio_link" target="_blank"
+            >click here</a
+          >
+        </p>
+        <p>
+          Linkedin:
+          <a [href]="userData.user_profile?.linkedin_link" target="_blank"
+            >click here</a
+          >
+        </p>
       </div>
       <div id="user-achievements" class="user-achievements-wrapper">
         <h4 class="achievements-header">Achievements</h4>
@@ -60,9 +69,9 @@
             placeholder="Post anything..."
           ></textarea>
           <div class="prompt-footer">
-            <button type="button" class="btn-add">
+            <!-- <button type="button" class="btn-add">
               <span class="icon">+</span> Add files and images
-            </button>
+            </button> -->
             <div class="footer-actions">
               <button
                 type="submit"
@@ -89,12 +98,13 @@
     <div class="posts-container" id="hubbies-container">
       <div class="posts-header">
         <h3>Hubbies Posts</h3>
-        <div class="header-links">
+        <!-- TBD -->
+        <!-- <div class="header-links">
           <a href="#">View all</a>
           <button class="filter-btn" type="button" onclick="filterPosts()">
             <i class="fas fa-filter"></i>
           </button>
-        </div>
+        </div> -->
       </div>
 
       @for (post of hubbiesPosts; track $index ;let i = $index) {
@@ -116,12 +126,13 @@
     <div id="posts-container" class="posts-container">
       <div class="posts-header">
         <h3>Your Hub Posts</h3>
-        <div class="header-links">
+        <!-- TBD -->
+        <!-- <div class="header-links">
           <a href="#">View all</a>
           <button class="filter-btn" type="button" onclick="filterPosts()">
             <i class="fas fa-filter"></i>
           </button>
-        </div>
+        </div> -->
       </div>
       @for (post of userPosts; track $index ;let i = $index) {
       <div class="post-wrapper">

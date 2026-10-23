@@ -1,3 +1,5 @@
+import { Role } from './role';
+
 export interface User {
   id?: number;
   token?: string;
@@ -6,6 +8,7 @@ export interface User {
   lastname: string;
   email: string;
   top_developer?: boolean;
+  user_profile?: UserProfile;
 }
 
 export interface LoggedInUser {
@@ -14,4 +17,12 @@ export interface LoggedInUser {
 }
 export interface NewUser extends User {
   password: string;
+}
+
+export interface UserProfile {
+  img: string;
+  bio: string;
+  portfolio_link: string;
+  linkedin_link: string;
+  role: Role;
 }

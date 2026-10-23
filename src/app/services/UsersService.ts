@@ -14,7 +14,7 @@ export class UserService {
   // private userDataSubject = new BehaviorSubject<User | null>(null);
   // public userData$ = this.userDataSubject.asObservable();
   private userDataSignal = signal<User>({} as User);
-  readonly userData = computed(() => this.userDataSignal.asReadonly());
+  readonly userData = this.userDataSignal.asReadonly();
   private http = inject(HttpClient);
 
   getProfileData(endpoint: string): Observable<any> {

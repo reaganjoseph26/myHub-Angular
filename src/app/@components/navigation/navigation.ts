@@ -28,7 +28,7 @@ export class Navigation implements OnInit {
     private router: Router,
   ) {
     effect(() => {
-      this.userData = this.userService.userData()();
+      this.userData = this.userService.userData();
     });
   }
 

@@ -54,7 +54,7 @@
   position: relative;
   width: 100px;
   height: 100px;
-  margin-bottom: 16px;
+  /* margin-bottom: 16px; */
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid var(--app-activeColor);
@@ -77,21 +77,21 @@
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--color2);
-  margin: 0 0 8px 0;
+  /* margin: 0 0 8px 0; */
 }
 
 .user-fullName {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--app-activeColor);
-  margin: 0 0 4px 0;
+  /* margin: 0 0 4px 0; */
 }
 
 .user-role {
   font-size: 0.9rem;
   font-weight: 500;
   color: var(--color);
-  margin: 0 0 8px 0;
+  /* margin: 0 0 8px 0; */
 }
 
 .user-location {
@@ -113,6 +113,15 @@
   gap: 5px;
   color: var(--app-color);
   font-size: 14px;
+}
+
+.user-socials-wrapper p a {
+  color: var(--app-color);
+  text-decoration: none;
+}
+
+.user-socials-wrapper p a:hover {
+ text-decoration: underline;
 }
 
 .user-followers-wrapper > p > i {
@@ -391,7 +400,7 @@ hr {
   top: 10%;
   right: 20%;
   font-size: 14px;
-  background: white;
+  background: var(--app-background-color);
   border-radius: 50%;
   padding: 2px;
   cursor: pointer;
@@ -406,4 +415,8 @@ hr {
 
 .filter-btn > i {
   color: var(--app-activeColor);
+}
+
+.email {
+  font-size: 11px;;
 }
