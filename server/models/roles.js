@@ -1,5 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
+const UserProfile = require("./user.js");
+//const User = require("./user.js");
 
 const roles = sequelize.define(
   "roles",
@@ -29,5 +31,7 @@ const roles = sequelize.define(
     timestamps: false,
   },
 );
+
+
 
 module.exports = roles;

@@ -11,6 +11,7 @@ const userSettings = require("./models/userSettings.js");
 const userProfile = require("./models/userProfile.js");
 const SpotlightLesson = require("./models/spotlightLesson.js");
 const Follows = require("./models/follows.js");
+const Roles = require("./models/roles.js");
 
 //creates a signed cookie that prevents client-side tampering; if the value is changed, the server will detect the signature mismatch and reject it.
 const cookieParser = require("cookie-parser");
@@ -228,9 +229,22 @@ app.get("/api/getUserData", authenticateToken, (req, res) => {
       },
     ],
     raw: true,
-    nest: true
+    nest: true,
   })
-    .then((user) => res.json(user))
+    .then(async (user) => {
+      const userRole = await Roles.findOne({
+        where: { sys_id: user.user_profile.role },
+        raw: true,
+      });
+
+      if (userRole) {
+        // console.log(userRole.title, ' #####');
+
+        user.user_profile.role = userRole.title;
+      }
+
+      res.json(user);
+    })
     .catch((err) => {
       console.log("Error fetching user profile data. Error: ", err);
       res.status(500).json({ error: "Failed to fetch userdata" });

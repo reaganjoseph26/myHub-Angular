@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../connection.js");
 const User = require("./user.js");
-//const Role = require("./roles.js");
+const Roles = require("./roles.js");
 const Follows = require("./follows.js");
 
 const userProfile = sequelize.define(
@@ -31,9 +31,12 @@ const userProfile = sequelize.define(
       allowNull: true,
     },
     role: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: true,
+      type: DataTypes.UUID, // or INTEGER / UNIQUEIDENTIFIER depending on your MSSQL setup
+      allowNull: true,
+      references: {
+        model: 'roles', // matches the table name of the role model
+        key: "sys_id",
+      },
     },
   },
   {
@@ -44,10 +47,16 @@ const userProfile = sequelize.define(
 
 userProfile.associate = (models) => {
   userProfile.belongsTo(models.User, { foreignKey: "userId" });
-  userProfile.belongsTo(models.Role, {
-    foreignKey: {
-      name: "role",
-    },
+  // userProfile.belongsTo(models.Roles, {
+  //   foreignKey: {
+  //     name: "role",
+  //     as: 'role'
+  //   },
+  // });
+
+  userProfile.belongsTo(models.roles, {
+    foreignKey: "role",
+    targetKey: "sys_id",
   });
 
   userProfile.belongsToMany(userProfile, {
