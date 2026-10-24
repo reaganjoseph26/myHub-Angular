@@ -44,7 +44,12 @@ export const routes: Routes = [
     //   },
     // ],
   },
-  { path: 'hub/:username', component: Hub, canActivate: [authGuard] },
+  {
+    path: 'hub/:username',
+    component: Hub,
+    canActivate: [authGuard],
+    resolve: { userData: homeDataResolver },
+  },
   { path: 'network', component: Network, canActivate: [authGuard] },
   { path: 'projects', component: Projects, canActivate: [authGuard] },
   { path: 'favorites/:username', component: UserFavorites },

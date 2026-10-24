@@ -80,6 +80,23 @@ export class UserService {
         ),
       );
   }
+  getHubbiesPosts(hubbies: string[]): Observable<Post[]> {
+    return this.http
+      .get<Post[]>(this.apiUrl + `getHubbiesPosts`, {
+        withCredentials: true,
+        params: {
+          hubbies: JSON.stringify(hubbies),
+        },
+      })
+      .pipe(
+        map((posts) =>
+          posts.map((post) => ({
+            ...post,
+            createdAt: convertDateTime(post.createdAt),
+          })),
+        ),
+      );
+  }
 
   createPost(post: string): Observable<Post> {
     return this.http.post<Post>(

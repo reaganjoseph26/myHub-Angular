@@ -54,7 +54,7 @@ function generateToken(user, res) {
 function authenticateToken(req, res, next) {
   //console.log(req.headers);
   try {
-    console.log(req.query, "#####");
+    //console.log(req.query, "#####");
     const authHeader = req.headers["cookie"];
     const token = authHeader && authHeader.split("jwt=")[1];
 
@@ -120,7 +120,7 @@ app.get("/api/validateToken", authenticateToken, async (req, res) => {
 
 app.post("/api/signup", async (req, res) => {
   try {
-    console.log("### ", req.body);
+    //console.log("### ", req.body);
 
     const newUser = await User.create(req.body, {
       include: [userSettings],
@@ -154,7 +154,7 @@ app.post("/api/signup", async (req, res) => {
 });
 
 app.post("/api/login", async (req, res) => {
-  console.log("### body", req.body);
+  //console.log("### body", req.body);
 
   try {
     const foundUser = await User.findOne({
@@ -276,7 +276,7 @@ app.get("/api/getUserData", authenticateToken, (req, res) => {
       );
 
       const following = await sequelize.query(
-        `SELECT u.firstname, u.lastname, u.username
+        `SELECT u.firstname, u.lastname, u.username,  u.id AS following_id 
          FROM follows f
          JOIN users u ON f.following_id = u.id 
          WHERE f.follower_id = ${user.id}`,
@@ -379,10 +379,26 @@ app.get("/api/getUserPosts", authenticateToken, async (req, res) => {
     order: [["createdAt", "DESC"]],
     raw: true,
   })
-    .then((posts) => res.status(200).json(posts))
+    .then(async (posts) => res.status(200).json(posts))
     .catch((error) => {
-      console.log("Error fetching all users. Error: ", error);
+      console.log("Error fetching all user posts. Error: ", error);
       res.status(400).json({ error: "Error getting user posts" });
+    });
+});
+
+app.get("/api/getHubbiesPosts", authenticateToken, async (req, res) => {
+  const hubbiesArr = JSON.parse(req.query.hubbies);
+  const followingIds = hubbiesArr.map((h) => h.following_id);
+
+  Posts.findAll({
+    where: { user: followingIds },
+    order: [["createdAt", "DESC"]],
+    raw: true,
+  })
+    .then(async (posts) => res.status(200).json(posts))
+    .catch((error) => {
+      console.log("Error fetching user friends. Error: ", error);
+      res.status(400).json({ error: "Error getting friends posts" });
     });
 });
 
