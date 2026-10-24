@@ -18,7 +18,9 @@
         <p class="email">{{userData.email}}</p>
 
         <p class="user-role" id="role">{{userData.user_profile?.role}}</p>
-        <p class="user-location" id="location">Lake Mary, FL</p>
+        <p class="user-location" id="location">
+          {{userData.city}}, {{userData.state}}
+        </p>
       </div>
       <hr />
       <div id="user-followers-wrapper" class="user-followers-wrapper">

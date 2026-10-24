@@ -9,6 +9,12 @@ export interface User {
   email: string;
   top_developer?: boolean;
   user_profile?: UserProfile;
+  gender: string;
+  race_ethnicity: string;
+  country: string;
+  city: string;
+  state: string;
+  zip: string;
 }
 
 export interface LoggedInUser {
