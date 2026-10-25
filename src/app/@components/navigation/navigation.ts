@@ -6,7 +6,7 @@ import {
   OnInit,
   Signal,
 } from '@angular/core';
-import { RouterLink, ActivatedRoute, Router } from '@angular/router';
+import { RouterLink, ActivatedRoute, Router, RouterLinkActive } from '@angular/router';
 import { UserService } from '../../services/UsersService';
 import { finalize, Observable, Subscription } from 'rxjs';
 import { User } from '../../services/interfaces/user';
@@ -14,7 +14,7 @@ import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navigation',
-  imports: [RouterLink],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './navigation.html',
   styleUrl: './navigation.css',
 })

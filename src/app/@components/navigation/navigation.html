@@ -11,18 +11,42 @@
       </div>
     </div>
     <nav>
-      <a routerLink="/home" class="menu-item">Home</a>
+      <a
+        routerLink="/home"
+        routerLinkActive="active-tab"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="menu-item"
+        >Home</a
+      >
       @if (userData && userData.username) {
-      <a [routerLink]="['/hub/',userData.username.trim()]" class="menu-item"
+      <a
+        [routerLink]="['/hub/',userData.username.trim()]"
+        routerLinkActive="active-tab"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="menu-item"
         >My Hub</a
       >
-      <a [routerLink]="['/network']" class="menu-item">Network</a>
-      <a [routerLink]="['/projects']" class="menu-item">Projects</a>
+      <a
+        [routerLink]="['/network']"
+        routerLinkActive="active-tab"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="menu-item"
+        >Network</a
+      >
+      <a
+        [routerLink]="['/projects']"
+        routerLinkActive="active-tab"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="menu-item"
+        >Projects</a
+      >
 
       <a
         id="favorites"
         class="menu-item"
         [routerLink]="['/favorites/', userData.username.trim()]"
+        routerLinkActive="active-tab"
+        [routerLinkActiveOptions]="{ exact: true }"
         >Favorites</a
       >
       }
@@ -30,7 +54,11 @@
 
     <div class="user-options">
       @if (userData && userData.username) {
-      <a id="settings" [routerLink]="['/settings/', userData.username.trim()]"
+      <a
+        id="settings"
+        [routerLink]="['/settings/', userData.username.trim()]"
+        routerLinkActive="active-tab"
+        [routerLinkActiveOptions]="{ exact: true }"
         >Settings</a
       >
       }
