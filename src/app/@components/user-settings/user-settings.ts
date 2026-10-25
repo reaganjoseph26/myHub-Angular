@@ -21,6 +21,7 @@ import {
 } from '@angular/router';
 import { UserProfileSettings } from '../user-profile-settings/user-profile-settings';
 import { UserPreferencesSettings } from '../user-preferences-settings/user-preferences-settings';
+import { UserPrivacySettings } from '../user-privacy-settings/user-privacy-settings';
 
 @Component({
   selector: 'app-user-settings',
@@ -65,6 +66,12 @@ export class UserSettings {
       this.data['userData'].user_setting.allow_weekly_changes_alerts || false,
   });
 
+  privacyForm = signal({
+    oldPwd: '',
+    newPwd: '',
+    verifyPwd: '',
+  });
+
   onRouteActivated(componentRef: any) {
     // Check if the activated component is the Profile Child
     if (componentRef instanceof UserProfileSettings) {
@@ -74,6 +81,10 @@ export class UserSettings {
 
     if (componentRef instanceof UserPreferencesSettings) {
       componentRef.preferencesData = this.preferencesForm();
+    }
+
+    if (componentRef instanceof UserPrivacySettings) {
+      componentRef.privacyData = this.privacyForm();
     }
   }
 }

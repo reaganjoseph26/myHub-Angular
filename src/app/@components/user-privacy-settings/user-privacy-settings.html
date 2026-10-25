@@ -1,1 +1,87 @@
-<p>user-privacy-settings works!</p>
+<main class="content">
+  <div class="content-header">
+    <h1>Profile</h1>
+    <p>Update your information</p>
+  </div>
+
+  <section class="form-section-container">
+    <div class="privacy-section-wrapper">
+      <form [formGroup]="privacyForm" (submit)="submitPrivacyForm()">
+        <div class="form-control-wrapper">
+          <!--Current Pwd-->
+          <fieldset class="form-group row-group">
+            <div class="input-field">
+              <label for="oldPwd">Current Password</label>
+              <div class="input-with-icon icon-left icon-right">
+                <input
+                  id="oldPwd"
+                  type="password"
+                  formControlName="oldPwd"
+                  autocomplete="oldPwd"
+                />
+                <i id="lockPwdIcon" class="fas fa-lock" aria-hidden="true"></i>
+              </div>
+            </div>
+          </fieldset>
+          <!--New Pwd-->
+          <fieldset class="form-group row-group">
+            <div class="input-field">
+              <label for="newPwd">New Password</label>
+              <div class="input-with-icon icon-left icon-right">
+                <input
+                  id="newPwd"
+                  type="password"
+                  formControlName="newPwd"
+                  autocomplete="newPwd"
+                />
+                <i
+                  id="newPwdIcon"
+                  class="fas fa-eye-slash"
+                  onclick="showPwd(this)"
+                  aria-hidden="true"
+                ></i>
+              </div>
+            </div>
+          </fieldset>
+          <!--  Verify Change-->
+          <fieldset class="form-group row-group">
+            <div class="input-field">
+              <label for="verifyPwd">Verify New Password</label>
+              <div class="input-with-icon icon-left icon-right">
+                <input
+                  id="verifyPwd"
+                  type="password"
+                  formControlName="verifyPwd"
+                  autocomplete="verifyPwd"
+                />
+                <i
+                  id="verifyPwdIcon"
+                  class="fas fa-eye-slash"
+                  onclick="showPwd(this)"
+                  aria-hidden="true"
+                ></i>
+              </div>
+            </div>
+          </fieldset>
+
+          @if (privacyForm.get('post')?.invalid &&
+          privacyForm.get('post')?.touched) {
+          <div class="error-msg">
+            @if (privacyForm.get('post')?.hasError('required')) { This field is
+            required. } @if (privacyForm.get('post')?.hasError('maxlength')) {
+            This field is too long. Max character length is 525 }
+          </div>
+          }
+        </div>
+
+        <button
+          class="submit-btn"
+          type="submit"
+          [disabled]="privacyForm.invalid ||  privacyForm.pristine ||  isSubmitting "
+        >
+          Save
+        </button>
+      </form>
+    </div>
+  </section>
+</main>

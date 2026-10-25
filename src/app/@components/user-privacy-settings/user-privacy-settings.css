@@ -1,0 +1,183 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Indie Flower", cursive;
+}
+
+.fas,
+.fab,
+.far {
+  font-family: "Font Awesome 5 Free" !important; /* Use 5 if you installed v5 */
+}
+
+/* Main Content Styling */
+.content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  height: stretch;
+}
+
+.content-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--app-activeColor);
+}
+
+.content-header p {
+  font-size: 14px;
+  color: var(--app-color);
+}
+
+/* --- Input Fields Styles --- */
+
+.form-group {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.row-group {
+  flex-direction: column;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.row-group .group-title,
+.row-group .group-desc-full {
+  flex: 1 0 100%;
+}
+
+.row-group .input-field {
+  flex: 1;
+  min-width: 240px;
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+  flex-direction: column;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+legend {
+  color: var(--app-activeColor) !important;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  border: none;
+}
+
+label {
+  display: block;
+  color: var(--app-color);
+  margin-bottom: 6px;
+  min-width: 15%;
+  /* font-size: 22px; */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 10px 12px;
+  border: 1px solid var(--app-activeColor);
+  border-radius: 6px;
+  outline: none;
+  color: var(--app-color);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) inset;
+  background-color: rgba(22, 27, 34, 0.5);
+}
+
+input:focus {
+  border-color: var(--input-focus);
+}
+
+.settings-section-container {
+  margin-top: 32px;
+}
+
+.settings-section-container h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color);
+  margin-bottom: 4px;
+}
+
+.privacy-section-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color2);
+  margin-bottom: 24px;
+}
+
+.submit-btn {
+  margin-top: 16px;
+  width: 100%;
+  height: 45px;
+  background: transparent;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 10px rgba(131, 156, 175, 0.5);
+  color: var(--app-color);
+  font-size: 22px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  color: var(--app-activeColor);
+}
+
+.submit-btn:hover:not([disabled]) {
+  cursor: pointer;
+  background: rgb(40, 42, 44);
+}
+
+.form-control-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* --- Custom Inputs with Inner Icons --- */
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon.icon-left input {
+  padding-left: 36px;
+}
+
+.input-with-icon.icon-right input {
+  padding-right: 36px;
+}
+
+#newPwdIcon,
+#verifyPwdIcon,
+#lockPwdIcon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--app-activeColor);
+}
+
+#newPwdIcon,
+#verifyPwdIcon {
+  cursor: pointer;
+}

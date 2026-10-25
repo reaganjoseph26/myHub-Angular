@@ -33,14 +33,14 @@ export class UserPreferencesSettings implements OnInit {
     allow_weekly_changes_alerts: [true],
   });
 
-    ngOnInit() {
+  ngOnInit() {
     if (this.preferencesData) {
       console.log(this.preferencesData, 'this.preferencesForm in ngOnInit');
       this.preferencesForm.patchValue(this.preferencesData);
     }
   }
 
-    getDirtyValues(form: FormGroup): any {
+  getDirtyValues(form: FormGroup): any {
     const dirtyValues: any = {};
 
     Object.keys(form.controls).forEach((key) => {
@@ -66,8 +66,6 @@ export class UserPreferencesSettings implements OnInit {
 
     console.log('Payload:', changedData);
 
-    console.log(
-      this.preferencesForm.value
-    );
+    console.log(this.preferencesForm.value);
   }
 }
