@@ -2,20 +2,40 @@
   <div class="menu-container">
     <aside class="sidebar">
       <div class="menu-item">
-        <i class="fas fa-users" aria-hidden="true"></i>
-        <a routerLink="profile" routerLinkActive="active-tab">Profile</a>
+        <a
+          routerLink="profile"
+          routerLinkActive="active-tab"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <i class="fas fa-users" aria-hidden="true"></i> Profile</a
+        >
       </div>
       <div class="menu-item">
-        <i class="fas fa-users" aria-hidden="true"></i>
-        <a routerLink="preferences" routerLinkActive="active-tab">Preferences</a>
+        <a
+          routerLink="preferences"
+          routerLinkActive="active-tab"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <i class="fas fa-users" aria-hidden="true"></i> Preferences</a
+        >
       </div>
       <div class="menu-item">
-        <i class="fas fa-users" aria-hidden="true"></i>
-        <a routerLink="privacy" routerLinkActive="active-tab">Privacy & Security</a>
+        <a
+          routerLink="privacy"
+          routerLinkActive="active-tab"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <i class="fas fa-users" aria-hidden="true"></i> Privacy & Security</a
+        >
       </div>
       <div class="menu-item">
-        <i class="fas fa-users" aria-hidden="true"></i>
-        <a routerLink="customization" routerLinkActive="active-tab">Customization</a>
+        <a
+          routerLink="customization"
+          routerLinkActive="active-tab"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <i class="fas fa-users" aria-hidden="true"></i> Customization</a
+        >
       </div>
     </aside>
   </div>
@@ -24,6 +44,6 @@
 <section class="settings-active-view">
   <div class="active-view-container">
     <!-- This is where ProfileComponent or SecurityComponent renders -->
-    <router-outlet />
+    <router-outlet (activate)="onRouteActivated($event)" />
   </div>
 </section>

@@ -68,6 +68,14 @@
   height: 100%;
 }
 
+.menu-item a.active-tab,
+.menu-item a.active-tab i {
+  color: var(--app-activeColor) !important;
+}
+
+.menu-item  > a > i {
+  margin-right: 0 !important;
+}
 /* :host {
   display: block;
   width: 100%;

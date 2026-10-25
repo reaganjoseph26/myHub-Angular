@@ -61,6 +61,7 @@ export const routes: Routes = [
       ),
     canActivate: [authGuard],
     canActivateChild: [authGuard],
+     resolve: { userData: homeDataResolver },
     children: [
       {
         path: '',
