@@ -1,1 +1,88 @@
-<p>user-preferences-settings works!</p>
+<main class="content">
+  <div class="content-header">
+    <h1>Preferences</h1>
+    <p>Update your hub preferences</p>
+  </div>
+
+  <section class="form-section-container">
+    <div class="preferences-section-wrapper">
+      <form [formGroup]="preferencesForm" (submit)="submitPreferencesForm()">
+        <div class="form-control-wrapper">
+          <div class="form-control">
+            <!--FULL NAME-->
+            <fieldset class="form-group row-group">
+              <legend class="group-title">System</legend>
+              <div class="input-field">
+                <label for="allow_search">Allow Profile To Be Searched</label>
+                <input type="checkbox" formControlName="allow_search" />
+              </div>
+              <div class="input-field">
+                <label for="allow_nominations">Allow Nominations</label>
+                <input type="checkbox" formControlName="allow_nominations" />
+              </div>
+            </fieldset>
+
+            <fieldset class="form-group row-group">
+              <legend class="group-title">Profile</legend>
+              <div class="input-field">
+                <label for="show_location">Show Location</label>
+                <input type="checkbox" formControlName="show_location" />
+              </div>
+              <div class="input-field">
+                <label for="show_followers">Show Likes & Followers</label>
+                <input type="checkbox" formControlName="show_followers" />
+              </div>
+              <div class="input-field">
+                <label for="show_achievements">Show Achievements</label>
+                <input type="checkbox" formControlName="show_achievements" />
+              </div>
+              <!-- <div class="input-field">
+                <label for="show_socials">Show Socials</label>
+                <input type="checkbox" formControlName="show_socials" />
+              </div> -->
+            </fieldset>
+
+            <fieldset class="form-group row-group">
+              <legend class="group-title">Notifications</legend>
+              <div class="input-field">
+                <label for="allow_like_followers_alerts"
+                  >Likes & Followers Alerts</label
+                >
+                <input
+                  type="checkbox"
+                  formControlName="allow_like_followers_alerts"
+                />
+              </div>
+              <div class="input-field">
+                <label for="allow_post_replies_alerts"
+                  >Posts & Replies Alerts</label
+                >
+                <input
+                  type="checkbox"
+                  formControlName="allow_post_replies_alerts"
+                />
+              </div>
+              <div class="input-field">
+                <label for="allow_weekly_changes_alerts"
+                  >Weekly Changes Alerts</label
+                >
+                <input
+                  type="checkbox"
+                  formControlName="allow_weekly_changes_alerts"
+                />
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <button
+          class="submit-btn"
+          type="submit"
+          [disabled]="preferencesForm.invalid ||  preferencesForm.pristine ||  isSubmitting "
+        >
+          Save
+        </button>
+      </form>
+    </div>
+  </section>
+</main>

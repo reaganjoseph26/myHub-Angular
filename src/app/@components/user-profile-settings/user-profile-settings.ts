@@ -96,11 +96,7 @@ export class UserProfileSettings implements OnInit {
   });
 
   ngOnInit() {
-    console.log('hey hey hey user profile settings component');
-
-    console.log(this.profileForm, 'this.profileForm in ngOnInit');
     if (this.profileData) {
-      console.log(this.profileData, 'this.profileData in ngOnInit');
       this.profileForm.patchValue(this.profileData);
     }
   }
