@@ -116,9 +116,29 @@
           <div class="post-info">{{post.post}}</div>
         </div>
 
-        <button class="action-delete-btn" type="button" (click)="replyToPost()">
-          Reply
-        </button>
+        <div class="posts-btns-wrapper">
+          <!-- Toggle Button -->
+          @if (post.replies && post.replies.length > 0) {
+          <button class="toggle-btn" (click)="toggleReplies()">
+            {{ showReplies() ? 'Hide Replies' : 'Show Replies' }}
+            <span class="arrow" [class.open]="showReplies()">▼</span>
+          </button>
+          }
+
+          <!-- Reply Button -->
+          <button type="button" (click)="replyToPost()">Reply</button>
+        </div>
+
+        @if (showReplies()) { @for (reply of post.replies; track reply.id;let
+        replyIndex = $index ) {
+        <div class="replies-wrapper">
+          <div class="post-content">
+            <div></div>
+            <div class="post-title">{{ reply.createdAt }}</div>
+            <div class="post-info">{{reply.post}}</div>
+          </div>
+        </div>
+        } }
       </div>
       } @empty {
       <div class="empty-posts">No hubbies posts.</div>

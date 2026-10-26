@@ -121,7 +121,7 @@
 }
 
 .user-socials-wrapper p a:hover {
- text-decoration: underline;
+  text-decoration: underline;
 }
 
 .user-followers-wrapper > p > i {
@@ -327,12 +327,17 @@ input::placeholder {
 .post-wrapper {
   display: flex;
   align-items: center;
-
+  flex-wrap: wrap;
   border-bottom: 1px solid #21262d;
   padding: 14px 8px;
   position: relative;
   background-color: rgba(22, 27, 34, 0.5);
   border-radius: 6px;
+}
+
+.replies-wrapper {
+  margin-top: 22px;
+  flex: 0 0 100%;
 }
 
 .session-icon {
@@ -357,7 +362,7 @@ input::placeholder {
 }
 
 .action-delete-btn,
-.reply-btn {
+.posts-btns-wrapper > button {
   background-color: #21262d;
   border: 1px solid #30363d;
   color: #c9d1d9;
@@ -372,7 +377,7 @@ input::placeholder {
   color: red;
 }
 
-.reply-btn:hover {
+.posts-btns-wrapper > button:hover {
   color: var(--app-activeColor);
 }
 
@@ -418,5 +423,9 @@ hr {
 }
 
 .email {
-  font-size: 11px;;
+  font-size: 11px;
+}
+
+.replies-wrapper {
+  background-color: var(--app-background-color);
 }

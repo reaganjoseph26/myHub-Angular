@@ -1,4 +1,11 @@
-import { Component, computed, effect, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  computed,
+  effect,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -36,6 +43,7 @@ export class Hub implements OnInit {
   followers: number = 0;
   following: number = 0;
   data = inject(ActivatedRoute).snapshot.data;
+  showReplies = signal<boolean>(false);
 
   // constructor() {
   //   effect(() => {
@@ -54,7 +62,7 @@ export class Hub implements OnInit {
     this.getUserPosts();
   }
 
-  getUserPosts() {
+  getUserPosts(): void {
     this.userservice
       .getUserPosts()
       .pipe(
@@ -73,10 +81,12 @@ export class Hub implements OnInit {
       });
   }
 
-  getHubbiesPosts(hubbies: string[]) {
+  getHubbiesPosts(hubbies: string[]): void {
     this.userservice.getHubbiesPosts(hubbies).subscribe({
       next: (res) => {
         this.hubbiesPosts = res;
+
+        console.log(this.hubbiesPosts, 'this.hubbiesPosts');
 
         this.errMsg = '';
       },
@@ -90,11 +100,15 @@ export class Hub implements OnInit {
     });
   }
 
+  toggleReplies(): void {
+    this.showReplies.update((visible) => !visible);
+  }
+
   replyToPost() {
     console.log('replying to post');
   }
 
-  removePost(index: number) {
+  removePost(index: number): void {
     const postToRemove = this.userPosts[index];
 
     this.userservice

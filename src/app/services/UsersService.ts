@@ -80,7 +80,7 @@ export class UserService {
         ),
       );
   }
-  getHubbiesPosts(hubbies: string[]): Observable<Post[]> {
+  getHubbiesPosts(hubbies: string[]): Observable<any> {
     return this.http
       .get<Post[]>(this.apiUrl + `getHubbiesPosts`, {
         withCredentials: true,
@@ -93,6 +93,12 @@ export class UserService {
           posts.map((post) => ({
             ...post,
             createdAt: convertDateTime(post.createdAt),
+            replies: post.replies
+              ? post.replies.map((reply) => ({
+                  ...reply,
+                  createdAt: convertDateTime(reply.createdAt),
+                }))
+              : [],
           })),
         ),
       );

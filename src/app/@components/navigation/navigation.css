@@ -71,8 +71,7 @@ aside {
 }
 
 .menu-item:hover {
-  background-color: var(--hoverColor);
-  text-decoration: underline;
+  background-color: #1c1e27;
   color: var(--app-activeColor);
 }
 
@@ -94,9 +93,9 @@ aside {
   font-weight: 500;
 }
 
-.user-options a:hover {
+/* .user-options a:hover {
   text-decoration: underline;
-}
+} */
 
 a.menu-item.active-tab {
   color: var(--app-activeColor) !important;

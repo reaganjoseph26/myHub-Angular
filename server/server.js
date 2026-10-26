@@ -375,7 +375,7 @@ app.get("/api/getActiveUsers", (req, res) => {
 
 app.get("/api/getUserPosts", authenticateToken, async (req, res) => {
   Posts.findAll({
-    where: { user: req.user.id },
+    where: { user: req.user.id, replyToId: null },
     order: [["createdAt", "DESC"]],
     raw: true,
   })
@@ -392,10 +392,21 @@ app.get("/api/getHubbiesPosts", authenticateToken, async (req, res) => {
 
   Posts.findAll({
     where: { user: followingIds },
+    include: [
+      {
+        model: Posts,
+        as: "replies",
+      },
+    ],
     order: [["createdAt", "DESC"]],
-    raw: true,
+    // raw: true,
+    // nest: true,
   })
-    .then(async (posts) => res.status(200).json(posts))
+    .then(async (posts) => {
+      const plainPosts = posts.map((post) => post.get({ plain: true }));
+
+      res.status(200).json(plainPosts);
+    })
     .catch((error) => {
       console.log("Error fetching user friends. Error: ", error);
       res.status(400).json({ error: "Error getting friends posts" });
