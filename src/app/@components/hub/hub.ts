@@ -51,6 +51,10 @@ export class Hub implements OnInit {
   showReplies = signal<boolean>(false);
   openReplies = signal<Record<string, boolean>>({});
   replyTexts = signal<Record<string, string>>({});
+  show_socials: boolean = true;
+  show_achievements: boolean = true;
+  show_followers: boolean = true;
+  show_location: boolean = true;
 
   // constructor() {
   //   effect(() => {
@@ -66,6 +70,10 @@ export class Hub implements OnInit {
     this.userData = this.data['userData'];
     this.followers = this.data['userData'].followers.length;
     this.following = this.data['userData'].following.length;
+    this.show_socials = this.data['userData'].user_setting.show_socials;
+    this.show_achievements = this.data['userData'].user_setting.show_achievements;
+    this.show_followers= this.data['userData'].user_setting.show_followers;
+    this.show_location = this.data['userData'].user_setting.show_location;
     this.getUserPosts();
   }
 
