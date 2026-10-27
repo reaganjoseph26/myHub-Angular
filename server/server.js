@@ -415,7 +415,11 @@ app.get("/api/getHubbiesPosts", authenticateToken, async (req, res) => {
 
 app.post("/api/post", authenticateToken, async (req, res) => {
   try {
-    const post = await Posts.create({ user: req.user.id, post: req.body.body });
+    const post = await Posts.create({
+      user: req.user.id,
+      post: req.body.post,
+      replyToId: req.body.replyToId || null,
+    });
     res.status(201).json(post);
   } catch (error) {
     console.log("Error creating post record. Error: ", error);

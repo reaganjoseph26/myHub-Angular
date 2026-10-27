@@ -104,10 +104,10 @@ export class UserService {
       );
   }
 
-  createPost(post: string): Observable<Post> {
+  createPost(post: string, replyToId?: string): Observable<Post> {
     return this.http.post<Post>(
       this.apiUrl + `post`,
-      { body: post },
+      { post: post, replyToId: replyToId },
       {
         withCredentials: true,
       },

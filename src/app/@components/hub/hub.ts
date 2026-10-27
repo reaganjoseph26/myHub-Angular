@@ -111,10 +111,6 @@ export class Hub implements OnInit {
     this.showReplies.update((visible) => !visible);
   }
 
-  replyToPost(postId: string) {
-    console.log(postId, ' replying to post');
-  }
-
   toggleReply(postId: string) {
     this.openReplies.update((prev) => {
       const isOpen = !prev[postId];
@@ -128,13 +124,9 @@ export class Hub implements OnInit {
     });
   }
 
-  // Helper method to bind individual textareas to the signal record
+  // bind individual textarea's to the signal record
   onTextChange(postId: string, text: string) {
-    console.log(postId, ' onTextChange');
-    console.log(text, ' onTextChange');
     this.replyTexts.update((prev) => ({ ...prev, [postId]: text }));
-
-    console.log(this.replyTexts(), ' hehe ababy')
   }
 
   removePost(index: number): void {
@@ -156,19 +148,33 @@ export class Hub implements OnInit {
   }
 
   submitReply(postId: string) {
-    // const text = this.replyTexts()[postId] || '';
-    // console.log(`Submitting unique reply for post ${postId}:`, text);
-    //grab current any replied data 
-    const repliesData = this.replyTexts();
-    console.log(repliesData)
+    const text = this.replyTexts()[postId] || '';
+    const postObj = { post: text, replyToId: postId };
 
-    // Add your backend/Sequelize submission logic here...
-
-    // Clear text and close the box for this specific post
-    this.replyTexts.update((prev) => ({ ...prev, [postId]: '' }));
-    this.openReplies.update((prev) => ({ ...prev, [postId]: false }));
-
-  
+    this.userservice
+      .createPost(postObj.post, postObj.replyToId)
+      .pipe(
+        finalize(() => this.getHubbiesPosts(this.data['userData'].following)),
+      )
+      .subscribe({
+        next: (res) => {
+          //console.log(res, ' res'),
+          // Clear text and close the box for this specific post
+          ((this.replyTexts.update((prev) => ({ ...prev, [postId]: '' })),
+          this.openReplies.update((prev) => ({
+            ...prev,
+            [postId]: false,
+          }))),
+            (this.errMsg = ''));
+        },
+        error: (err) => {
+          console.log(
+            'An error has occurred with your reply to post. Error: ',
+            err,
+          );
+          this.errMsg = 'Error replying to post.Please try again.';
+        },
+      });
   }
 
   submitHubForm() {
