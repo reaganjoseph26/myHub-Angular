@@ -126,10 +126,32 @@
           }
 
           <!-- Reply Button -->
-          <button type="button" (click)="replyToPost()">Reply</button>
+          <button type="button" (click)="toggleReply(post.id)">
+            {{ openReplies()[post.id] ? 'Cancel' : 'Reply' }}
+          </button>
         </div>
 
-        @if (showReplies()) { @for (reply of post.replies; track reply.id;let
+        @if (openReplies()[post.id]) {
+        <div class="reply-box">
+          <textarea
+            [ngModel]="replyTexts()[post.id] || ''"
+            (ngModelChange)="onTextChange(post.id, $event)"
+            placeholder="Write a unique reply..."
+            rows="3"
+            style="width: 100%; display: block; margin-bottom: 5px"
+          >
+          </textarea>
+          <div class="footer-actions">
+            <button
+              class="icon-btn"
+              (click)="submitReply(post.id)"
+              [disabled]="!(replyTexts()[post.id]?.trim())"
+            >
+              Submit Reply
+            </button>
+          </div>
+        </div>
+        } @if (showReplies()) { @for (reply of post.replies; track reply.id;let
         replyIndex = $index ) {
         <div class="replies-wrapper">
           <div class="post-content">

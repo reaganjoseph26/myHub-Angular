@@ -168,7 +168,8 @@ form {
   position: relative;
 }
 
-.prompt-box {
+.prompt-box,
+.reply-box {
   background-color: #161b22;
   border: 1px solid #30363d;
   border-radius: 12px;
@@ -176,7 +177,8 @@ form {
   margin-bottom: 12px;
 }
 
-.prompt-box textarea {
+.prompt-box textarea,
+.reply-box textarea {
   width: 100%;
   background: transparent;
   border: none;
@@ -196,6 +198,12 @@ form {
   margin-top: 12px;
   border-top: 1px solid #21262d;
   padding-top: 12px;
+}
+
+.reply-box {
+  flex: 0 0 100%;
+  margin-top: 10px;
+  padding-left: 20px;
 }
 
 .btn-add {

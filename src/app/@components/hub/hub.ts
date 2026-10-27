@@ -6,7 +6,12 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  Validators,
+  FormsModule,
+} from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs';
@@ -17,7 +22,7 @@ import { User, UserProfile } from '../../services/interfaces/user';
 
 @Component({
   selector: 'app-hub',
-  imports: [ReactiveFormsModule, MatIconModule],
+  imports: [ReactiveFormsModule, MatIconModule, FormsModule],
   templateUrl: './hub.html',
   styleUrl: './hub.css',
 })
@@ -44,6 +49,8 @@ export class Hub implements OnInit {
   following: number = 0;
   data = inject(ActivatedRoute).snapshot.data;
   showReplies = signal<boolean>(false);
+  openReplies = signal<Record<string, boolean>>({});
+  replyTexts = signal<Record<string, string>>({});
 
   // constructor() {
   //   effect(() => {
@@ -104,8 +111,30 @@ export class Hub implements OnInit {
     this.showReplies.update((visible) => !visible);
   }
 
-  replyToPost() {
-    console.log('replying to post');
+  replyToPost(postId: string) {
+    console.log(postId, ' replying to post');
+  }
+
+  toggleReply(postId: string) {
+    this.openReplies.update((prev) => {
+      const isOpen = !prev[postId];
+
+      // If we are opening the reply box for the first time, initialize its unique text state
+      if (isOpen && this.replyTexts()[postId] === undefined) {
+        this.replyTexts.update((texts) => ({ ...texts, [postId]: '' }));
+      }
+
+      return { ...prev, [postId]: isOpen };
+    });
+  }
+
+  // Helper method to bind individual textareas to the signal record
+  onTextChange(postId: string, text: string) {
+    console.log(postId, ' onTextChange');
+    console.log(text, ' onTextChange');
+    this.replyTexts.update((prev) => ({ ...prev, [postId]: text }));
+
+    console.log(this.replyTexts(), ' hehe ababy')
   }
 
   removePost(index: number): void {
@@ -124,6 +153,22 @@ export class Hub implements OnInit {
           this.errMsg = 'Error deleting your post.Please try again.';
         },
       });
+  }
+
+  submitReply(postId: string) {
+    // const text = this.replyTexts()[postId] || '';
+    // console.log(`Submitting unique reply for post ${postId}:`, text);
+    //grab current any replied data 
+    const repliesData = this.replyTexts();
+    console.log(repliesData)
+
+    // Add your backend/Sequelize submission logic here...
+
+    // Clear text and close the box for this specific post
+    this.replyTexts.update((prev) => ({ ...prev, [postId]: '' }));
+    this.openReplies.update((prev) => ({ ...prev, [postId]: false }));
+
+  
   }
 
   submitHubForm() {
