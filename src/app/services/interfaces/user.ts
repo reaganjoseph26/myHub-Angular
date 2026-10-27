@@ -8,6 +8,8 @@ export interface User {
   lastname: string;
   email: string;
   top_developer?: boolean;
+  top_developer_weeks?: number;
+  top_project_weeks?: number;
   user_profile?: UserProfile;
   gender?: string;
   race_ethnicity?: string;

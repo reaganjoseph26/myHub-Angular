@@ -55,6 +55,9 @@ export class Hub implements OnInit {
   show_achievements: boolean = true;
   show_followers: boolean = true;
   show_location: boolean = true;
+  allow_nominations: boolean = true;
+  //tracks if the logged in user nominated any profile user they are viewing
+  loggedInUserNominated: boolean = false;
 
   // constructor() {
   //   effect(() => {
@@ -71,9 +74,12 @@ export class Hub implements OnInit {
     this.followers = this.data['userData'].followers.length;
     this.following = this.data['userData'].following.length;
     this.show_socials = this.data['userData'].user_setting.show_socials;
-    this.show_achievements = this.data['userData'].user_setting.show_achievements;
-    this.show_followers= this.data['userData'].user_setting.show_followers;
+    this.show_achievements =
+      this.data['userData'].user_setting.show_achievements;
+    this.show_followers = this.data['userData'].user_setting.show_followers;
     this.show_location = this.data['userData'].user_setting.show_location;
+    this.allow_nominations =
+      this.data['userData'].user_setting.allow_nominations;
     this.getUserPosts();
   }
 
@@ -153,6 +159,14 @@ export class Hub implements OnInit {
           this.errMsg = 'Error deleting your post.Please try again.';
         },
       });
+  }
+
+  toggleNominateColor() {
+    this.loggedInUserNominated = !this.loggedInUserNominated;
+  }
+
+  nominate() {
+    this.toggleNominateColor();
   }
 
   submitReply(postId: string) {

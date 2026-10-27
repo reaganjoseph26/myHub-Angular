@@ -7,9 +7,15 @@
           alt="User Avatar"
           class="user-avatar"
         />
-        <span id="nominate-span" class="nominate-span" onclick="nominate()"
-          ><i class="fas fa-star" title="nominate"></i
+        @if(allow_nominations ) {
+        <span id="nominate-span" class="nominate-span" (click)="nominate()"
+          ><i
+            [style.color]="loggedInUserNominated ? '#fcf803' : 'inherit'"
+            class="fas fa-star"
+            [title]="loggedInUserNominated ? ' Remove your nomination for user as top developer' : ' Nominate user for weekly top developer'"
+          ></i
         ></span>
+        }
       </div>
       <div class="user-info">
         <h2 class="user-fullName" id="fullName">
@@ -61,8 +67,8 @@
       } @if (show_achievements) {
       <div id="user-achievements" class="user-achievements-wrapper">
         <h4 class="achievements-header">Achievements</h4>
-        <p>Number of Top Projects: 0</p>
-        <p>Weeks As Top Developer : 1</p>
+        <p>Number of Top Projects: {{userData.top_project_weeks}}</p>
+        <p>Weeks As Top Developer : {{userData.top_developer_weeks}}</p>
       </div>
       }
     </div>

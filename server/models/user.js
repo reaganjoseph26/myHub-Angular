@@ -54,6 +54,16 @@ const User = sequelize.define(
     city: { type: DataTypes.CHAR(60), allowNull: true },
     state: { type: DataTypes.CHAR(10), allowNull: true },
     zip_code: { type: DataTypes.CHAR(20), allowNull: true },
+    top_developer_weeks: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 0,
+    },
+    top_project_weeks: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      defaultValue: 0,
+    },
   },
   {
     // 1. Automatically hide password when querying users
