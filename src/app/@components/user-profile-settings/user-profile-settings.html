@@ -60,7 +60,12 @@
               <legend class="group-title">User & Email</legend>
               <div class="input-field">
                 <label for="username">Username</label>
-                <input type="text" id="username" formControlName="username" />
+                <input
+                  type="text"
+                  id="username"
+                  autocomplete="off"
+                  formControlName="username"
+                />
 
                 @let usernameControl = profileForm.get('personalInfo.username');
                 @if (usernameControl?.invalid && usernameControl?.touched) {
@@ -78,7 +83,12 @@
               </div>
               <div class="input-field">
                 <label for="email">Email</label>
-                <input type="email" id="email" formControlName="email" />
+                <input
+                  type="email"
+                  id="email"
+                  autocomplete="off"
+                  formControlName="email"
+                />
 
                 @let emailControl = profileForm.get('personalInfo.email'); @if
                 (emailControl?.invalid && emailControl?.touched) {
@@ -103,7 +113,7 @@
               <div class="input-field">
                 <label for="gender">Gender</label>
 
-                <select id="gender"  formControlName="gender">
+                <select id="gender" formControlName="gender">
                   <option *ngFor="let item of genderOptions" [ngValue]="item">
                     {{ item }}
                   </option>
@@ -130,19 +140,24 @@
               <legend class="group-title">Location</legend>
               <div class="input-field">
                 <label for="country">Country</label>
-                <input type="text" formControlName="country" />
+                <input
+                  type="text"
+                  id="country"
+                  autocomplete="off"
+                  formControlName="country"
+                />
               </div>
               <div class="input-field">
                 <label for="city">City</label>
-                <input type="text" formControlName="city" />
+                <input type="text" id="city" formControlName="city" />
               </div>
               <div class="input-field">
                 <label for="state">State</label>
-                <input type="text" formControlName="state" />
+                <input type="text" id="state" formControlName="state" />
               </div>
               <div class="input-field">
                 <label for="zip_code">Zip</label>
-                <input type="text" formControlName="zip_code" />
+                <input type="text" id="zip_code" formControlName="zip_code" />
                 @let zipCodeControl = profileForm.get('locationInfo.zip_code');
                 @if (zipCodeControl?.invalid && zipCodeControl?.touched) {
                 <div>

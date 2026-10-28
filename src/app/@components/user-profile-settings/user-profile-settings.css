@@ -91,6 +91,15 @@ select {
   background-color: rgba(22, 27, 34, 0.5);
 }
 
+select option {
+  color: var(--app-color);
+  background-color: var(--app-background-color);
+  border: none; /* Removes the default border */
+  outline: none;
+  border: 1px solid green;
+  /* background-color: transparent; */
+}
+
 input:focus {
   border-color: var(--input-focus);
 }
@@ -137,5 +146,5 @@ input:focus {
 }
 
 .error-msg {
-    color: var(--app-errorMsg)
+  color: var(--app-errorMsg);
 }
