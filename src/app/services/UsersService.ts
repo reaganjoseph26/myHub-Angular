@@ -119,4 +119,16 @@ export class UserService {
       withCredentials: true,
     });
   }
+
+  updateUserData(body: User): Observable<User> {
+    return this.http
+      .post<User>(this.apiUrl + `post`, body, {
+        withCredentials: true,
+      })
+      .pipe(
+        tap((data) => {
+          this.setUserData(data);
+        }),
+      );
+  }
 }

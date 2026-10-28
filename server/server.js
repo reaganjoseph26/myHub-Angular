@@ -307,6 +307,16 @@ app.get("/api/getUserData", authenticateToken, (req, res) => {
     });
 });
 
+app.post("/api/updateUserData", authenticateToken, (req, res) => {
+  try {
+    console.log(req.body, "## BODY");
+    //send back updated user data
+  } catch (error) {
+    console.log("Error updating user data. Error: ", err);
+    res.status(400).json({ error: "Error updating user data." });
+  }
+});
+
 app.get("/api/getHomeData", authenticateToken, async (req, res) => {
   try {
     const [lessons, topDevs] = await Promise.all([

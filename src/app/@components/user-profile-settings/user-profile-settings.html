@@ -7,6 +7,11 @@
   <section class="form-section-container">
     <div class="profile-section-wrapper">
       <form [formGroup]="profileForm" (submit)="submitProfileForm()">
+        <!-- @if (profileForm.invalid && profileForm.touched) {
+        <div class="error-msg">
+          <p>Form is invalid</p>
+        </div>
+        } -->
         <div class="form-control-wrapper">
           <div formGroupName="personalInfo">
             <!--FULL NAME-->
@@ -14,11 +19,40 @@
               <legend class="group-title">Full name</legend>
               <div class="input-field">
                 <label for="firstname">First name</label>
-                <input type="text" formControlName="firstname" />
+                <input type="text" id="firstname" formControlName="firstname" />
+
+                @let firstNameControl =
+                profileForm.get('personalInfo.firstname'); @if
+                (firstNameControl?.invalid && firstNameControl?.touched) {
+                <div>
+                  @if (firstNameControl?.hasError('required')) {
+                  <span class="error-msg">Field is required.</span>
+                  } @else if (firstNameControl?.hasError('minlength')) {
+                  <span class="error-msg">Firstname is too short.</span>
+
+                  } @else if (firstNameControl?.hasError('maxlength')) {
+                  <span class="error-msg">Firstname is too long.</span>
+                  }
+                </div>
+                }
               </div>
               <div class="input-field">
                 <label for="lastname">Last name</label>
-                <input type="text" formControlName="lastname" />
+                <input type="text" id="lastname" formControlName="lastname" />
+
+                @let lastNameControl = profileForm.get('personalInfo.lastname');
+                @if (lastNameControl?.invalid && lastNameControl?.touched) {
+                <div>
+                  @if (lastNameControl?.hasError('required')) {
+                  <span class="error-msg">Field is required.</span>
+                  } @else if (lastNameControl?.hasError('minlength')) {
+                  <span class="error-msg">lastname is too short.</span>
+
+                  } @else if (lastNameControl?.hasError('maxlength')) {
+                  <span class="error-msg">lastname is too long.</span>
+                  }
+                </div>
+                }
               </div>
             </fieldset>
             <!--  USERNAME & EMAIL-->
@@ -26,11 +60,41 @@
               <legend class="group-title">User & Email</legend>
               <div class="input-field">
                 <label for="username">Username</label>
-                <input type="text" formControlName="username" />
+                <input type="text" id="username" formControlName="username" />
+
+                @let usernameControl = profileForm.get('personalInfo.username');
+                @if (usernameControl?.invalid && usernameControl?.touched) {
+                <div>
+                  @if (usernameControl?.hasError('required')) {
+                  <span class="error-msg">Field is required.</span>
+                  } @else if (usernameControl?.hasError('minlength')) {
+                  <span class="error-msg">Username is too short.</span>
+
+                  } @else if (usernameControl?.hasError('maxlength')) {
+                  <span class="error-msg">Username is too long.</span>
+                  }
+                </div>
+                }
               </div>
               <div class="input-field">
                 <label for="email">Email</label>
-                <input type="email" formControlName="email" />
+                <input type="email" id="email" formControlName="email" />
+
+                @let emailControl = profileForm.get('personalInfo.email'); @if
+                (emailControl?.invalid && emailControl?.touched) {
+                <div>
+                  @if (emailControl?.hasError('required')) {
+                  <span class="error-msg">Field is required.</span>
+                  } @else if (emailControl?.hasError('minlength')) {
+                  <span class="error-msg">Email is too short.</span>
+
+                  } @else if (emailControl?.hasError('maxlength')) {
+                  <span class="error-msg">Email is too long.</span>
+                  } @else if (emailControl?.hasError('email')) {
+                  <span class="error-msg">Please enter a valid email</span>
+                  }
+                </div>
+                }
               </div>
             </fieldset>
             <!-- Demographics -->
@@ -39,7 +103,7 @@
               <div class="input-field">
                 <label for="gender">Gender</label>
 
-                <select formControlName="gender">
+                <select id="gender"  formControlName="gender">
                   <option *ngFor="let item of genderOptions" [ngValue]="item">
                     {{ item }}
                   </option>
@@ -48,7 +112,7 @@
 
               <div class="input-field">
                 <label for="race_ethnicity">Race and Ethnicity</label>
-                <select formControlName="race_ethnicity">
+                <select id="race_ethnicity" formControlName="race_ethnicity">
                   <option
                     *ngFor="let item of raceEthnicityOptions"
                     [ngValue]="item"
@@ -79,24 +143,28 @@
               <div class="input-field">
                 <label for="zip_code">Zip</label>
                 <input type="text" formControlName="zip_code" />
+                @let zipCodeControl = profileForm.get('locationInfo.zip_code');
+                @if (zipCodeControl?.invalid && zipCodeControl?.touched) {
+                <div>
+                  @if (zipCodeControl?.hasError('pattern')) {
+                  <span class="error-msg">Zip Code must be numbers only.</span>
+                  } @else if (zipCodeControl?.hasError('minlength')) {
+                  <span class="error-msg">Zip code is too short.</span>
+
+                  } @else if (zipCodeControl?.hasError('maxlength')) {
+                  <span class="error-msg">Zip code is too long.</span>
+                  }
+                </div>
+                }
               </div>
             </fieldset>
           </div>
-
-          @if (profileForm.get('post')?.invalid &&
-          profileForm.get('post')?.touched) {
-          <div class="error-msg">
-            @if (profileForm.get('post')?.hasError('required')) { This field is
-            required. } @if (profileForm.get('post')?.hasError('maxlength')) {
-            This field is too long. Max character length is 525 }
-          </div>
-          }
         </div>
 
         <button
           class="submit-btn"
           type="submit"
-          [disabled]="profileForm.invalid ||  profileForm.pristine ||  isSubmitting "
+          [disabled]="profileForm.invalid || profileForm.pristine || isSubmitting "
         >
           Save
         </button>

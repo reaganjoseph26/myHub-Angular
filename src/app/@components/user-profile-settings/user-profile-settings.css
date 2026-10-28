@@ -135,3 +135,7 @@ input:focus {
   cursor: pointer;
   background: rgb(40, 42, 44);
 }
+
+.error-msg {
+    color: var(--app-errorMsg)
+}

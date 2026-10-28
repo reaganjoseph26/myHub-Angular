@@ -7,6 +7,7 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { UserService } from '../../services/UsersService';
 
 @Component({
   selector: 'app-user-profile-settings',
@@ -15,6 +16,7 @@ import {
   styleUrl: './user-profile-settings.css',
 })
 export class UserProfileSettings implements OnInit {
+  userservice = inject(UserService);
   profileData: any;
   isSubmitting: Boolean = false;
   errMsg: string = '';
@@ -35,7 +37,7 @@ export class UserProfileSettings implements OnInit {
         validators: [
           Validators.required,
           Validators.maxLength(255),
-          Validators.minLength(1),
+          Validators.minLength(2),
         ],
       }),
       lastname: new FormControl('', {
@@ -43,7 +45,7 @@ export class UserProfileSettings implements OnInit {
         validators: [
           Validators.required,
           Validators.maxLength(255),
-          Validators.minLength(1),
+          Validators.minLength(2),
         ],
       }),
       username: new FormControl('', {
@@ -51,15 +53,16 @@ export class UserProfileSettings implements OnInit {
         validators: [
           Validators.required,
           Validators.maxLength(15),
-          Validators.minLength(1),
+          Validators.minLength(2),
         ],
       }),
       email: new FormControl('', {
         nonNullable: true,
         validators: [
           Validators.required,
+          Validators.email,
           Validators.maxLength(255),
-          Validators.minLength(1),
+          Validators.minLength(2),
         ],
       }),
       gender: new FormControl('Prefer not to say', {
@@ -90,7 +93,11 @@ export class UserProfileSettings implements OnInit {
         validators: [Validators.maxLength(10), Validators.minLength(1)],
       }),
       zip_code: new FormControl('', {
-        validators: [Validators.maxLength(20), Validators.minLength(1)],
+        validators: [
+          Validators.maxLength(20),
+          Validators.minLength(5),
+          Validators.pattern('^[0-9]+$'),
+        ],
       }),
     }),
   });
@@ -125,11 +132,26 @@ export class UserProfileSettings implements OnInit {
   submitProfileForm() {
     const changedData = this.getDirtyValues(this.profileForm);
 
-    console.log('Payload:', changedData);
+    console.log('changedData:', changedData);
+    return;
+    this.userservice.updateUserData(changedData).subscribe({
+      next: (res) => {
+        //console.log(res, ' res'),
 
-    console.log(
-      this.profileForm.value,
-      'this.profileForm.value in submitProfileForm',
-    );
+        this.errMsg = '';
+      },
+      error: (err) => {
+        console.log(
+          'An error has occurred attempting to update user data. Error: ',
+          err,
+        );
+        this.errMsg = 'Error updating user profile data.';
+      },
+    });
+
+    // console.log(
+    //   this.profileForm.value,
+    //   'this.profileForm.value in submitProfileForm',
+    // );
   }
 }
